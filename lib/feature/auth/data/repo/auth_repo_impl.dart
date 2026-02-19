@@ -1,16 +1,13 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/helpers/shared_pref_helper.dart';
 import '../../../../core/networking/api_constants.dart';
 import '../../domain/entites/user_entity.dart';
 import '../../domain/repos/auth_repo.dart';
-import '../../model/user_model.dart';
+import '../model/user_model.dart';
 import '../service/firebase_auth_service.dart';
 
 class AuthRepoImplemention extends AuthRepo {
@@ -71,16 +68,14 @@ class AuthRepoImplemention extends AuthRepo {
         ServerFailure(e.message),
       );
     } catch (e) {
-      // بعملها جوة ال exception لى انت مش عمله
-      log("Exception in AuthRepoImplemention.createUserWithEmailAndPassword : ${e.toString()}");
       return left(
-        ServerFailure('لقد حدث خطأ. الرجاء المحاولة مرة أخرى.'),
+        ServerFailure('An error occurred. Please try again.'),
       );
     }
   }
 
 
-  // ----------------- get user data ------------------
+  // ----------------- delete user data ------------------
 
 
   Future<void> deleteUser(User? user) async {
