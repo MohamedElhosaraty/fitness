@@ -17,6 +17,11 @@ class _PasswordFieldState extends State<PasswordField> {
   @override
   Widget build(BuildContext context) {
     return CustomTextField(
+      validator: (value) {
+        if(value!.isEmpty || value.length < 6){
+          return "Enter a valid password";
+        }
+        return null;  },
       onSaved: widget.onSaved,
       labelText: "Password",
       isObscure: isObscure,
