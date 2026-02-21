@@ -5,7 +5,6 @@ import '../../../../core/errors/exceptions.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/helpers/shared_pref_helper.dart';
 import '../../../../core/networking/api_constants.dart';
-import '../../domain/entites/user_entity.dart';
 import '../../domain/repos/auth_repo.dart';
 import '../model/user_model.dart';
 import '../service/firebase_auth_service.dart';
@@ -21,17 +20,17 @@ class AuthRepoImplemention extends AuthRepo {
   // ----------------- create user with email and password ------------------
 
   @override
-  Future<Either<Failure, UserEntity>> createUserWithEmailAndPassword(
+  Future<Either<Failure, UserModel>> createUserWithEmailAndPassword(
       String email, String password, String name) async {
     User? user;
     try {
       user = await firebaseAuthServices.createUserWithEmailAndPassword(
           email: email, password: password);
-      var userEntity = UserEntity(email: email, name: name, uId: user.uid);
-      await saveUserData(user: userEntity);
+      var userModel = UserModel(email: email, name: name, uId: user.uid);
+      await saveUserData(user: userModel);
 
       return right(
-        userEntity,
+        userModel,
       );
     } on CustomException catch (e) {
       await deleteUser(user);
@@ -51,17 +50,17 @@ class AuthRepoImplemention extends AuthRepo {
 
 
   @override
-  Future<Either<Failure, UserEntity>> signInWithEmailAndPassword(
+  Future<Either<Failure, UserModel>> signInWithEmailAndPassword(
       String email, String password) async {
     try {
       var user = await firebaseAuthServices.signInWithEmailAndPassword(
           email: email, password: password);
 
-      var userEntity =  UserEntity(email: email, name: user.displayName ?? '', uId: user.uid);
-      await saveUserData(user: userEntity);
+      var userModel =  UserModel(email: email, name: user.displayName ?? '', uId: user.uid);
+      await saveUserData(user: userModel);
 
       return right(
-        userEntity,
+        userModel,
       );
     } on CustomException catch (e) {
       return left(
@@ -87,8 +86,8 @@ class AuthRepoImplemention extends AuthRepo {
   // ----------------- save user data ------------------
 
   @override
-  Future saveUserData({required UserEntity user}) async{
-    var jsonData = jsonEncode(UserModel.fromEntity(user).toMap());
+  Future saveUserData({required UserModel user}) async{
+    var jsonData = jsonEncode(user.toMap());
     await SharedPrefHelper.setData(Constants.kUserdata, jsonData);
   }
 }
