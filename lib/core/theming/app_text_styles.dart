@@ -36,15 +36,20 @@ class AppTextStyles {
   );
 
 
-
-
-
-
-
-  static TextStyle font15Medium(BuildContext context) => baseStyle(
-    fontWeight: AppFontWeights.fontWeightMedium,
-    fontSize: AppTextSizes.fontSize15,
+  static TextStyle font10Bold(BuildContext context) => baseStyle(
+    fontWeight: AppFontWeights.fontWeightBold,
+    fontSize: AppTextSizes.fontSize10,
   );
+
+  static TextStyle font10Medium(BuildContext context) => baseStyle(
+    fontWeight: AppFontWeights.fontWeightMedium,
+    fontSize: AppTextSizes.fontSize10,
+  );
+
+
+
+
+
 
   static TextStyle font17Medium(BuildContext context) => baseStyle(
     fontWeight: AppFontWeights.fontWeightMedium,

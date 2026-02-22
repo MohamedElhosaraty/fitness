@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 3), () {
       var isLoggedIn = FirebaseAuthServices().isLoggedIn();
       if(isLoggedIn){
-        context.pushReplacementNamed(Routes.signInView);
+        context.pushReplacementNamed(Routes.mainScreen);
       }else{
         context.pushReplacementNamed(Routes.signUpView);
       }
