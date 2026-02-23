@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/di/dependency_injection.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'core/helpers/shared_pref_helper.dart';
 import 'core/observer/bloc_observer.dart';
 import 'firebase_options.dart';
 
@@ -18,7 +19,7 @@ void main() async {
       statusBarColor: Colors.transparent,
     ),
   );
-  await Future.wait<void>([ScreenUtil.ensureScreenSize(),  setupGetIt()]);
+  await Future.wait<void>([ScreenUtil.ensureScreenSize(),  setupGetIt() , SharedPrefHelper.init()]);
   Bloc.observer = MyBlocObserver();
   runApp(const Fitness());
 }

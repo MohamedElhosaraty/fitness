@@ -11,6 +11,7 @@ class Assets {
   static const String fontsLexendRegular = 'assets/fonts/Lexend-Regular.ttf';
   static const String fontsLexendSemiBold = 'assets/fonts/Lexend-SemiBold.ttf';
   static const String fontsLexendThin = 'assets/fonts/Lexend-Thin.ttf';
+  static const String imagesBodyWorkout = 'assets/images/body_workout.png';
   static const String svgsHome = 'assets/svgs/home.svg';
   static const String svgsLogo = 'assets/svgs/logo.svg';
   static const String svgsProfile = 'assets/svgs/profile.svg';

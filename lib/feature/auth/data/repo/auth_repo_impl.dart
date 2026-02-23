@@ -88,6 +88,6 @@ class AuthRepoImplemention extends AuthRepo {
   @override
   Future saveUserData({required UserModel user}) async{
     var jsonData = jsonEncode(user.toMap());
-    await SharedPrefHelper.setData(Constants.kUserdata, jsonData);
+    await SharedPrefHelper.setString(Constants.kUserdata, jsonData);
   }
 }
