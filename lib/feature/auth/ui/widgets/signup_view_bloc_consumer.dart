@@ -1,7 +1,9 @@
+import 'package:fitness/core/helpers/extensions.dart';
 import 'package:fitness/feature/auth/ui/widgets/signup_view_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/helpers/toast_helper.dart';
+import '../../../../core/routing/routes.dart';
 import '../../../../core/widgets/custom_progress_hud.dart';
 import '../cubits/signup_cubit/signup_cubit.dart';
 
@@ -14,6 +16,7 @@ class SignupViewBlocConsumer extends StatelessWidget {
       listener: (context, state) {
         if (state is SignupSuccess) {
           ToastHelper().showSuccessToast(context, "Signup successful");
+          context.pushReplacementNamed(Routes.mainScreen);
         }
         if (state is SignupFailure) {
           ToastHelper().showErrorToast(context, state.message);

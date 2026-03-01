@@ -7,13 +7,13 @@ abstract class AuthRepo {
     String email,
     String password,
     String name,
+    String? image,
   );
 
   Future<Either<Failure, UserModel>> signInWithEmailAndPassword(
     String email,
     String password,
   );
-
 
   Future saveUserData({required UserModel user});
 }

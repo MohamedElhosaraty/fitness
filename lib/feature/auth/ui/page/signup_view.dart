@@ -1,6 +1,5 @@
 import 'package:fitness/core/theming/app_text_styles.dart';
 import 'package:fitness/feature/auth/ui/cubits/signup_cubit/signup_cubit.dart';
-import 'package:fitness/feature/auth/ui/widgets/signup_view_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

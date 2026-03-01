@@ -1,31 +1,32 @@
-import 'package:firebase_auth/firebase_auth.dart';
-
 class UserModel {
   final String email;
   final String name;
   final String uId;
+  final String? imageUrl;
 
   UserModel({
     required this.email,
     required this.name,
     required this.uId,
+    this.imageUrl,
   });
-  factory UserModel.fromFirebaseUser(User user) {
+
+  // توحيد مفاتيح الخريطة (Map Keys)
+  factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      email: user.email ?? "",
-      name: user.displayName ?? "",
-      uId: user.uid,
+      uId: map['uId'] ?? '',
+      email: map['email'] ?? '',
+      name: map['name'] ?? '',
+      imageUrl: map['imageUrl'],
     );
   }
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-    email: json["email"],
-    name: json["name"],
-    uId: json["uId"],
-  );
-
-
-  toMap() {
-    return {'name': name, 'email': email, 'uId': uId};
+  Map<String, dynamic> toMap() {
+    return {
+      'uId': uId,
+      'email': email,
+      'name': name,
+      'imageUrl': imageUrl,
+    };
   }
 }

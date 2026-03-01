@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fitness/core/widgets/custom_text_field.dart';
 import 'package:fitness/feature/auth/ui/widgets/custom_logo_in_auth.dart';
 import 'package:fitness/feature/auth/ui/widgets/have_an_account.dart';
@@ -6,8 +8,10 @@ import 'package:fitness/feature/auth/ui/widgets/password_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../cubits/signup_cubit/signup_cubit.dart';
+import 'custom_select_image.dart';
 
 class SignupViewBody extends StatefulWidget {
   const SignupViewBody({super.key});
@@ -21,6 +25,20 @@ class _SignupViewBodyState extends State<SignupViewBody> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   late String email, password, userName;
 
+  File? profileImage;
+
+  Future<void> pickImage() async {
+    final picker = ImagePicker();
+    final picked =
+    await picker.pickImage(source: ImageSource.gallery);
+
+    if (picked != null) {
+      setState(() {
+        profileImage = File(picked.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -31,6 +49,11 @@ class _SignupViewBodyState extends State<SignupViewBody> {
         children: [
           30.verticalSpace,
           CustomLogoInAuth(),
+          20.verticalSpace,
+          GestureDetector(
+            onTap: pickImage,
+            child: CustomSelectImage(profileImage: profileImage),
+          ),
           20.verticalSpace,
           CustomTextField(
             labelText: "Name",
@@ -70,6 +93,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                   email,
                   password,
                   userName,
+                  profileImage!.path,
                 );
               } else {
                 setState(() {
@@ -80,6 +104,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
           ),
           20.verticalSpace,
           HaveAnAccount(),
+          50.verticalSpace,
         ],
       ),
     );
