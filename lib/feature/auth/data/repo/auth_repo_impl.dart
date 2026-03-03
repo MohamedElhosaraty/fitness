@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitness/core/helpers/firestore_service.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/helpers/shared_pref_helper.dart';
@@ -11,8 +13,8 @@ import '../service/firebase_auth_service.dart';
 
 class AuthRepoImplemention extends AuthRepo {
   final FirebaseAuthServices firebaseAuthServices;
-
-  AuthRepoImplemention({required this.firebaseAuthServices});
+  final FirestoreService firestore ;
+  AuthRepoImplemention( {required this.firebaseAuthServices,required this.firestore,});
 
   // ----------------- create user with email and password ------------------
 
@@ -35,6 +37,7 @@ class AuthRepoImplemention extends AuthRepo {
         uId: user.uid,
         imageUrl: image,
       );
+      await addUserData(user: userModel);
       await saveUserData(user: userModel);
 
       return right(userModel);
@@ -60,20 +63,7 @@ class AuthRepoImplemention extends AuthRepo {
         password: password,
       );
 
-      UserModel? localUser = _checkUserInCollection(user.uid);
-
-      UserModel userModel;
-
-      if (localUser != null) {
-        userModel = localUser;
-      } else {
-        userModel = UserModel(
-          email: email,
-          name: user.displayName ?? '',
-          uId: user.uid,
-          imageUrl: user.photoURL,
-        );
-      }
+      var userModel = await getUserData(uId: user.uid);
 
       await saveUserData(user: userModel);
 
@@ -85,44 +75,47 @@ class AuthRepoImplemention extends AuthRepo {
     }
   }
 
-  UserModel? _checkUserInCollection(String uId) {
-    final String allUsersJson = SharedPrefHelper.getString("users_collection");
-    if (allUsersJson.isNotEmpty) {
-      Map<String, dynamic> usersMap = jsonDecode(allUsersJson);
-      if (usersMap.containsKey(uId)) {
-        return UserModel.fromMap(usersMap[uId]);
-      }
-    }
-    return null;
-  }
-
-  // ----------------- delete user data ------------------
-
   Future<void> deleteUser(User? user) async {
     if (user != null) {
       await firebaseAuthServices.deleteUser();
     }
   }
 
-  // ----------------- save user data ------------------
+  @override
+  Future addUserData({required UserModel user}) async {
+    try {
+      await firestore.addData(
+          path: Constants.addUserData,
+          data: user.toMap(),
+          uid: user.uId);
+    } catch (e) {
+      log("Exception in AuthRepoImplemention.addUserData : ${e.toString()}");
+      throw ServerFailure( e.toString());
+    }
+  }
 
   @override
-  Future<void> saveUserData({required UserModel user}) async {
-    final String? allUsersJson = SharedPrefHelper.getString("users_collection");
+  Future<UserModel> getUserData({required String uId}) async {
+    try {
+      final userData = await firestore.getData(
+        path: Constants.getUserData,
+        documentId: uId,
+      );
 
-    Map<String, dynamic> usersMap = {};
+      if (userData == null) {
+        throw ServerFailure('User data not found');
+      }
+      return UserModel.fromMap(userData);
 
-    if (allUsersJson != null && allUsersJson.isNotEmpty) {
-      usersMap = jsonDecode(allUsersJson);
+    } catch (e) {
+      log("Exception in AuthRepoImplemention.getUserData : ${e.toString()}");
+      throw ServerFailure(e.toString());
     }
+  }
 
-    usersMap[user.uId] = user.toMap();
-
-    await SharedPrefHelper.setString("users_collection", jsonEncode(usersMap));
-
-    await SharedPrefHelper.setString(
-      Constants.kUserdata,
-      jsonEncode(user.toMap()),
-    );
+  @override
+  Future saveUserData({required UserModel user}) async{
+    var jsonData = jsonEncode(user.toMap());
+    await SharedPrefHelper.setString(Constants.kUserdata, jsonData);
   }
 }

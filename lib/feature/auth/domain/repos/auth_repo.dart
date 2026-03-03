@@ -15,5 +15,11 @@ abstract class AuthRepo {
     String password,
   );
 
+  Future addUserData({
+    required UserModel user,
+  });
+
+
+  Future<UserModel> getUserData({required String uId});
   Future saveUserData({required UserModel user});
 }

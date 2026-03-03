@@ -17,7 +17,7 @@ class UserModel {
       uId: map['uId'] ?? '',
       email: map['email'] ?? '',
       name: map['name'] ?? '',
-      imageUrl: map['imageUrl'],
+      imageUrl: map['imageUrl'] ?? '',
     );
   }
 

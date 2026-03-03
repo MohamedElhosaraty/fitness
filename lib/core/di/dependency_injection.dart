@@ -1,3 +1,4 @@
+import 'package:fitness/core/helpers/firestore_service.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../feature/auth/data/repo/auth_repo_impl.dart';
@@ -11,9 +12,10 @@ final getIt = GetIt.instance;
 Future<void> setupGetIt() async {
   // 🔧 Core
   getIt.registerSingleton<FirebaseAuthServices>(FirebaseAuthServices());
+  getIt.registerSingleton<FirestoreService>(FirestoreService());
 
   getIt.registerSingleton<AuthRepo>(
-    AuthRepoImplemention(firebaseAuthServices: getIt<FirebaseAuthServices>()),
+    AuthRepoImplemention(firebaseAuthServices: getIt<FirebaseAuthServices>(), firestore: getIt<FirestoreService>()),
   );
 
   // 🧠 Cubits

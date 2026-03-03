@@ -11,9 +11,6 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // جلب المستخدم النشط حالياً (الذي تم اختياره أو سجل دخوله مؤخراً)
-    final user = getUser();
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -21,37 +18,26 @@ class HomeHeader extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Hi, ${user?.name ?? 'User'} 👋",
-              style: AppTextStyles.font20Bold(context)
-                  .copyWith(color: AppColors.darkBlue),
+              "Hi, ${getUser().name} 👋",
+              style: AppTextStyles.font20Bold(
+                context,
+              ).copyWith(color: AppColors.darkBlue),
             ),
             4.verticalSpace,
             Text(
               "Good morning",
-              style: AppTextStyles.font13Bold(context)
-                  .copyWith(color: AppColors.moreGrey),
+              style: AppTextStyles.font13Bold(
+                context,
+              ).copyWith(color: AppColors.moreGrey),
             ),
           ],
         ),
         CircleAvatar(
           radius: 24,
           backgroundColor: AppColors.moreGrey.withOpacity(0.1),
-          backgroundImage: _getProfileImage(user?.imageUrl),
+          backgroundImage: FileImage(File((getUser().imageUrl.toString()))),
         ),
       ],
     );
-  }
-
-  // ميثود ذكية لتحديد مصدر الصورة (رابط أم ملف محلي)
-  ImageProvider _getProfileImage(String? imageUrl) {
-    if (imageUrl == null || imageUrl.isEmpty) {
-      return const NetworkImage("https://images.unsplash.com/photo-1535713875002-d1d0cf377fde");
-    }
-
-    if (imageUrl.startsWith('http')) {
-      return NetworkImage(imageUrl); // إذا كان رابط من Firebase Storage
-    }
-
-    return FileImage(File(imageUrl)); // إذا كان مسار ملف محلي
   }
 }
