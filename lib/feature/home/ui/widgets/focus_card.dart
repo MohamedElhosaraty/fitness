@@ -1,8 +1,10 @@
+import 'package:fitness/core/helpers/extensions.dart';
 import 'package:fitness/core/theming/app_colors.dart';
 import 'package:fitness/core/theming/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/routing/routes.dart';
 import '../../../../core/widgets/custom_button.dart';
 
 class FocusCard extends StatelessWidget {
@@ -27,16 +29,41 @@ class FocusCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-            decoration: BoxDecoration(
-              color: AppColors.primaryColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Text(
-              "TODAY’S FOCUS",
-              style: AppTextStyles.font10Bold(context),
-            ),
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                decoration: BoxDecoration(
+                  color: AppColors.primaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Text(
+                  "TODAY’S FOCUS",
+                  style: AppTextStyles.font10Bold(context),
+                ),
+              ),
+              Spacer(),
+              InkWell(
+                onTap: () {
+                  context.pushNamed(Routes.chooseTrainingSplitView);
+                },
+                child: Row(
+                  children: [
+                    Text(
+                      "Schedule",
+                      style: AppTextStyles.font16Bold(
+                        context,
+                      ),
+                    ),
+                    Icon(
+                      Icons.chevron_right,
+                      color: AppColors.primaryColor,
+                      size: 24.sp,
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
           3.verticalSpace,
           Text(
