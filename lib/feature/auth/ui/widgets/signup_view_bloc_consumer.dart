@@ -24,6 +24,7 @@ class SignupViewBlocConsumer extends StatelessWidget {
       },
       builder: (context, state) {
         return CustomProgressHud(
+            key: const Key('loadingSignupScreen'),
             isLoading: state is SignupLoading,
             child: const SignupViewBody());
       },

@@ -51,11 +51,13 @@ class _SignupViewBodyState extends State<SignupViewBody> {
           CustomLogoInAuth(),
           20.verticalSpace,
           GestureDetector(
+            key: const Key('profileImageWidget'),
             onTap: pickImage,
             child: CustomSelectImage(profileImage: profileImage),
           ),
           20.verticalSpace,
           CustomTextField(
+            key: const Key('nameSignUp'),
             labelText: "Name",
             keyboardType: TextInputType.name,
             onSaved: (value) {
@@ -64,6 +66,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
           ),
           20.verticalSpace,
           CustomTextField(
+            key: const Key('emailSignUp'),
             labelText: "Email",
             validator: (value) {
               if(value!.isEmpty || !value.contains("@gmail.com") ){
@@ -77,6 +80,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
           ),
           20.verticalSpace,
           PasswordField(
+            key: const Key('passwordSignUp'),
             onSaved: (value) {
               password = value!;
             },
@@ -85,6 +89,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
           OrDivider(),
           20.verticalSpace,
           CustomButton(
+            key: const Key('signUpButton'),
             text: "Sign Up",
             onPressed: () {
               if (_formKey.currentState!.validate()) {
@@ -93,7 +98,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                   email,
                   password,
                   userName,
-                  profileImage!.path,
+                  profileImage?.path ?? '',
                 );
               } else {
                 setState(() {
