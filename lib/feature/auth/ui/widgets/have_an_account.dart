@@ -1,5 +1,4 @@
 import 'package:fitness/core/helpers/extensions.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/routing/routes.dart';
@@ -11,9 +10,9 @@ class HaveAnAccount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text.rich(
+    return RichText(
       textAlign: TextAlign.center,
-      TextSpan(
+      text: TextSpan(
         children: [
           TextSpan(
             text: "Have an account? ",
@@ -21,12 +20,17 @@ class HaveAnAccount extends StatelessWidget {
               color: AppColors.darkBlue,
             ),
           ),
-          TextSpan(
-            recognizer: TapGestureRecognizer()..onTap = () {
+          WidgetSpan(
+            child: GestureDetector(
+              key: const Key('signUpButtonHaveAnAccount'),
+            onTap: (){
               context.pushReplacementNamed(Routes.signInView);
             },
-            text: " Sign In",
-            style: AppTextStyles.font16Bold(context),
+             child: Text(
+                "Sign In",
+                style: AppTextStyles.font16Bold(context),
+              ),
+          ),
           ),
         ],
       ),

@@ -34,6 +34,7 @@ class _SigninViewBodyState extends State<SigninViewBody> {
           CustomLogoInAuth(),
           30.verticalSpace,
           CustomTextField(
+            key: const Key('emailSignIn'),
             validator: (value) {
               if(value!.isEmpty || !value.contains("@gmail.com") ){
                 return "Please Enter a valid email";
@@ -47,6 +48,7 @@ class _SigninViewBodyState extends State<SigninViewBody> {
           ),
           20.verticalSpace,
           PasswordField(
+            key: const Key('passwordSignIn'),
             onSaved: (value) {
             password = value!;
           },),
@@ -54,6 +56,7 @@ class _SigninViewBodyState extends State<SigninViewBody> {
           OrDivider(),
           20.verticalSpace,
           CustomButton(
+            key: const Key('signInButton'),
             text: "Sign In", onPressed: () {
             if(_formKey.currentState!.validate()){
               _formKey.currentState!.save();

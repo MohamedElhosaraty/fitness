@@ -14,6 +14,7 @@ class SignInCubit extends Cubit<SignInState> {
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     emit(SignInLoading());
     var result = await authRepo.signInWithEmailAndPassword(email, password);
+    if (isClosed) return;
     result.fold((failure) => emit(SignInFailure(message: failure.message)),
             (userModel) => emit(SignInSuccess(userModel: userModel)));
   }

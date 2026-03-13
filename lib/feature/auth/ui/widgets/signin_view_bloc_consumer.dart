@@ -23,6 +23,7 @@ class SignInViewBlocConsumer extends StatelessWidget {
       }
     }, builder: (context, state) {
       return CustomProgressHud(
+          key: const Key('loadingSignInScreen'),
           isLoading: state is SignInLoading ? true : false,
           child: const SigninViewBody());
     });

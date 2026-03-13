@@ -32,12 +32,29 @@ class HomeHeader extends StatelessWidget {
             ),
           ],
         ),
+        // CircleAvatar(
+        //   radius: 24,
+        //   backgroundColor: AppColors.moreGrey.withOpacity(0.1),
+        //   backgroundImage: FileImage(File((getUser().imageUrl.toString()))),
+        // ),
         CircleAvatar(
           radius: 24,
           backgroundColor: AppColors.moreGrey.withOpacity(0.1),
-          backgroundImage: FileImage(File((getUser().imageUrl.toString()))),
+          backgroundImage: _getUserImage(getUser().imageUrl),
         ),
       ],
     );
+  }
+  ImageProvider _getUserImage(String? imageUrl) {
+    if (imageUrl == null || imageUrl.isEmpty) {
+      return const AssetImage('assets/images/default_user.png'); // صورة افتراضية من الأصول
+    }
+
+    if (imageUrl.startsWith('http')) {
+      return NetworkImage(imageUrl); // إذا كان رابطاً
+    }
+
+    // إذا كان مسار ملف محلي (تأكد من عمل import 'dart:io')
+    return FileImage(File(imageUrl));
   }
 }
