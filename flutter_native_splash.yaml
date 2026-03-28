@@ -1,0 +1,6 @@
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/fitness_icon_logo.png
+  android_12:
+    image: assets/images/fitness_native_splash.png
+    color: "#ffffff"
