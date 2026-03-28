@@ -11,7 +11,6 @@ class UserModel {
     this.imageUrl,
   });
 
-  // توحيد مفاتيح الخريطة (Map Keys)
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       uId: map['uId'] ?? '',

@@ -9,8 +9,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../helpers/test_setup.dart';
-import '../robot/auth_robot.dart';
+import 'helpers/test_setup.dart';
+import 'robot/auth_robot.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();

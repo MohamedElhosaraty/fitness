@@ -29,15 +29,23 @@ class AuthRobot {
     required Key key,
     double scrollOffset = 0,
   }) async {
+
     final textField = find.byKey(key);
 
     if (scrollOffset != 0) {
       final listFinder = find.byType(ListView);
-      await tester.drag(listFinder, Offset(0, -scrollOffset));
+
+      await tester.dragUntilVisible(
+        textField,
+        listFinder,
+        Offset(0, -scrollOffset),
+      );
+
       await tester.pumpAndSettle();
     }
+
     await tester.enterText(textField, text);
-    // await tester.testTextInput.receiveAction(TextInputAction.done); // إغلاق الكيبورد
+
     await tester.pumpAndSettle();
   }
 

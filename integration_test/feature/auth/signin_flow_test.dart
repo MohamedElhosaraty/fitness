@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:mocktail/mocktail.dart';
-import '../helpers/test_setup.dart';
-import '../robot/auth_robot.dart';
+import 'helpers/test_setup.dart';
+import 'robot/auth_robot.dart';
 
 
 void main() {
@@ -129,6 +129,92 @@ void main() {
         key: const Key('emailSignIn'),
         text: 'Mohamed@gmail.com',
       );
+
+      await authRobot.enterText(
+        key: const Key('passwordSignIn'),
+        text: '123456',
+      );
+
+      await authRobot.sendButton(key: const Key('signInButton'));
+
+      await tester.pumpAndSettle();
+
+      expect(find.byType(MainScreen), findsOneWidget);
+
+    });
+
+    testWidgets('email is empty - show validation message', (WidgetTester tester,) async {
+      AuthRobot authRobot = AuthRobot(tester: tester);
+      when(
+            () => authMockRepo.signInWithEmailAndPassword(any(), any()),
+      ).thenAnswer((_) async {
+        await Future.delayed(const Duration(seconds: 2));
+        return Right(
+          UserModel(email: "test@test.com", name: "Mohamed", uId: "123"),
+        );
+      });
+
+      await authRobot.runApp(widgetScreen: const SigninView());
+
+      await authRobot.enterText(
+        key: const Key('passwordSignIn'),
+        text: '123456',
+      );
+
+      await authRobot.sendButton(key: const Key('signInButton'));
+
+      await tester.pump();
+      expect(find.text("Please Enter a valid email"), findsOneWidget);
+      await tester.pump(const Duration(seconds: 3));
+
+
+      await authRobot.enterText(
+        key: const Key('emailSignIn'),
+        text: 'Mohamed@gmail.com',
+      );
+
+      await authRobot.enterText(
+        key: const Key('passwordSignIn'),
+        text: '123456',
+      );
+
+      await authRobot.sendButton(key: const Key('signInButton'));
+
+      await tester.pumpAndSettle();
+
+      expect(find.byType(MainScreen), findsOneWidget);
+
+    });
+
+    testWidgets('password is empty - show validation message', (WidgetTester tester,) async {
+      AuthRobot authRobot = AuthRobot(tester: tester);
+      when(
+            () => authMockRepo.signInWithEmailAndPassword(any(), any()),
+      ).thenAnswer((_) async {
+        await Future.delayed(const Duration(seconds: 2));
+        return Right(
+          UserModel(email: "test@test.com", name: "Mohamed", uId: "123"),
+        );
+      });
+
+      await authRobot.runApp(widgetScreen: const SigninView());
+
+      await authRobot.enterText(
+        key: const Key('emailSignIn'),
+        text: 'test@gmail.com',
+      );
+
+      // await authRobot.enterText(
+      //   key: const Key('passwordSignIn'),
+      //   text: '123456',
+      // );
+
+      await authRobot.sendButton(key: const Key('signInButton'));
+
+      await tester.pump();
+      expect(find.text("Enter a valid password"), findsOneWidget);
+      await tester.pump(const Duration(seconds: 3));
+
 
       await authRobot.enterText(
         key: const Key('passwordSignIn'),

@@ -19,7 +19,6 @@ abstract class AuthRepo {
     required UserModel user,
   });
 
-
   Future<UserModel> getUserData({required String uId});
   Future saveUserData({required UserModel user});
 }

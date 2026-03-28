@@ -1,7 +1,7 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:fitness/core/di/dependency_injection.dart';
-import 'package:fitness/core/helpers/shared_pref_helper.dart';
 import 'package:fitness/feature/auth/domain/repos/auth_repo.dart';
+import 'package:fitness/feature/auth/ui/cubits/sign_in_cubit/signin_cubit.dart';
+import 'package:fitness/feature/auth/ui/cubits/signup_cubit/signup_cubit.dart';
 import 'package:mocktail/mocktail.dart';
 
 class AuthMockRepo extends Mock implements AuthRepo {}
@@ -9,14 +9,9 @@ class AuthMockRepo extends Mock implements AuthRepo {}
 late AuthMockRepo authMockRepo;
 
 Future<void> setupAuthTest() async {
-  await Firebase.initializeApp();
-  SharedPrefHelper.init();
-
   await getIt.reset();
-  setupGetIt();
-
-  getIt.unregister<AuthRepo>();
-
   authMockRepo = AuthMockRepo();
   getIt.registerLazySingleton<AuthRepo>(() => authMockRepo);
+  getIt.registerFactory(() => SignInCubit(getIt<AuthRepo>()));
+  getIt.registerFactory(() => SignupCubit(getIt<AuthRepo>()));
 }
