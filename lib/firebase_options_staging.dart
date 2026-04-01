@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart'
 ///
 /// Example:
 /// ```dart
-/// import 'firebase_options.dart';
+/// import 'firebase_options_staging.dart';
 /// // ...
 /// await Firebase.initializeApp(
 ///   options: DefaultFirebaseOptions.currentPlatform,
@@ -50,20 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCQOJ35j-pkmz_xQtzlyYVqAmO23lUpJ-g',
-    appId: '1:624493250471:android:1d207c334afad203405882',
-    messagingSenderId: '624493250471',
-    projectId: 'fitness-51080',
-    storageBucket: 'fitness-51080.firebasestorage.app',
+    apiKey: 'AIzaSyCBB1WHS6P97Qxt4hfuoo7NwZCxUps9Cro',
+    appId: '1:8389433546:android:3b5a368ed97ac6b53b3c33',
+    messagingSenderId: '8389433546',
+    projectId: 'fitness-stag',
+    storageBucket: 'fitness-stag.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDdZkBdnck-aF8ZNoYaNuq-w7ANnJJj6Ow',
-    appId: '1:624493250471:ios:2d76a9315a4be957405882',
-    messagingSenderId: '624493250471',
-    projectId: 'fitness-51080',
-    storageBucket: 'fitness-51080.firebasestorage.app',
+    apiKey: 'AIzaSyCeJXB-5vyYiYuujsndFAWX2FDqPzqMNQ4',
+    appId: '1:8389433546:ios:976aca44a3f5d04f3b3c33',
+    messagingSenderId: '8389433546',
+    projectId: 'fitness-stag',
+    storageBucket: 'fitness-stag.firebasestorage.app',
     iosBundleId: 'com.fitness.fitness',
   );
-
 }

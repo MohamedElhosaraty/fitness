@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "8389433546",
+    "project_id": "fitness-stag",
+    "storage_bucket": "fitness-stag.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8389433546:android:53825cc01a98828a3b3c33",
+        "android_client_info": {
+          "package_name": "com.fitness.fitness.stag"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBB1WHS6P97Qxt4hfuoo7NwZCxUps9Cro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
