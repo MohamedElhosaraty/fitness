@@ -21,6 +21,36 @@ android {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
+    flavorDimensions += "environment"
+    productFlavors {
+        create("stag") {
+            dimension = "environment"
+            resValue(
+                type = "string",
+                name = "app_name",
+                value = "Fitness stag")
+            applicationIdSuffix = ".stag"
+        }
+        create("prod") {
+            dimension = "environment"
+            resValue(
+                type = "string",
+                name = "app_name",
+                value = "Fitness prod")
+            applicationIdSuffix = ".prod"
+        }
+        create("dev") {
+            dimension = "environment"
+            resValue(
+                type = "string",
+                name = "app_name",
+                value = "Fitness dev")
+            applicationIdSuffix = ".dev"
+        }
+    }
+
+
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.fitness.fitness"
