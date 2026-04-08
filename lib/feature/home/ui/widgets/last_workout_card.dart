@@ -22,7 +22,7 @@ class LastWorkoutCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
+                color: Colors.grey.withValues(alpha: 0.2),
                 spreadRadius: 2,
                 blurRadius: 5,
                 offset: const Offset(0, 4),
@@ -61,7 +61,7 @@ class LastWorkoutCard extends StatelessWidget {
                       child: LinearProgressIndicator(
                         value: 1,
                         minHeight: 6,
-                        backgroundColor: AppColors.primaryColor.withOpacity(0.2),
+                        backgroundColor: AppColors.primaryColor.withValues(alpha: 0.2),
                         valueColor: AlwaysStoppedAnimation(
                             AppColors.primaryColor),
                       ),

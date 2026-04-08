@@ -18,7 +18,7 @@ class HomeView extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         children: [
           10.verticalSpace,
-          //const HomeHeader(),
+          const HomeHeader(),
           16.verticalSpace,
           const StatsSection(),
           30.verticalSpace,

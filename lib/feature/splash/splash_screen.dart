@@ -50,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
               color: AppColors.background,
             shadows: [
               Shadow(
-                color: Colors.black.withOpacity(0.4),
+                color: Colors.black.withValues(alpha: 0.4),
                 offset: Offset(0, 4),
                 blurRadius: 8,
               ),
@@ -62,7 +62,7 @@ class _SplashScreenState extends State<SplashScreen> {
               color: AppColors.lightGrey,
             shadows: [
               Shadow(
-                color: Colors.black.withOpacity(0.4),
+                color: Colors.black.withValues(alpha: 0.4),
                 offset: Offset(0, 4),
                 blurRadius: 8,
               ),

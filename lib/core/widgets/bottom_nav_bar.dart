@@ -23,7 +23,7 @@ class MyBottomNavBar extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
-            color: AppColors.grey.withOpacity(0.3),
+            color: AppColors.grey.withValues(alpha: 0.3),
             width: 1,
           ),
         ),
@@ -33,22 +33,22 @@ class MyBottomNavBar extends StatelessWidget {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: SvgPicture.asset(Assets.svgsHome),
-            activeIcon: SvgPicture.asset(Assets.svgsHome, color: AppColors.primaryColor,),
+            activeIcon: SvgPicture.asset(Assets.svgsHome, colorFilter: const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),),
             label: "Home",
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(Assets.svgsWorkouts),
-            activeIcon: SvgPicture.asset(Assets.svgsWorkouts, color: AppColors.primaryColor,),
+            activeIcon: SvgPicture.asset(Assets.svgsWorkouts, colorFilter:const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),),
             label: "Workouts",
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(Assets.svgsProgress),
-            activeIcon: SvgPicture.asset(Assets.svgsProgress, color: AppColors.primaryColor,),
+            activeIcon: SvgPicture.asset(Assets.svgsProgress, colorFilter: const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),),
             label: "Progress",
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(Assets.svgsProfile),
-            activeIcon: SvgPicture.asset(Assets.svgsProfile, color: AppColors.primaryColor,),
+            activeIcon: SvgPicture.asset(Assets.svgsProfile, colorFilter: const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),),
             label: "Profile",
           ),
         ],

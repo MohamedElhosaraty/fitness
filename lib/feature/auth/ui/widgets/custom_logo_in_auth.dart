@@ -22,7 +22,7 @@ class CustomLogoInAuth extends StatelessWidget {
               color: AppColors.primaryColor,
               shadows: [
                 Shadow(
-                  color: Colors.black.withOpacity(0.4),
+                  color: Colors.black.withValues(alpha: 0.4),
                   offset: Offset(0, 4),
                   blurRadius: 8,
                 ),

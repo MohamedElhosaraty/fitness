@@ -27,10 +27,10 @@ class CustomSplitCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
           width: 2,
-          color: AppColors.grey.withOpacity(.4),),
+          color: AppColors.grey.withValues(alpha: .4),),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withOpacity(.05),
+            color: AppColors.black.withValues(alpha: .05),
             blurRadius: 10,
             offset: const Offset(0, 5),
           )

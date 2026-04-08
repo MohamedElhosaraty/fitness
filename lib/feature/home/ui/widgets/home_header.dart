@@ -39,7 +39,7 @@ class HomeHeader extends StatelessWidget {
         // ),
         CircleAvatar(
           radius: 24,
-          backgroundColor: AppColors.moreGrey.withOpacity(0.1),
+          backgroundColor: AppColors.moreGrey.withValues(alpha: 0.1),
           backgroundImage: _getUserImage(getUser().imageUrl),
         ),
       ],
