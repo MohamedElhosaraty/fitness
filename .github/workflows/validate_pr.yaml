@@ -68,6 +68,9 @@ jobs:
           channel: stable
           cache: "true"
 
+      - name: Install Dependencies
+        run: flutter pub get
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -79,13 +82,13 @@ jobs:
         run: |
           find . -name "project.pbxproj" -exec sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]*/IPHONEOS_DEPLOYMENT_TARGET = 14.0/g' {} +
 
-      - name: Clean Pods & Install
+      - name: Install Pods
         working-directory: ios
         run: |
-           rm -rf Pods
-           rm -rf Podfile.lock
-           pod repo update
-           pod install 
+          rm -rf Pods
+          rm -rf Podfile.lock
+          pod repo update
+          pod install
 
       - name: Analyze Code
         working-directory: ios
