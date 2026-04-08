@@ -75,12 +75,17 @@ jobs:
           bundler-cache: true
           working-directory: ios
 
-      - name: Clean Pods
+      - name: Patch Xcode Project for iOS 14
+        run: |
+          find . -name "project.pbxproj" -exec sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]*/IPHONEOS_DEPLOYMENT_TARGET = 14.0/g' {} +
+
+      - name: Clean Pods & Install
         working-directory: ios
         run: |
-            rm -rf Pods
-            rm -rf Podfile.lock
-            pod repo update
+           rm -rf Pods
+           rm -rf Podfile.lock
+           pod repo update
+           pod install 
 
       - name: Analyze Code
         working-directory: ios
