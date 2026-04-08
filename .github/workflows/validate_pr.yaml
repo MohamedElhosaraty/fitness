@@ -75,6 +75,13 @@ jobs:
           bundler-cache: true
           working-directory: ios
 
+      - name: Clean Pods
+        working-directory: ios
+        run: |
+            rm -rf Pods
+            rm -rf Podfile.lock
+            pod repo update
+
       - name: Analyze Code
         working-directory: ios
         run: bundle exec fastlane validate_pr
