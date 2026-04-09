@@ -15,6 +15,11 @@ class AppColors {
   static const Color purple = Color(0xFF9C27B0);
   static const Color red = Color(0xFFB02732);
   static const Color yellow = Color(0xFFF2BE05);
+  static const Color textSecondary = Color(0xFF666666);
+
+
+  static const Color border = Color(0xFFE0E0E0);
+  static const Color hint = Color(0xFF9E9E9E);
 
 
 
