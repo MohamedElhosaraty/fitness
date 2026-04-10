@@ -1,6 +1,6 @@
 import 'package:fitness/feature/home/ui/widgets/all_custom_split_card.dart';
 import 'package:fitness/feature/home/ui/widgets/custom_choose_training_card.dart';
-import 'package:fitness/feature/home/ui/widgets/custom_choose_training_title.dart';
+import 'package:fitness/feature/home/ui/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,7 +16,8 @@ class ChooseTrainingSplitView extends StatelessWidget {
             physics: BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 20),
             children: [
-              const CustomChooseTrainingTitle(),
+              const CustomAppBar(
+                title: "Choose Training Split",),
               20.verticalSpace,
               const CustomChooseTrainingCard(),
               20.verticalSpace,

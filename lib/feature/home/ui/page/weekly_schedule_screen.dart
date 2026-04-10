@@ -1,8 +1,8 @@
+import 'package:fitness/feature/home/ui/widgets/custom_app_bar.dart';
 import 'package:fitness/feature/home/ui/widgets/custom_header_schedule.dart';
 import 'package:fitness/feature/home/ui/widgets/custom_sliver_list_day_card.dart';
 import 'package:flutter/material.dart';
 import '../../data/model/weekly_schedule_model.dart';
-import '../widgets/custom_app_bar_schedule.dart';
 
 class WeeklyScheduleScreen extends StatelessWidget {
   const WeeklyScheduleScreen({super.key, required this.splitType});
@@ -19,7 +19,7 @@ class WeeklyScheduleScreen extends StatelessWidget {
           child: CustomScrollView(
             slivers: [
               const SliverToBoxAdapter(
-                child: CustomAppBarSchedule(),
+                child: CustomAppBar(title: "Weekly Schedule"),
               ),
               SliverToBoxAdapter(
                 child: CustomHeaderSchedule(

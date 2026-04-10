@@ -5,6 +5,7 @@ import 'package:fitness/feature/home/ui/page/choose_training_split_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../feature/home/data/model/weekly_schedule_model.dart';
+import '../../feature/home/ui/page/select_exercises_view.dart';
 import '../../feature/home/ui/page/weekly_schedule_screen.dart';
 import '../../feature/main_screen/ui/main_screen.dart';
 import '../../feature/splash/splash_screen.dart';
@@ -31,7 +32,8 @@ class AppRouter {
         final splitType = settings.arguments as TrainingSplitType;
         return MaterialPageRoute(builder: (_) => WeeklyScheduleScreen(splitType: splitType,));
 
-
+      case Routes.selectExercisesView:
+        return MaterialPageRoute(builder: (_) => const SelectExercisesView());
     }
     return null;
   }

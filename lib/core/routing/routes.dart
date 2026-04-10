@@ -5,5 +5,6 @@ class Routes {
   static const String mainScreen = '/mainScreen';
   static const String chooseTrainingSplitView = '/chooseTrainingSplitView';
   static const String weeklyScheduleScreen = '/weeklyScheduleScreen';
+  static const String selectExercisesView = '/selectExercisesView';
 
 }
