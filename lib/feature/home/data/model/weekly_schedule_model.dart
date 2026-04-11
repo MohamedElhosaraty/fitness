@@ -24,7 +24,7 @@ enum TrainingSplitType {
         ];
       case upperLower:
         return [
-          WorkoutCategory.upperBody,
+          WorkoutCategory.upper,
           WorkoutCategory.lowerBody,
           WorkoutCategory.rest,
         ];
@@ -50,7 +50,7 @@ enum WorkoutCategory {
   push('💪 Push'),
   pull('🔙 Pull'),
   legs('🦵 Legs'),
-  upperBody('💪 Upper Body'),
+  upper('💪 Upper'),
   lowerBody('🦵 Lower Body'),
   fullBody('🏋️ Full Body'),
   chest('💪 Chest'),

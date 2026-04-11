@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/theming/app_colors.dart';
-import '../page/select_exercises_view.dart';
+import '../../data/model/exercise_model.dart';
 
 class CustomExercisesCard extends StatelessWidget {
 
-  final Exercise exercise;
   final VoidCallback onTap;
+  final ExerciseModel exercise;
 
   const CustomExercisesCard({
     super.key,
-    required this.exercise,
-    required this.onTap,
+    required this.onTap, required this.exercise,
   });
 
   @override

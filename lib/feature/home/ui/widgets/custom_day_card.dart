@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/helpers/extensions.dart';
@@ -6,6 +7,7 @@ import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
 import '../../data/model/weekly_schedule_model.dart';
+import '../cubit/get_exercises/get_exercises_cubit.dart';
 import 'custom_category_dropdown.dart';
 
 class CustomDayCard extends StatefulWidget {
@@ -78,35 +80,59 @@ class _CustomDayCardState extends State<CustomDayCard> {
             categories: widget.availableCategories,
             onChanged: (val) => setState(() => _selected = val),
           ),
-          if (_selected != null) ...[
-            12.verticalSpace,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Exercises (${widget.day.exercises.length})',
-                  style: AppTextStyles.font14Medium(context)
-                      .copyWith(color: AppColors.textSecondary),
+            if (_selected != null) ...[
+              12.verticalSpace,
+              if (_selected!.name.toLowerCase() == 'rest') ...[
+                Center(
+                  child: Column(
+                    children: [
+                      Text(
+                        '😴',
+                        style: TextStyle(fontSize: 40.sp),
+                      ),
+                      8.verticalSpace,
+                      Text(
+                        'Rest & Recovery Day',
+                        style: AppTextStyles.font14Medium(context)
+                            .copyWith(color: AppColors.textSecondary),
+                      ),
+                    ],
+                  ),
                 ),
-                TextButton(
-                  onPressed: () {
-                    context.pushNamed(Routes.selectExercisesView);
-                  },
-                  style: TextButton.styleFrom(
-                    minimumSize: Size.zero,
-                    padding: EdgeInsets.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  child: Text(
-                    'Add',
-                    style: AppTextStyles.font14Medium(context)
-                        .copyWith(color: AppColors.primaryColor),
-                  ),
+              ] else ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Exercises (${widget.day.exercises.length})',
+                      style: AppTextStyles.font14Medium(context)
+                          .copyWith(color: AppColors.textSecondary),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        final cubit = context.read<GetExercisesCubit>();
+                        cubit.getExercises(_selected!.name);
+                        context.pushNamed(
+                          Routes.selectExercisesView,
+                          arguments: cubit,
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        minimumSize: Size.zero,
+                        padding: EdgeInsets.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: Text(
+                        'Add',
+                        style: AppTextStyles.font14Medium(context)
+                            .copyWith(color: AppColors.primaryColor),
+                      ),
+                    ),
+                  ],
                 ),
               ],
-            ),
+            ],
           ],
-        ],
       ),
     );
   }
