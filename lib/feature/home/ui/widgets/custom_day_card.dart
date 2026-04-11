@@ -114,7 +114,10 @@ class _CustomDayCardState extends State<CustomDayCard> {
                         cubit.getExercises(_selected!.name);
                         context.pushNamed(
                           Routes.selectExercisesView,
-                          arguments: cubit,
+                          arguments: {
+                            'cubit': cubit,
+                            'day': widget.day..category = _selected,
+                          },
                         );
                       },
                       style: TextButton.styleFrom(

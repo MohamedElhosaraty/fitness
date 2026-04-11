@@ -4,15 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/helpers/toast_helper.dart';
 import '../../../../core/widgets/custom_button.dart';
+import '../../data/model/weekly_schedule_model.dart';
+import '../cubit/add_exercises/add_exercises_cubit.dart';
 import '../cubit/get_exercises/get_exercises_cubit.dart';
 import '../widgets/custom_app_bar.dart';
 
-
 class SelectExercisesView extends StatelessWidget {
-  const SelectExercisesView({super.key});
+  const SelectExercisesView({super.key, required this.daySchedule});
 
- @override
+  final DaySchedule daySchedule ;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
@@ -23,20 +27,23 @@ class SelectExercisesView extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
             if (state is GetExercisesError) {
-              return Center(child: Text(state.message));}
+              return Center(child: Text(state.message));
+            }
             if (state is GetExercisesSuccess) {
               final exercises = state.exercises;
-              final selectedCount =
-                  exercises.where((e) => e.isSelected).length;
+              final selectedCount = exercises
+                  .where((e) => e.isSelected)
+                  .length;
 
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    CustomAppBar(
-                        title: "Select Exercises"),
+                    CustomAppBar(title: "Select Exercises"),
                     CustomSelectExercisesHeader(
-                        selectedCount: selectedCount),
+                        selectedCount: selectedCount,
+                        daySchedule: daySchedule,
+                    ),
                     16.verticalSpace,
                     Expanded(
                       child: ListView.separated(
@@ -47,7 +54,9 @@ class SelectExercisesView extends StatelessWidget {
                           return CustomExercisesCard(
                             exercise: exercise,
                             onTap: () {
-                              context.read<GetExercisesCubit>().toggleExercise(exercise);
+                              context.read<GetExercisesCubit>().toggleExercise(
+                                exercise,
+                              );
                             },
                           );
                         },
@@ -55,24 +64,44 @@ class SelectExercisesView extends StatelessWidget {
                     ),
                     20.verticalSpace,
                     selectedCount == 0
-                        ? const SizedBox.shrink():
-                    CustomButton(
-                      yPadding: 15.sp,
-                      onPressed: () {},
-                      text: "Done ($selectedCount)exercises",
-                    )
+                        ? const SizedBox.shrink()
+                        : BlocConsumer<AddExercisesCubit, AddExercisesState>(
+                      listener: (context, state) {
+                        if (state is AddExercisesSuccess) {
+                          ToastHelper().showSuccessToast(context, "Exercises added successfully");
+                          Navigator.pop(context);
+                        }
+                        if (state is AddExercisesError) {
+                          ToastHelper().showErrorToast(context, state.message);
+                        }
+                      },
+                      builder: (context, state) {
+                        return CustomButton(
+                          yPadding: 15.sp,
+                          isLoading: state is AddExercisesLoading,
+                          onPressed: () {
+                            final selected = exercises
+                                .where((e) => e.isSelected)
+                                .toList();
 
+
+                            daySchedule.exercises = selected;
+                            context.read<AddExercisesCubit>().addExercises(
+                              day: daySchedule,
+                            );
+                          },
+                          text: "Done ($selectedCount) exercises",
+                        );
+                      },
+                    ),
                   ],
                 ),
               );
-
             }
             return const SizedBox.shrink();
-
           },
         ),
       ),
     );
   }
 }
-

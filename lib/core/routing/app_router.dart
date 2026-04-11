@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../feature/home/data/model/weekly_schedule_model.dart';
+import '../../feature/home/ui/cubit/add_exercises/add_exercises_cubit.dart';
 import '../../feature/home/ui/cubit/get_exercises/get_exercises_cubit.dart';
 import '../../feature/home/ui/page/select_exercises_view.dart';
 import '../../feature/home/ui/page/weekly_schedule_screen.dart';
@@ -41,11 +42,18 @@ class AppRouter {
         );
 
       case Routes.selectExercisesView:
-        final cubit = settings.arguments as GetExercisesCubit;
-        return MaterialPageRoute(builder: (context) => BlocProvider.value(
-          value: cubit,
-          child: const SelectExercisesView(),
-        ),);
+        final args = settings.arguments as Map<String, dynamic>;
+        final cubit = args['cubit'] as GetExercisesCubit;
+        final day = args['day'] as DaySchedule;
+        return MaterialPageRoute(
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: cubit),
+              BlocProvider(create: (_) => getIt<AddExercisesCubit>()),
+            ],
+            child: SelectExercisesView(daySchedule: day),
+          ),
+        );
     }
     return null;
   }

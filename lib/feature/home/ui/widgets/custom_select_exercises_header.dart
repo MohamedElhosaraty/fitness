@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/theming/app_colors.dart';
+import '../../data/model/weekly_schedule_model.dart';
 
 class CustomSelectExercisesHeader extends StatelessWidget {
-  const CustomSelectExercisesHeader({super.key, required this.selectedCount});
+  const CustomSelectExercisesHeader({super.key, required this.selectedCount, required this.daySchedule});
 
   final int selectedCount ;
+  final DaySchedule daySchedule;
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +27,11 @@ class CustomSelectExercisesHeader extends StatelessWidget {
           Row(
             children: [
               Icon(
-                  Icons.fitness_center,
+                  Icons.calendar_month,
                   color: AppColors.orange,),
               12.horizontalSpace,
               Text(
-                "Tuesday - Lower",
+                "${daySchedule.dayName} - ${daySchedule.category?.name}",
                 style: AppTextStyles.font20Bold(context).copyWith(
                   color: AppColors.darkBlue,
                 )

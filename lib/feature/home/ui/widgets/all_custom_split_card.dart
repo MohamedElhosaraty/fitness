@@ -31,7 +31,7 @@ class _AllCustomSplitCardState extends State<AllCustomSplitCard> {
              context.pushNamed(Routes.weeklyScheduleScreen, arguments: TrainingSplitType.pushPullLegs);
           },
           child: CustomSplitCard(
-            isSelected: selectedSplit == TrainingSplitType.pushPullLegs, // 2. فحص حالة التحديد
+            isSelected: selectedSplit == TrainingSplitType.pushPullLegs,
             title: "Push/Pull/Legs",
             subtitle: "Split workouts by movement patterns",
             buttons: const [
