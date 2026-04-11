@@ -1,4 +1,5 @@
 import 'package:fitness/core/helpers/firestore_service.dart';
+import 'package:fitness/feature/home/ui/cubit/add_exercises/add_exercises_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../feature/auth/data/repo/auth_repo_impl.dart';
@@ -36,8 +37,12 @@ Future<void> setupGetIt() async {
     WorkoutRepoImpl(getIt<FirebaseWorkoutService>()),
   );
 
+
+
   // 🧠 Cubits
   getIt.registerFactory(() => SignupCubit(getIt<AuthRepo>()));
   getIt.registerFactory(() => SignInCubit(getIt<AuthRepo>()));
   getIt.registerLazySingleton(() => GetExercisesCubit(getIt<WorkoutRepo>()));
+  getIt.registerLazySingleton(() => AddExercisesCubit(getIt<WorkoutRepo>()));
+
 }

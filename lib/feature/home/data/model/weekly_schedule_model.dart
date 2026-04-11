@@ -1,3 +1,5 @@
+import 'package:fitness/feature/home/data/model/exercise_model.dart';
+
 enum TrainingSplitType {
   pushPullLegs,
   upperLower,
@@ -50,7 +52,7 @@ enum WorkoutCategory {
   push('💪 Push'),
   pull('🔙 Pull'),
   legs('🦵 Legs'),
-  upper('💪 Upper'),
+  upper('💪 Upper Body'),
   lowerBody('🦵 Lower Body'),
   fullBody('🏋️ Full Body'),
   chest('💪 Chest'),
@@ -66,13 +68,13 @@ enum WorkoutCategory {
 class DaySchedule {
   final String dayName;
   WorkoutCategory? category;
-  List<String> exercises;
+  List<ExerciseModel> exercises;
   final bool isToday;
 
   DaySchedule({
     required this.dayName,
     this.category,
-    List<String>? exercises,
+    List<ExerciseModel>? exercises,
     this.isToday = false,
   }) : exercises = exercises ?? [];
 }
