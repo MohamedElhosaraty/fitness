@@ -1,6 +1,9 @@
+import 'package:fitness/feature/home/ui/cubit/get_day_exercises/get_day_exercises_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'core/di/dependency_injection.dart';
 import 'core/routing/app_router.dart';
 import 'core/routing/routes.dart';
 
@@ -13,18 +16,21 @@ class Fitness extends StatelessWidget {
       designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
-      child: MaterialApp(
-        title: 'Fitness',
-        theme: ThemeData(
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.white,),
-          primaryColor: Colors.blue,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-          scaffoldBackgroundColor: Colors.white,
+      child: BlocProvider(
+        create: (context) => getIt<GetDayExercisesCubit>(),
+        child: MaterialApp(
+          title: 'Fitness',
+          theme: ThemeData(
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Colors.white,),
+            primaryColor: Colors.blue,
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+            scaffoldBackgroundColor: Colors.white,
+          ),
+          debugShowCheckedModeBanner: false,
+          initialRoute: Routes.splashScreen,
+          onGenerateRoute: AppRouter.generateRoute,
         ),
-        debugShowCheckedModeBanner: false,
-        initialRoute: Routes.splashScreen,
-        onGenerateRoute: AppRouter.generateRoute,
       ),
     );
   }

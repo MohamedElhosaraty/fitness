@@ -7,7 +7,9 @@ import '../../data/model/weekly_schedule_model.dart';
 abstract class WorkoutRepo {
   Future<Either<Failure, List<ExerciseModel>>> getExercises(String workoutType);
 
-  Future<Either<Failure, void>> addExercises({
-    required DaySchedule days,
+  Future<Either<Failure, void>> addExercises({required DaySchedule days});
+
+  Future<Either<Failure, DaySchedule>> getDayExercises({
+    required String dayName,
   });
 }

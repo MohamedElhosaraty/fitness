@@ -22,4 +22,9 @@ class WorkoutRepoImpl implements WorkoutRepo {
   }) async {
     return await _service.addExercises(days: days);
   }
+
+  @override
+  Future<Either<Failure, DaySchedule>> getDayExercises({required String dayName}) async {
+    return await  _service.getDayExercises(dayName: dayName);
+  }
 }

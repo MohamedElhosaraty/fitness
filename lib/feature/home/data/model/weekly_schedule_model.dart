@@ -67,14 +67,41 @@ enum WorkoutCategory {
 
 class DaySchedule {
   final String dayName;
-  WorkoutCategory? category;
-  List<ExerciseModel> exercises;
+  final WorkoutCategory? category;
+  final List<ExerciseModel> exercises;
   final bool isToday;
 
-  DaySchedule({
+  const DaySchedule({
     required this.dayName,
     this.category,
     List<ExerciseModel>? exercises,
     this.isToday = false,
-  }) : exercises = exercises ?? [];
+  }) : exercises = exercises ?? const [];
+
+  DaySchedule copyWith({
+    String? dayName,
+    WorkoutCategory? category,
+    List<ExerciseModel>? exercises,
+    bool? isToday,
+  }) {
+    return DaySchedule(
+      dayName: dayName ?? this.dayName,
+      category: category ?? this.category,
+      exercises: exercises ?? this.exercises,
+      isToday: isToday ?? this.isToday,
+    );
+  }
 }
+// class DaySchedule {
+//   final String dayName;
+//   WorkoutCategory? category;
+//   List<ExerciseModel> exercises;
+//   final bool isToday;
+//
+//   DaySchedule({
+//     required this.dayName,
+//     this.category,
+//     List<ExerciseModel>? exercises,
+//     this.isToday = false,
+//   }) : exercises = exercises ?? [];
+// }

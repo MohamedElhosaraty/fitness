@@ -47,4 +47,38 @@ class FirebaseWorkoutService {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+
+  // -----------------------Get Day Exercises-----------------------
+  Future<Either<Failure, DaySchedule>> getDayExercises({
+    required String dayName,
+  }) async {
+    try {
+      final uId = FirebaseAuth.instance.currentUser!.uid;
+
+      final result = await _firestoreService.getData(
+        path: '${Constants.users}/$uId/${Constants.schedule}',
+        documentId: dayName,
+      );
+
+      return result.fold(
+            (failure) => Left(failure),
+            (data) {
+          final List exercisesList = data['exercises'] ?? [];
+          return Right(DaySchedule(
+            dayName: dayName,
+              category: WorkoutCategory.values.firstWhere(
+                    (e) => e.name == data['category'],
+                orElse: () => WorkoutCategory.rest,
+              ),
+            exercises: exercisesList
+                .map((e) => ExerciseModel.fromMap(Map<String, dynamic>.from(e)))
+                .toList(),
+          ));
+        },
+      );
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

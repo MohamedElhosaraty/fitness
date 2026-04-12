@@ -1,3 +1,4 @@
+import 'package:fitness/feature/home/ui/cubit/get_day_exercises/get_day_exercises_cubit.dart';
 import 'package:fitness/feature/home/ui/widgets/custom_exercise_card.dart';
 import 'package:fitness/feature/home/ui/widgets/custom_select_exercises_header.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ import '../widgets/custom_app_bar.dart';
 class SelectExercisesView extends StatelessWidget {
   const SelectExercisesView({super.key, required this.daySchedule});
 
-  final DaySchedule daySchedule ;
+  final DaySchedule daySchedule;
 
   @override
   Widget build(BuildContext context) {
@@ -31,18 +32,16 @@ class SelectExercisesView extends StatelessWidget {
             }
             if (state is GetExercisesSuccess) {
               final exercises = state.exercises;
-              final selectedCount = exercises
-                  .where((e) => e.isSelected)
-                  .length;
+              final selectedCount = exercises.where((e) => e.isSelected).length;
 
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    CustomAppBar(title: "Select Exercises"),
+                    const CustomAppBar(title: "Select Exercises"),
                     CustomSelectExercisesHeader(
-                        selectedCount: selectedCount,
-                        daySchedule: daySchedule,
+                      selectedCount: selectedCount,
+                      daySchedule: daySchedule,
                     ),
                     16.verticalSpace,
                     Expanded(
@@ -54,46 +53,54 @@ class SelectExercisesView extends StatelessWidget {
                           return CustomExercisesCard(
                             exercise: exercise,
                             onTap: () {
-                              context.read<GetExercisesCubit>().toggleExercise(
-                                exercise,
-                              );
+                              context
+                                  .read<GetExercisesCubit>()
+                                  .toggleExercise(exercise);
                             },
                           );
                         },
                       ),
                     ),
                     20.verticalSpace,
-                    selectedCount == 0
-                        ? const SizedBox.shrink()
-                        : BlocConsumer<AddExercisesCubit, AddExercisesState>(
-                      listener: (context, state) {
-                        if (state is AddExercisesSuccess) {
-                          ToastHelper().showSuccessToast(context, "Exercises added successfully");
-                          Navigator.pop(context);
-                        }
-                        if (state is AddExercisesError) {
-                          ToastHelper().showErrorToast(context, state.message);
-                        }
-                      },
-                      builder: (context, state) {
-                        return CustomButton(
-                          yPadding: 15.sp,
-                          isLoading: state is AddExercisesLoading,
-                          onPressed: () {
-                            final selected = exercises
-                                .where((e) => e.isSelected)
-                                .toList();
+                    if (selectedCount > 0)
+                      BlocConsumer<AddExercisesCubit, AddExercisesState>(
+                        listener: (context, state) {
+                          if (state is AddExercisesSuccess) {
+                            ToastHelper().showSuccessToast(
+                                context, "Exercises added successfully");
+                            context
+                                .read<GetDayExercisesCubit>()
+                                .getDayExercises(
+                                dayName: daySchedule.dayName);
+                            Navigator.pop(context);
+                          }
+                          if (state is AddExercisesError) {
+                            ToastHelper()
+                                .showErrorToast(context, state.message);
+                          }
+                        },
+                        builder: (context, state) {
+                          return CustomButton(
+                            yPadding: 15.sp,
+                            isLoading: state is AddExercisesLoading,
+                            onPressed: () {
+                              final selected = exercises
+                                  .where((e) => e.isSelected)
+                                  .toList();
 
+                              // copyWith بدل التعديل المباشر
+                              final updatedDay = daySchedule.copyWith(
+                                exercises: selected,
+                              );
 
-                            daySchedule.exercises = selected;
-                            context.read<AddExercisesCubit>().addExercises(
-                              day: daySchedule,
-                            );
-                          },
-                          text: "Done ($selectedCount) exercises",
-                        );
-                      },
-                    ),
+                              context
+                                  .read<AddExercisesCubit>()
+                                  .addExercises(day: updatedDay);
+                            },
+                            text: "Done ($selectedCount) exercises",
+                          );
+                        },
+                      ),
                   ],
                 ),
               );
