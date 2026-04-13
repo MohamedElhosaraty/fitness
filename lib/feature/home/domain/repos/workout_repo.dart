@@ -9,7 +9,6 @@ abstract class WorkoutRepo {
 
   Future<Either<Failure, void>> addExercises({required DaySchedule days});
 
-  Future<Either<Failure, DaySchedule>> getDayExercises({
-    required String dayName,
-  });
+  Stream<Either<Failure, DaySchedule>> watchDayExercises({required String dayName});
+
 }

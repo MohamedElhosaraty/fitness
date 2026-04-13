@@ -50,35 +50,41 @@ class FirebaseWorkoutService {
 
 
   // -----------------------Get Day Exercises-----------------------
-  Future<Either<Failure, DaySchedule>> getDayExercises({
+
+  Stream<Either<Failure, DaySchedule>> watchDayExercises({
     required String dayName,
-  }) async {
+  }) {
     try {
       final uId = FirebaseAuth.instance.currentUser!.uid;
 
-      final result = await _firestoreService.getData(
+      return _firestoreService
+          .watchDocument(
         path: '${Constants.users}/$uId/${Constants.schedule}',
         documentId: dayName,
-      );
-
-      return result.fold(
+      )
+          .map((result) => result.fold(
             (failure) => Left(failure),
             (data) {
+          if (data == null) return Right(DaySchedule(dayName: dayName));
+
           final List exercisesList = data['exercises'] ?? [];
           return Right(DaySchedule(
             dayName: dayName,
-              category: WorkoutCategory.values.firstWhere(
-                    (e) => e.name == data['category'],
-                orElse: () => WorkoutCategory.rest,
-              ),
+            category: data['category'] != null
+                ? WorkoutCategory.values.firstWhere(
+                  (e) => e.name == data['category'],
+              orElse: () => WorkoutCategory.rest,
+            )
+                : null,
             exercises: exercisesList
-                .map((e) => ExerciseModel.fromMap(Map<String, dynamic>.from(e)))
+                .map((e) => ExerciseModel.fromMap(
+              Map<String, dynamic>.from(e),
+            ))
                 .toList(),
           ));
         },
-      );
+      ));
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Stream.value(Left(ServerFailure(e.toString())));
     }
-  }
-}
+  }}

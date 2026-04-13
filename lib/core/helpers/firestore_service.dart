@@ -49,4 +49,21 @@ class FirestoreService {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+
+  Stream<Either<Failure, Map<String, dynamic>?>> watchDocument({
+    required String path,
+    required String documentId,
+  }) {
+    return firestore
+        .collection(path)
+        .doc(documentId)
+        .snapshots()
+        .map<Either<Failure, Map<String, dynamic>?>>(
+          (doc) => Right(doc.exists ? doc.data() : null),
+    )
+        .handleError(
+          (e) => Left(ServerFailure(e.toString())),
+    );
+  }
 }
