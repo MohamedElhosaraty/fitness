@@ -92,16 +92,11 @@ class DaySchedule {
     );
   }
 }
-// class DaySchedule {
-//   final String dayName;
-//   WorkoutCategory? category;
-//   List<ExerciseModel> exercises;
-//   final bool isToday;
-//
-//   DaySchedule({
-//     required this.dayName,
-//     this.category,
-//     List<ExerciseModel>? exercises,
-//     this.isToday = false,
-//   }) : exercises = exercises ?? [];
-// }
+
+String getTodayName() {
+  const days = [
+    'Monday', 'Tuesday', 'Wednesday',
+    'Thursday', 'Friday', 'Saturday', 'Sunday'
+  ];
+  return days[DateTime.now().weekday - 1];
+}

@@ -87,8 +87,6 @@ class SelectExercisesView extends StatelessWidget {
                               final selected = exercises
                                   .where((e) => e.isSelected)
                                   .toList();
-
-                              // copyWith بدل التعديل المباشر
                               final updatedDay = daySchedule.copyWith(
                                 exercises: selected,
                               );

@@ -1,3 +1,4 @@
+import 'package:fitness/feature/home/data/model/weekly_schedule_model.dart';
 import 'package:fitness/feature/home/ui/cubit/get_day_exercises/get_day_exercises_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +18,7 @@ class Fitness extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       child: BlocProvider(
-        create: (context) => getIt<GetDayExercisesCubit>(),
+        create: (context) => getIt<GetDayExercisesCubit>()..getDayExercises(dayName: getTodayName()),
         child: MaterialApp(
           title: 'Fitness',
           theme: ThemeData(

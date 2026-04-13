@@ -4,7 +4,9 @@ import 'package:fitness/feature/home/ui/widgets/stats_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../widgets/focus_card.dart';
+import '../../../../core/helpers/extensions.dart';
+import '../../../../core/routing/routes.dart';
+import '../widgets/focus_card_bloc_builder.dart';
 import '../widgets/home_header.dart';
 
 class HomeView extends StatelessWidget {
@@ -22,9 +24,13 @@ class HomeView extends StatelessWidget {
           16.verticalSpace,
           const StatsSection(),
           30.verticalSpace,
-          const FocusCard(),
+          const FocusCardBlocBuilder(),
           32.verticalSpace,
-          const QuickActions(),
+          InkWell(
+              onTap: () {
+                context.pushNamed(Routes.chooseTrainingSplitView);
+              },
+              child: const QuickActions()),
           32.verticalSpace,
           const LastWorkoutCard(),
         ],
