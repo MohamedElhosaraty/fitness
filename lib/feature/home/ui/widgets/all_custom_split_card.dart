@@ -15,7 +15,7 @@ class AllCustomSplitCard extends StatefulWidget {
   State<AllCustomSplitCard> createState() => _AllCustomSplitCardState();
 }
 
-class _AllCustomSplitCardState extends State<AllCustomSplitCard> {
+class _AllCustomSplitCardState extends State<AllCustomSplitCard>  {
 
   TrainingSplitType? selectedSplit;
 

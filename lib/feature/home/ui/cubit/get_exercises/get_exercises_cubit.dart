@@ -11,14 +11,25 @@ class GetExercisesCubit extends Cubit<GetExercisesState> {
 
   final WorkoutRepo repo;
 
-  Future<void> getExercises(String workoutType) async {
+  Future<void> getExercises(String workoutType,{List<ExerciseModel> selectedExercises = const []}) async {
     emit(GetExercisesLoading());
 
     final result = await repo.getExercises(workoutType);
 
     result.fold(
           (failure) => emit(GetExercisesError(failure.message)),
-          (exercises) => emit(GetExercisesSuccess(exercises: exercises)),
+          (exercises) {
+            final selectedNames = selectedExercises.map((e) => e.name).toSet();
+
+            final updatedExercises = exercises.map((e) {
+              return ExerciseModel(
+                name: e.name,
+                muscle: e.muscle,
+                isSelected: selectedNames.contains(e.name),
+              );
+            }).toList();
+            emit(GetExercisesSuccess(exercises: updatedExercises));
+          }
     );
   }
 

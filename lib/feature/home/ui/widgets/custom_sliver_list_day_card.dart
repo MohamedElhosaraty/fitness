@@ -35,7 +35,7 @@ class _CustomSliverListDayCardState extends State<CustomSliverListDayCard> {
   // احفظ الـ cubits من أول عشان متتعملش من جديد عند كل scroll
   late final List<GetDayExercisesCubit> _cubits = List.generate(
     7,
-        (i) => getIt<GetDayExercisesCubit>()..getDayExercises(dayName: _dayNames[i]),
+        (i) => getIt<GetDayExercisesCubit>()..watchDayExercises(dayName: _dayNames[i]),
   );
 
   @override

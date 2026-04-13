@@ -67,7 +67,16 @@ class _CustomDayCardState extends State<CustomDayCard> {
           CustomCategoryDropdown(
             selected: _selected,
             categories: widget.availableCategories,
-            onChanged: (val) => setState(() => _selected = val),
+            onChanged: (val) {
+              setState(() => _selected = val);
+
+              // ✅ لو اختار Rest، امسح الـ exercises
+              if (val != null && val.name.toLowerCase() == 'rest') {
+                context.read<GetDayExercisesCubit>().updateDayToRest(
+                  widget.day.copyWith(category: val),
+                );
+              }
+            },
           ),
           if (_selected != null) ...[
             12.verticalSpace,
@@ -183,9 +192,15 @@ class _CustomDayCardState extends State<CustomDayCard> {
 
   void _navigateToSelectExercises() async {
     final cubit = context.read<GetExercisesCubit>();
-    final dayCubit = context.read<GetDayExercisesCubit>();
-    cubit.getExercises(_selected!.name);
+    final currentState = context.read<GetDayExercisesCubit>().state;
+    final alreadySelected = currentState is GetDayExercisesSuccess
+        ? currentState.day.exercises
+        : widget.day.exercises;
 
+    cubit.getExercises(
+      _selected!.name,
+      selectedExercises: alreadySelected,
+    );
     await context.pushNamed(
       Routes.selectExercisesView,
       arguments: {
@@ -193,7 +208,5 @@ class _CustomDayCardState extends State<CustomDayCard> {
         'day': widget.day.copyWith(category: _selected),
       },
     );
-
-    dayCubit.getDayExercises(dayName: widget.day.dayName);
   }
 }

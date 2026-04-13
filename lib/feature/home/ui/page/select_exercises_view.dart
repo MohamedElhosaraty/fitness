@@ -1,4 +1,3 @@
-import 'package:fitness/feature/home/ui/cubit/get_day_exercises/get_day_exercises_cubit.dart';
 import 'package:fitness/feature/home/ui/widgets/custom_exercise_card.dart';
 import 'package:fitness/feature/home/ui/widgets/custom_select_exercises_header.dart';
 import 'package:flutter/material.dart';
@@ -68,10 +67,6 @@ class SelectExercisesView extends StatelessWidget {
                           if (state is AddExercisesSuccess) {
                             ToastHelper().showSuccessToast(
                                 context, "Exercises added successfully");
-                            context
-                                .read<GetDayExercisesCubit>()
-                                .getDayExercises(
-                                dayName: daySchedule.dayName);
                             Navigator.pop(context);
                           }
                           if (state is AddExercisesError) {
@@ -87,6 +82,7 @@ class SelectExercisesView extends StatelessWidget {
                               final selected = exercises
                                   .where((e) => e.isSelected)
                                   .toList();
+
                               final updatedDay = daySchedule.copyWith(
                                 exercises: selected,
                               );

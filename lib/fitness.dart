@@ -18,7 +18,7 @@ class Fitness extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       child: BlocProvider(
-        create: (context) => getIt<GetDayExercisesCubit>()..getDayExercises(dayName: getTodayName()),
+        create: (context) => getIt<GetDayExercisesCubit>()..watchDayExercises(dayName: getTodayName()),
         child: MaterialApp(
           title: 'Fitness',
           theme: ThemeData(
