@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failures.dart';
 import '../../domain/repos/workout_repo.dart';
 import '../model/exercise_model.dart';
-import '../model/weekly_schedule_model.dart';
+import '../model/day_schedule_model.dart';
 import '../service/firebase_workout_service.dart';
 
 class WorkoutRepoImpl implements WorkoutRepo {
@@ -18,14 +18,14 @@ class WorkoutRepoImpl implements WorkoutRepo {
 
   @override
   Future<Either<Failure, void>> addExercises({
-    required DaySchedule  days,
+    required DayScheduleModel  days,
   }) async {
     return await _service.addExercises(days: days);
   }
 
 
   @override
-  Stream<Either<Failure, DaySchedule>> watchDayExercises({
+  Stream<Either<Failure, DayScheduleModel>> watchDayExercises({
     required String dayName,
   }) {
     return _service.watchDayExercises(dayName: dayName);

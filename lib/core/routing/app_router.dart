@@ -5,7 +5,8 @@ import 'package:fitness/feature/home/ui/page/choose_training_split_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../feature/home/data/model/weekly_schedule_model.dart';
+import '../../feature/home/data/model/day_schedule_model.dart';
+import '../../feature/home/domain/entity/training_split_type.dart';
 import '../../feature/home/ui/cubit/add_exercises/add_exercises_cubit.dart';
 import '../../feature/home/ui/cubit/get_exercises/get_exercises_cubit.dart';
 import '../../feature/home/ui/page/select_exercises_view.dart';
@@ -34,9 +35,10 @@ class AppRouter {
 
       case Routes.weeklyScheduleScreen:
         final splitType = settings.arguments as TrainingSplitType;
+        final exercisesCubit = getIt<GetExercisesCubit>();
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => getIt<GetExercisesCubit>(),
+            create: (context) => exercisesCubit,
             child: WeeklyScheduleScreen(splitType: splitType),
           ),
         );
@@ -44,7 +46,7 @@ class AppRouter {
       case Routes.selectExercisesView:
         final args = settings.arguments as Map<String, dynamic>;
         final cubit = args['cubit'] as GetExercisesCubit;
-        final day = args['day'] as DaySchedule;
+        final day = args['day'] as DayScheduleModel;
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
             providers: [

@@ -7,7 +7,7 @@ final class GetDayExercisesInitial extends GetDayExercisesState {}
 final class GetDayExercisesLoading extends GetDayExercisesState {}
 
 final class GetDayExercisesSuccess extends GetDayExercisesState {
-  final DaySchedule day;
+  final DayScheduleModel day;
   GetDayExercisesSuccess({required this.day});
 }
 

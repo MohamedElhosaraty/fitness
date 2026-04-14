@@ -43,7 +43,7 @@ Future<void> setupGetIt() async {
   // 🧠 Cubits
   getIt.registerFactory(() => SignupCubit(getIt<AuthRepo>()));
   getIt.registerFactory(() => SignInCubit(getIt<AuthRepo>()));
-  getIt.registerLazySingleton(() => GetExercisesCubit(getIt<WorkoutRepo>()));
+  getIt.registerFactory(() => GetExercisesCubit(getIt<WorkoutRepo>()));
   getIt.registerFactory(() => AddExercisesCubit(getIt<WorkoutRepo>()));
   getIt.registerFactory(() => GetDayExercisesCubit(getIt<WorkoutRepo>()));
 }
