@@ -3,6 +3,8 @@ import 'package:fitness/feature/home/ui/widgets/action_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/helpers/extensions.dart';
+import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/app_colors.dart';
 
 class QuickActions extends StatelessWidget {
@@ -26,12 +28,17 @@ class QuickActions extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           mainAxisSpacing: 12,
           crossAxisSpacing: 12,
-          children: const [
+          children:  [
             ActionCard(
                 icon: Icons.flash_on, title: "Quick Start",
                 color: AppColors.primaryColor),
-            ActionCard(icon: Icons.calendar_today, title: "Schedule",
-                color: AppColors.violet),
+            InkWell(
+              onTap: () {
+                context.pushNamed(Routes.chooseTrainingSplitView);
+              },
+              child: ActionCard(icon: Icons.calendar_today, title: "Schedule",
+                  color: AppColors.violet),
+            ),
             ActionCard(icon: Icons.history, title: "History",
                 color: AppColors.green),
             ActionCard(icon: Icons.explore, title: "Browse",

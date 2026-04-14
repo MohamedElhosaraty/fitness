@@ -25,7 +25,6 @@ class CustomDottedBorder extends StatelessWidget {
           padding: EdgeInsets.all(16),
         ),
         child: Container(
-          width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
           ),
