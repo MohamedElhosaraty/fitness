@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/dependency_injection.dart';
-import '../../data/model/weekly_schedule_model.dart';
+import '../../data/model/day_schedule_model.dart';
+import '../../domain/entity/training_split_type.dart';
 import '../cubit/get_day_exercises/get_day_exercises_cubit.dart';
 import 'custom_day_card.dart';
 
@@ -24,9 +25,9 @@ class _CustomSliverListDayCardState extends State<CustomSliverListDayCard> {
     'Thursday', 'Friday', 'Saturday', 'Sunday',
   ];
 
-  late final List<DaySchedule> _days = List.generate(
+  late final List<DayScheduleModel> _days = List.generate(
     7,
-        (i) => DaySchedule(
+        (i) => DayScheduleModel(
       dayName: _dayNames[i],
       isToday: i == _todayIndex,
     ),

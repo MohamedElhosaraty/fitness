@@ -4,12 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
 import '../../../../core/widgets/custom_button.dart';
-import '../../data/model/weekly_schedule_model.dart';
+import '../../data/model/day_schedule_model.dart';
 
 class CustomFocusCard extends StatelessWidget {
   const CustomFocusCard({super.key, required this.day});
 
-  final DaySchedule day ;
+  final DayScheduleModel day ;
 
   @override
   Widget build(BuildContext context) {

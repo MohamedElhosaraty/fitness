@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
-import '../../data/model/weekly_schedule_model.dart';
+import '../../domain/entity/workout_category.dart';
 
 class CustomCategoryDropdown extends StatelessWidget {
   const CustomCategoryDropdown({super.key,required this.selected, required this.categories,required this.onChanged});

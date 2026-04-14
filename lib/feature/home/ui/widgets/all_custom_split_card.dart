@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/app_colors.dart';
-import '../../data/model/weekly_schedule_model.dart';
+import '../../domain/entity/training_split_type.dart';
 
 class AllCustomSplitCard extends StatefulWidget {
   const AllCustomSplitCard({super.key});

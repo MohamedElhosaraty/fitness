@@ -6,7 +6,9 @@ import '../../../../core/helpers/extensions.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
-import '../../data/model/weekly_schedule_model.dart';
+import '../../data/model/day_schedule_model.dart';
+import '../../domain/entity/training_split_type.dart';
+import '../../domain/entity/workout_category.dart';
 import '../cubit/get_day_exercises/get_day_exercises_cubit.dart';
 import '../cubit/get_exercises/get_exercises_cubit.dart';
 import 'custom_category_dropdown.dart';
@@ -19,7 +21,7 @@ class CustomDayCard extends StatefulWidget {
     required this.splitType,
   });
 
-  final DaySchedule day;
+  final DayScheduleModel day;
   final List<WorkoutCategory> availableCategories;
   final TrainingSplitType splitType;
 

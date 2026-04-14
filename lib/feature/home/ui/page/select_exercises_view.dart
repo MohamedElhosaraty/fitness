@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/helpers/toast_helper.dart';
 import '../../../../core/widgets/custom_button.dart';
-import '../../data/model/weekly_schedule_model.dart';
+import '../../data/model/day_schedule_model.dart';
 import '../cubit/add_exercises/add_exercises_cubit.dart';
 import '../cubit/get_exercises/get_exercises_cubit.dart';
 import '../widgets/custom_app_bar.dart';
@@ -14,7 +14,7 @@ import '../widgets/custom_app_bar.dart';
 class SelectExercisesView extends StatelessWidget {
   const SelectExercisesView({super.key, required this.daySchedule});
 
-  final DaySchedule daySchedule;
+  final DayScheduleModel daySchedule;
 
   @override
   Widget build(BuildContext context) {

@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/theming/app_colors.dart';
-import '../../data/model/weekly_schedule_model.dart';
+import '../../data/model/day_schedule_model.dart';
 
 class CustomSelectExercisesHeader extends StatelessWidget {
   const CustomSelectExercisesHeader({super.key, required this.selectedCount, required this.daySchedule});
 
   final int selectedCount ;
-  final DaySchedule daySchedule;
+  final DayScheduleModel daySchedule;
 
   @override
   Widget build(BuildContext context) {

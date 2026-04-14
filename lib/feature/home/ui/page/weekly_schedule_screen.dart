@@ -2,12 +2,12 @@ import 'package:fitness/feature/home/ui/widgets/custom_app_bar.dart';
 import 'package:fitness/feature/home/ui/widgets/custom_header_schedule.dart';
 import 'package:fitness/feature/home/ui/widgets/custom_sliver_list_day_card.dart';
 import 'package:flutter/material.dart';
-import '../../data/model/weekly_schedule_model.dart';
+import '../../domain/entity/training_split_type.dart';
 
 class WeeklyScheduleScreen extends StatelessWidget {
   const WeeklyScheduleScreen({super.key, required this.splitType});
-  final TrainingSplitType splitType;
 
+  final TrainingSplitType splitType;
 
   @override
   Widget build(BuildContext context) {
