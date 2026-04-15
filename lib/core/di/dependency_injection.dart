@@ -12,6 +12,7 @@ import '../../feature/home/data/service/firebase_workout_service.dart';
 import '../../feature/home/domain/repos/workout_repo.dart';
 import '../../feature/home/ui/cubit/get_day_exercises/get_day_exercises_cubit.dart';
 import '../../feature/home/ui/cubit/get_exercises/get_exercises_cubit.dart';
+import '../services/remote_config_service.dart';
 
 
 final getIt = GetIt.instance;
@@ -20,7 +21,7 @@ Future<void> setupGetIt() async {
   // 🔧 Core
   getIt.registerSingleton<FirebaseAuthServices>(FirebaseAuthServices());
   getIt.registerSingleton<FirestoreService>(FirestoreService());
-
+  getIt.registerLazySingleton(() => RemoteConfigService());
   // 🔐 Auth
   getIt.registerSingleton<AuthRepo>(
     AuthRepoImplemention(
@@ -43,7 +44,7 @@ Future<void> setupGetIt() async {
   // 🧠 Cubits
   getIt.registerFactory(() => SignupCubit(getIt<AuthRepo>()));
   getIt.registerFactory(() => SignInCubit(getIt<AuthRepo>()));
-  getIt.registerFactory(() => GetExercisesCubit(getIt<WorkoutRepo>()));
+  getIt.registerFactory(() => GetExercisesCubit(getIt<WorkoutRepo>(),getIt<RemoteConfigService>(),));
   getIt.registerFactory(() => AddExercisesCubit(getIt<WorkoutRepo>()));
   getIt.registerFactory(() => GetDayExercisesCubit(getIt<WorkoutRepo>()));
 }

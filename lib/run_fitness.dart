@@ -8,6 +8,7 @@ import 'config/app_config.dart';
 import 'core/di/dependency_injection.dart';
 import 'core/helpers/shared_pref_helper.dart';
 import 'core/observer/bloc_observer.dart';
+import 'core/services/remote_config_service.dart';
 import 'fitness.dart';
 
 void runFitness(AppConfig appConfig) async {
@@ -21,6 +22,7 @@ void runFitness(AppConfig appConfig) async {
     ),
   );
   await Future.wait<void>([ScreenUtil.ensureScreenSize(),  setupGetIt() , SharedPrefHelper.init()]);
+  await getIt<RemoteConfigService>().init();
   Bloc.observer = MyBlocObserver();
   runApp(const Fitness());
 }
