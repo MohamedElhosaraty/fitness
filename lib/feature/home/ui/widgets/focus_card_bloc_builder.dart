@@ -28,15 +28,19 @@ class FocusCardBlocBuilder extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(
-                "Today's Workout • ${GetTodayName.getTodayName()}",
-                style: AppTextStyles.font14Regular(context)
-                    .copyWith(color: AppColors.moreGrey),
+              Expanded(
+                child: Text(
+                  "Today's Workout • ${GetTodayName.todayName}",
+                  style: AppTextStyles.font14Regular(context)
+                      .copyWith(color: AppColors.moreGrey),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
               ),
-              const Spacer(),
               InkWell(
                 onTap: () => context.pushNamed(Routes.chooseTrainingSplitView),
                 child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       "Schedule",

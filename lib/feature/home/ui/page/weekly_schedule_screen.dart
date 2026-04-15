@@ -29,7 +29,8 @@ class WeeklyScheduleScreen extends StatelessWidget {
               const SliverToBoxAdapter(
                 child: SizedBox(height: 16),
               ),
-              CustomSliverListDayCard(splitType: splitType),
+              CustomSliverListDayCard(
+                  splitType: splitType),
             ],
           ),
         ),

@@ -39,11 +39,11 @@ class CustomCategoryDropdown extends StatelessWidget {
         filled: true,
         fillColor: AppColors.background,
       ),
-      items: categories.map((gem) {
+      items: categories.map((category) {
         return DropdownMenuItem(
-          value: gem,
+          value: category,
           child: Text(
-            gem.label,
+            category.label,
             style: AppTextStyles.font14Medium(context)
                 .copyWith(color: AppColors.primaryColor),
           ),

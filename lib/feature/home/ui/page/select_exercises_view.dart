@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/helpers/toast_helper.dart';
-import '../../../../core/widgets/custom_button.dart';
 import '../../data/model/day_schedule_model.dart';
-import '../cubit/add_exercises/add_exercises_cubit.dart';
 import '../cubit/get_exercises/get_exercises_cubit.dart';
 import '../widgets/custom_app_bar.dart';
+import '../widgets/custom_select_button_bloc_builder.dart';
 
 class SelectExercisesView extends StatelessWidget {
   const SelectExercisesView({super.key, required this.daySchedule});
@@ -62,38 +60,10 @@ class SelectExercisesView extends StatelessWidget {
                     ),
                     20.verticalSpace,
                     if (selectedCount > 0)
-                      BlocConsumer<AddExercisesCubit, AddExercisesState>(
-                        listener: (context, state) {
-                          if (state is AddExercisesSuccess) {
-                            ToastHelper().showSuccessToast(
-                                context, "Exercises added successfully");
-                            Navigator.pop(context);
-                          }
-                          if (state is AddExercisesError) {
-                            ToastHelper()
-                                .showErrorToast(context, state.message);
-                          }
-                        },
-                        builder: (context, state) {
-                          return CustomButton(
-                            yPadding: 15.sp,
-                            isLoading: state is AddExercisesLoading,
-                            onPressed: () {
-                              final selected = exercises
-                                  .where((e) => e.isSelected)
-                                  .toList();
-
-                              final updatedDay = daySchedule.copyWith(
-                                exercises: selected,
-                              );
-
-                              context
-                                  .read<AddExercisesCubit>()
-                                  .addExercises(day: updatedDay);
-                            },
-                            text: "Done ($selectedCount) exercises",
-                          );
-                        },
+                      CustomSelectButtonBlocBuilder(
+                        exercises: exercises,
+                        daySchedule: daySchedule,
+                        selectedCount: selectedCount,
                       ),
                   ],
                 ),
