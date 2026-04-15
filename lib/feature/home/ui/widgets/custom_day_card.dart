@@ -1,16 +1,15 @@
+import 'package:fitness/feature/home/ui/widgets/custom_exercise_list_day_card_bloc_builder.dart';
+import 'package:fitness/feature/home/ui/widgets/custom_header_day_card.dart';
+import 'package:fitness/feature/home/ui/widgets/custom_rest_day.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../core/helpers/extensions.dart';
-import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
 import '../../data/model/day_schedule_model.dart';
 import '../../domain/entity/training_split_type.dart';
 import '../../domain/entity/workout_category.dart';
 import '../cubit/get_day_exercises/get_day_exercises_cubit.dart';
-import '../cubit/get_exercises/get_exercises_cubit.dart';
 import 'custom_category_dropdown.dart';
 
 class CustomDayCard extends StatefulWidget {
@@ -30,11 +29,12 @@ class CustomDayCard extends StatefulWidget {
 }
 
 class _CustomDayCardState extends State<CustomDayCard> {
+  // to store the selected category for each day
   static final Map<String, Map<String, WorkoutCategory?>> _selectedMap = {};
-
+ // to get the selected category for the current day
   WorkoutCategory? get _selected =>
       _selectedMap[widget.splitType.name]?[widget.day.dayName];
-
+  // to store the selected category
   set _selected(WorkoutCategory? val) {
     _selectedMap[widget.splitType.name] ??= {};
     _selectedMap[widget.splitType.name]![widget.day.dayName] = val;
@@ -58,7 +58,8 @@ class _CustomDayCardState extends State<CustomDayCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildHeader(),
+          CustomHeaderDayCard(
+              day: widget.day),
           12.verticalSpace,
           Text(
             'Category',
@@ -72,7 +73,6 @@ class _CustomDayCardState extends State<CustomDayCard> {
             onChanged: (val) {
               setState(() => _selected = val);
 
-              // ✅ لو اختار Rest، امسح الـ exercises
               if (val != null && val.name.toLowerCase() == 'rest') {
                 context.read<GetDayExercisesCubit>().updateDayToRest(
                   widget.day.copyWith(category: val),
@@ -83,132 +83,16 @@ class _CustomDayCardState extends State<CustomDayCard> {
           if (_selected != null) ...[
             12.verticalSpace,
             _selected!.name.toLowerCase() == 'rest'
-                ? _buildRestDay()
-                : _buildExerciseList(),
+                ? CustomRestDay()
+                : CustomExerciseListDayCardBlocBuilder(
+                day: widget.day,
+                selected: _selected,
+            ),
           ],
         ],
       ),
     );
   }
 
-  Widget _buildHeader() {
-    return Row(
-      children: [
-        Text(
-          widget.day.dayName,
-          style: AppTextStyles.font20Bold(context)
-              .copyWith(color: AppColors.black),
-        ),
-        if (widget.day.isToday) ...[
-          10.horizontalSpace,
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-            decoration: BoxDecoration(
-              color: const Color(0xFFE3F0FC),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              'Today',
-              style: AppTextStyles.font14Regular(context)
-                  .copyWith(color: AppColors.primaryColor),
-            ),
-          ),
-        ],
-      ],
-    );
-  }
 
-  Widget _buildRestDay() {
-    return Center(
-      child: Column(
-        children: [
-          Text('😴', style: TextStyle(fontSize: 40.sp)),
-          8.verticalSpace,
-          Text(
-            'Rest & Recovery Day',
-            style: AppTextStyles.font14Medium(context)
-                .copyWith(color: AppColors.textSecondary),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildExerciseList() {
-    return BlocBuilder<GetDayExercisesCubit, GetDayExercisesState>(
-      builder: (context, state) {
-        final exercises = state is GetDayExercisesSuccess
-            ? state.day.exercises
-            : widget.day.exercises;
-
-        return Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Exercises (${exercises.length})',
-                  style: AppTextStyles.font14Medium(context)
-                      .copyWith(color: AppColors.textSecondary),
-                ),
-                TextButton(
-                  onPressed: _navigateToSelectExercises,
-                  style: TextButton.styleFrom(
-                    minimumSize: Size.zero,
-                    padding: EdgeInsets.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  child: Text(
-                    exercises.isEmpty ? 'Add' : 'Edit',
-                    style: AppTextStyles.font14Medium(context)
-                        .copyWith(color: AppColors.primaryColor),
-                  ),
-                ),
-              ],
-            ),
-            if (exercises.isNotEmpty) ...[
-              8.verticalSpace,
-              ...exercises.map(
-                    (e) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.fitness_center,
-                          size: 16, color: Colors.grey),
-                      8.horizontalSpace,
-                      Text(
-                        '${e.name} • 3 sets',
-                        style: AppTextStyles.font14Medium(context)
-                            .copyWith(color: AppColors.textSecondary),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ],
-        );
-      },
-    );
-  }
-
-  void _navigateToSelectExercises() async {
-    final cubit = context.read<GetExercisesCubit>();
-    final currentState = context.read<GetDayExercisesCubit>().state;
-    final alreadySelected = currentState is GetDayExercisesSuccess
-        ? currentState.day.exercises
-        : widget.day.exercises;
-
-    cubit.getExercises(
-      _selected!.name,
-      selectedExercises: alreadySelected,
-    );
-    await context.pushNamed(
-      Routes.selectExercisesView,
-      arguments: {
-        'cubit': cubit,
-        'day': widget.day.copyWith(category: _selected),
-      },
-    );
-  }
 }

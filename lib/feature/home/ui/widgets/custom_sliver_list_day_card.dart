@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/dependency_injection.dart';
+import '../../../../core/helpers/get_today_name.dart';
 import '../../data/model/day_schedule_model.dart';
 import '../../domain/entity/training_split_type.dart';
 import '../cubit/get_day_exercises/get_day_exercises_cubit.dart';
@@ -11,33 +12,25 @@ class CustomSliverListDayCard extends StatefulWidget {
 
   final TrainingSplitType splitType;
 
-
   @override
-  State<CustomSliverListDayCard> createState() => _CustomSliverListDayCardState();
+  State<CustomSliverListDayCard> createState() =>
+      _CustomSliverListDayCardState();
 }
 
 class _CustomSliverListDayCardState extends State<CustomSliverListDayCard> {
 
-  final int _todayIndex = DateTime.now().weekday - 1;
+  late final List<GetDayExercisesCubit> _cubits;
 
-  final List<String> _dayNames = [
-    'Monday', 'Tuesday', 'Wednesday',
-    'Thursday', 'Friday', 'Saturday', 'Sunday',
-  ];
-
-  late final List<DayScheduleModel> _days = List.generate(
-    7,
-        (i) => DayScheduleModel(
-      dayName: _dayNames[i],
-      isToday: i == _todayIndex,
-    ),
-  );
-
-  // احفظ الـ cubits من أول عشان متتعملش من جديد عند كل scroll
-  late final List<GetDayExercisesCubit> _cubits = List.generate(
-    7,
-        (i) => getIt<GetDayExercisesCubit>()..watchDayExercises(dayName: _dayNames[i]),
-  );
+  @override
+  void initState() {
+    super.initState();
+    // create 7 cubits for 7 days
+    _cubits = List.generate(
+      7,
+          (i) => getIt<GetDayExercisesCubit>()
+        ..watchDayExercises(dayName: GetTodayName.weekDayNames[i]),
+    );
+  }
 
   @override
   void dispose() {
@@ -49,20 +42,25 @@ class _CustomSliverListDayCardState extends State<CustomSliverListDayCard> {
 
   @override
   Widget build(BuildContext context) {
+    final int todayIndex = GetTodayName.todayIndex;
+
     return SliverList(
       delegate: SliverChildBuilderDelegate(
             (context, index) => Padding(
           padding: const EdgeInsets.only(bottom: 12),
           child: BlocProvider.value(
-            value: _cubits[index], // بدل create
+            value: _cubits[index],
             child: CustomDayCard(
-              day: _days[index],
+              day: DayScheduleModel(
+                dayName: GetTodayName.weekDayNames[index],
+                isToday: index == todayIndex,
+              ),
               availableCategories: widget.splitType.categories,
               splitType: widget.splitType,
             ),
           ),
         ),
-        childCount: _days.length,
+        childCount: GetTodayName.weekDayNames.length,
       ),
     );
   }
