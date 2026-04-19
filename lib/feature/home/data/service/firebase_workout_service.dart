@@ -49,47 +49,41 @@ class FirebaseWorkoutService {
     }
   }
 
-  // -----------------------Get Day Exercises-----------------------
+  // -----------------------Get All Day Exercises-----------------------
 
-  Stream<Either<Failure, DayScheduleModel>> watchDayExercises({
-    required String dayName,
-  }) {
+  Future<Either<Failure, List<DayScheduleModel>>> getAllDaysExercises() async {
     try {
       final uId = FirebaseAuth.instance.currentUser!.uid;
 
-      return _firestoreService
-          .watchDocument(
+      final result = await _firestoreService.getCollection(
         path: '${Constants.users}/$uId/${Constants.schedule}',
-        documentId: dayName,
-      )
-          .map(
-            (result) => result.fold((failure) => Left(failure), (data) {
-          if (data == null) return Left(ServerFailure('$dayName not found'));
+      );
 
-          return Right(
-            DayScheduleModel(
+      return result.fold(
+            (failure) => Left(failure),
+            (docs) {
+          final days = docs.map((data) {
+            final dayName = data['id'] as String;
+
+            return DayScheduleModel(
               dayName: dayName,
-              category:
-              data['category'] != null
+              category: data['category'] != null
                   ? WorkoutCategory.values.firstWhere(
                     (e) => e.name == data['category'],
                 orElse: () => WorkoutCategory.rest,
               )
                   : WorkoutCategory.rest,
-              exercises:
-              (data['exercises'] as List? ?? [])
-                  .map(
-                    (e) => ExerciseModel.fromMap(
-                  Map<String, dynamic>.from(e),
-                ),
-              )
+              exercises: (data['exercises'] as List? ?? [])
+                  .map((e) => ExerciseModel.fromMap(Map<String, dynamic>.from(e)))
                   .toList(),
-            ),
-          );
-        }),
+            );
+          }).toList();
+
+          return Right(days);
+        },
       );
     } catch (e) {
-      return Stream.value(Left(ServerFailure(e.toString())));
+      return Left(ServerFailure(e.toString()));
     }
   }
 }
