@@ -51,19 +51,18 @@ class FirestoreService {
   }
 
 
-  Stream<Either<Failure, Map<String, dynamic>?>> watchDocument({
+  Future<Either<Failure, List<Map<String, dynamic>>>> getCollection({
     required String path,
-    required String documentId,
-  }) {
-    return firestore
-        .collection(path)
-        .doc(documentId)
-        .snapshots()
-        .map<Either<Failure, Map<String, dynamic>?>>(
-          (doc) => Right(doc.exists ? doc.data() : null),
-    )
-        .handleError(
-          (e) => Left(ServerFailure(e.toString())),
-    );
+  }) async {
+    try {
+      final snapshot = await firestore.collection(path).get();
+      return Right(
+        snapshot.docs
+            .map((doc) => {'id': doc.id, ...doc.data()})
+            .toList(),
+      );
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
   }
 }

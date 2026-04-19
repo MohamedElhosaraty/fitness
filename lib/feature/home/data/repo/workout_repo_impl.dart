@@ -23,11 +23,8 @@ class WorkoutRepoImpl implements WorkoutRepo {
     return await _service.addExercises(days: days);
   }
 
-
   @override
-  Stream<Either<Failure, DayScheduleModel>> watchDayExercises({
-    required String dayName,
-  }) {
-    return _service.watchDayExercises(dayName: dayName);
+  Future<Either<Failure, List<DayScheduleModel>>> getAllDaysExercises() async {
+    return await _service.getAllDaysExercises();
   }
 }
