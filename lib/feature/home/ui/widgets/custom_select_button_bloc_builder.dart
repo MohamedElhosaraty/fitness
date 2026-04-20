@@ -7,6 +7,7 @@ import '../../../../core/widgets/custom_button.dart';
 import '../../data/model/day_schedule_model.dart';
 import '../../data/model/exercise_model.dart';
 import '../cubit/add_exercises/add_exercises_cubit.dart';
+import '../cubit/get_all_day_exercises/get__all_day_exercises_cubit.dart';
 
 class CustomSelectButtonBlocBuilder extends StatelessWidget {
   const CustomSelectButtonBlocBuilder({super.key, required this.exercises, required this.daySchedule, required this.selectedCount});
@@ -20,6 +21,7 @@ class CustomSelectButtonBlocBuilder extends StatelessWidget {
     return BlocConsumer<AddExercisesCubit, AddExercisesState>(
       listener: (context, state) {
         if (state is AddExercisesSuccess) {
+          context.read<GetAllDayExercisesCubit>().getAllDaysExercises();
           ToastHelper().showSuccessToast(
               context, "Exercises added successfully");
           Navigator.pop(context);

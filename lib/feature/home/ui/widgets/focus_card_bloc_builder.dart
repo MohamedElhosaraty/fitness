@@ -9,7 +9,7 @@ import '../../../../core/helpers/extensions.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
-import '../cubit/get_day_exercises/get_day_exercises_cubit.dart';
+import '../cubit/get_all_day_exercises/get__all_day_exercises_cubit.dart';
 import 'focus_card_shimmer.dart';
 
 class FocusCardBlocBuilder extends StatelessWidget {
@@ -57,11 +57,12 @@ class FocusCardBlocBuilder extends StatelessWidget {
             ],
           ),
           12.verticalSpace,
-          BlocBuilder<GetDayExercisesCubit, GetDayExercisesState>(
+          BlocBuilder<GetAllDayExercisesCubit, GetAllDayExercisesState>(
             builder: (context, state) {
-              if (state is GetDayExercisesLoading) return const FocusCardShimmer();
-              if (state is GetDayExercisesSuccess) {
-                return  CustomFocusCard(day: state.day);
+              if (state is GetAllDayExercisesLoading) return const FocusCardShimmer();
+              if (state is GetAllDayExercisesSuccess) {
+                return  CustomFocusCard(
+                    day: state.listDays.firstWhere((element) => element.dayName == GetTodayName.todayName));
               }
               return CustomDottedBorder();
             },
