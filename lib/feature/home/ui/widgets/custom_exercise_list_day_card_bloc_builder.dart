@@ -8,22 +8,29 @@ import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
 import '../../data/model/day_schedule_model.dart';
 import '../../domain/entity/workout_category.dart';
-import '../cubit/get_day_exercises/get_day_exercises_cubit.dart';
+import '../cubit/get_all_day_exercises/get__all_day_exercises_cubit.dart';
 import '../cubit/get_exercises/get_exercises_cubit.dart';
 
 class CustomExerciseListDayCardBlocBuilder extends StatelessWidget {
-  const CustomExerciseListDayCardBlocBuilder({super.key, required this.day,required WorkoutCategory? selected}) : _selected = selected;
+  const CustomExerciseListDayCardBlocBuilder({
+    super.key,
+    required this.day,
+    required WorkoutCategory? selected,
+  }) : _selected = selected;
 
   final DayScheduleModel day;
   final WorkoutCategory? _selected;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetDayExercisesCubit, GetDayExercisesState>(
+    return BlocBuilder<GetAllDayExercisesCubit, GetAllDayExercisesState>(
       builder: (context, state) {
-        final exercises = state is GetDayExercisesSuccess
-            ? state.day.exercises
-            : day.exercises;
+        final exercises =
+            state is GetAllDayExercisesSuccess
+                ? state.listDays
+                    .firstWhere((element) => element.dayName == day.dayName)
+                    .exercises
+                : day.exercises;
         return Column(
           children: [
             Row(
@@ -31,16 +38,24 @@ class CustomExerciseListDayCardBlocBuilder extends StatelessWidget {
               children: [
                 Text(
                   'Exercises (${exercises.length})',
-                  style: AppTextStyles.font14Medium(context)
-                      .copyWith(color: AppColors.textSecondary),
+                  style: AppTextStyles.font14Medium(
+                    context,
+                  ).copyWith(color: AppColors.textSecondary),
                 ),
                 TextButton(
-                  onPressed: ()async{
+                  onPressed: () async {
                     final cubit = context.read<GetExercisesCubit>();
-                    final currentState = context.read<GetDayExercisesCubit>().state;
-                    final alreadySelected = currentState is GetDayExercisesSuccess
-                        ? currentState.day.exercises
-                        : day.exercises;
+                    final currentState =
+                        context.read<GetAllDayExercisesCubit>().state;
+                    final alreadySelected =
+                        currentState is GetAllDayExercisesSuccess
+                            ? currentState.listDays
+                                .firstWhere(
+                                  (element) => element.dayName == day.dayName,
+                                  orElse: () => day,
+                                )
+                                .exercises
+                            : day.exercises;
 
                     cubit.getExercises(
                       _selected!.name,
@@ -61,8 +76,9 @@ class CustomExerciseListDayCardBlocBuilder extends StatelessWidget {
                   ),
                   child: Text(
                     exercises.isEmpty ? 'Add' : 'Edit',
-                    style: AppTextStyles.font14Medium(context)
-                        .copyWith(color: AppColors.primaryColor),
+                    style: AppTextStyles.font14Medium(
+                      context,
+                    ).copyWith(color: AppColors.primaryColor),
                   ),
                 ),
               ],
@@ -70,17 +86,21 @@ class CustomExerciseListDayCardBlocBuilder extends StatelessWidget {
             if (exercises.isNotEmpty) ...[
               8.verticalSpace,
               ...exercises.map(
-                    (e) => Padding(
+                (e) => Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Row(
                     children: [
-                      const Icon(Icons.fitness_center,
-                          size: 16, color: Colors.grey),
+                      const Icon(
+                        Icons.fitness_center,
+                        size: 16,
+                        color: Colors.grey,
+                      ),
                       8.horizontalSpace,
                       Text(
                         '${e.name} • 3 sets',
-                        style: AppTextStyles.font14Medium(context)
-                            .copyWith(color: AppColors.textSecondary),
+                        style: AppTextStyles.font14Medium(
+                          context,
+                        ).copyWith(color: AppColors.textSecondary),
                       ),
                     ],
                   ),
@@ -91,7 +111,5 @@ class CustomExerciseListDayCardBlocBuilder extends StatelessWidget {
         );
       },
     );
-
   }
 }
-

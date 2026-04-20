@@ -9,7 +9,7 @@ import '../../../../core/theming/app_text_styles.dart';
 import '../../data/model/day_schedule_model.dart';
 import '../../domain/entity/training_split_type.dart';
 import '../../domain/entity/workout_category.dart';
-import '../cubit/get_day_exercises/get_day_exercises_cubit.dart';
+import '../cubit/get_all_day_exercises/get__all_day_exercises_cubit.dart';
 import 'custom_category_dropdown.dart';
 
 class CustomDayCard extends StatefulWidget {
@@ -29,21 +29,21 @@ class CustomDayCard extends StatefulWidget {
 }
 
 class _CustomDayCardState extends State<CustomDayCard> {
-  // to store the selected category for each day
-  static final Map<String, Map<String, WorkoutCategory?>> _selectedMap = {};
- // to get the selected category for the current day
-  WorkoutCategory? get _selected =>
-      _selectedMap[widget.splitType.name]?[widget.day.dayName];
-  // to store the selected category
-  set _selected(WorkoutCategory? val) {
-    _selectedMap[widget.splitType.name] ??= {};
-    _selectedMap[widget.splitType.name]![widget.day.dayName] = val;
-  }
+  WorkoutCategory? _selected;
 
   @override
   void initState() {
     super.initState();
-    _selected ??= widget.day.category;
+    final state = context.read<GetAllDayExercisesCubit>().state;
+    if (state is GetAllDayExercisesSuccess) {
+      final day = state.listDays.firstWhere(
+            (d) => d.dayName == widget.day.dayName,
+        orElse: () => widget.day,
+      );
+      _selected = day.category ?? widget.day.category;
+    } else {
+      _selected = widget.day.category;
+    }
   }
 
   @override
@@ -69,12 +69,15 @@ class _CustomDayCardState extends State<CustomDayCard> {
           8.verticalSpace,
           CustomCategoryDropdown(
             selected: _selected,
-            categories: widget.availableCategories,
+            categories: [
+              if (_selected != null && !widget.availableCategories.contains(_selected))
+                _selected!,
+              ...widget.availableCategories,
+            ],
             onChanged: (val) {
               setState(() => _selected = val);
-
               if (val != null && val.name.toLowerCase() == 'rest') {
-                context.read<GetDayExercisesCubit>().updateDayToRest(
+                context.read<GetAllDayExercisesCubit>().updateDayToRest(
                   widget.day.copyWith(category: val),
                 );
               }
