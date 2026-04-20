@@ -36,15 +36,17 @@ Future<void> setupGetIt() async {
   );
 
   getIt.registerSingleton<WorkoutRepo>(
-    WorkoutRepoImpl(getIt<FirebaseWorkoutService>()),
+    WorkoutRepoImpl(
+      getIt<FirebaseWorkoutService>(),
+      getIt<RemoteConfigService>(),
+    ),
   );
-
 
 
   // 🧠 Cubits
   getIt.registerFactory(() => SignupCubit(getIt<AuthRepo>()));
   getIt.registerFactory(() => SignInCubit(getIt<AuthRepo>()));
-  getIt.registerFactory(() => GetExercisesCubit(getIt<WorkoutRepo>(),getIt<RemoteConfigService>(),));
+  getIt.registerFactory(() => GetExercisesCubit(getIt<WorkoutRepo>(),));
   getIt.registerFactory(() => AddExercisesCubit(getIt<WorkoutRepo>()));
   getIt.registerFactory(() => GetAllDayExercisesCubit(getIt<WorkoutRepo>()));
 }
