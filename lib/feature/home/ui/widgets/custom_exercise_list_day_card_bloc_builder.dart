@@ -28,7 +28,10 @@ class CustomExerciseListDayCardBlocBuilder extends StatelessWidget {
         final exercises =
             state is GetAllDayExercisesSuccess
                 ? state.listDays
-                    .firstWhere((element) => element.dayName == day.dayName)
+                    .firstWhere(
+                      (element) => element.dayName == day.dayName,
+                      orElse: () => day,
+                    )
                     .exercises
                 : day.exercises;
         return Column(

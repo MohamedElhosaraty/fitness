@@ -61,8 +61,14 @@ class FocusCardBlocBuilder extends StatelessWidget {
             builder: (context, state) {
               if (state is GetAllDayExercisesLoading) return const FocusCardShimmer();
               if (state is GetAllDayExercisesSuccess) {
-                return  CustomFocusCard(
-                    day: state.listDays.firstWhere((element) => element.dayName == GetTodayName.todayName));
+                // ✅ firstOrNull - بترجع null لو مش لاقي
+                final today = state.listDays
+                    .where((element) => element.dayName == GetTodayName.todayName)
+                    .firstOrNull;
+
+                return today != null
+                    ? CustomFocusCard(day: today)
+                    : CustomDottedBorder();
               }
               return CustomDottedBorder();
             },
