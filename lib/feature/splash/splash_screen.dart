@@ -8,7 +8,6 @@ import '../../core/routing/routes.dart';
 import '../../core/theming/app_colors.dart';
 import '../../core/theming/app_text_styles.dart';
 import '../../generated/assets.dart';
-import '../auth/data/service/firebase_auth_service.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -24,12 +23,13 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () {
-      var isLoggedIn = FirebaseAuthServices().isLoggedIn();
-      if(isLoggedIn){
-        context.pushReplacementNamed(Routes.mainScreen);
-      }else{
-        context.pushReplacementNamed(Routes.signUpView);
-      }
+      context.pushReplacementNamed(Routes.onboardingScreen);
+      // var isLoggedIn = FirebaseAuthServices().isLoggedIn();
+      // if(isLoggedIn){
+      //   context.pushReplacementNamed(Routes.mainScreen);
+      // }else{
+      //   context.pushReplacementNamed(Routes.signUpView);
+      // }
     });
   }
 

@@ -18,6 +18,8 @@ class Assets {
   static const String imagesFitnessStag = 'assets/images/fitnessStag.png';
   static const String imagesFlutterNativeSplashDev = 'assets/images/flutter_native_splash_dev.png';
   static const String imagesFlutterNativeSplashStag = 'assets/images/flutter_native_splash_stag.png';
+  static const String langAr = 'assets/lang/ar.json';
+  static const String langEn = 'assets/lang/en.json';
   static const String svgsHome = 'assets/svgs/home.svg';
   static const String svgsLogo = 'assets/svgs/logo.svg';
   static const String svgsProfile = 'assets/svgs/profile.svg';

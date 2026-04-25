@@ -16,6 +16,7 @@ class AppTextSizes {
   static const double fontSize26 = 26;
   static const double fontSize30 = 30;
   static const double fontSize32 = 32;
+  static const double fontSize34 = 34;
   static const double fontSize36 = 36;
   static const double fontSize40 = 40;
   static const double fontSize48 = 48;

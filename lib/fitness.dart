@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,13 +17,18 @@ class Fitness extends StatelessWidget {
       designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
-      child: BlocProvider(
-        create: (context) => getIt<GetAllDayExercisesCubit>()..getAllDaysExercises(),
+      builder: (context, child) => BlocProvider(
+        create: (context) =>
+        getIt<GetAllDayExercisesCubit>()..getAllDaysExercises(),
         child: MaterialApp(
           title: 'Fitness',
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
           theme: ThemeData(
             appBarTheme: const AppBarTheme(
-              backgroundColor: Colors.white,),
+              backgroundColor: Colors.white,
+            ),
             primaryColor: Colors.blue,
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
             scaffoldBackgroundColor: Colors.white,

@@ -28,6 +28,11 @@ class AppTextStyles {
     fontSize: AppTextSizes.fontSize48,
   );
 
+  static TextStyle font34Bold(BuildContext context) => baseStyle(
+    fontWeight: AppFontWeights.fontWeightExtraBold,
+    fontSize: AppTextSizes.fontSize34,
+  );
+
   static TextStyle font26Bold(BuildContext context) => baseStyle(
     fontWeight: AppFontWeights.fontWeightBold,
     fontSize: AppTextSizes.fontSize26,

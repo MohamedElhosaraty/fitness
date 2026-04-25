@@ -12,6 +12,7 @@ import '../../feature/home/ui/cubit/get_exercises/get_exercises_cubit.dart';
 import '../../feature/home/ui/page/select_exercises_view.dart';
 import '../../feature/home/ui/page/weekly_schedule_screen.dart';
 import '../../feature/main_screen/ui/main_screen.dart';
+import '../../feature/onboarding/ui/page/onboarding_screen.dart';
 import '../../feature/splash/splash_screen.dart';
 import '../di/dependency_injection.dart';
 
@@ -20,6 +21,9 @@ class AppRouter {
     switch (settings.name) {
       case Routes.splashScreen:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
+
+     case Routes.onboardingScreen:
+        return MaterialPageRoute(builder: (_) => const OnboardingScreen());
 
       case Routes.signInView:
         return MaterialPageRoute(builder: (_) => const SigninView());
