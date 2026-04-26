@@ -16,6 +16,7 @@ import '../../feature/onboarding/data/repo/onboarding_repo_impl.dart';
 import '../../feature/onboarding/data/service/firestore_onboarding_service.dart';
 import '../../feature/onboarding/domain/repo/onboarding_repo.dart';
 import '../../feature/onboarding/ui/cubit/onboarding_cubit.dart';
+import '../localization/cubit/localization_cubit.dart';
 import '../services/remote_config_service.dart';
 
 
@@ -65,5 +66,7 @@ Future<void> setupGetIt() async {
   getIt.registerFactory(() => AddExercisesCubit(getIt<WorkoutRepo>()));
   getIt.registerFactory(() => GetAllDayExercisesCubit(getIt<WorkoutRepo>()));
   getIt.registerFactory(() => OnboardingCubit(onboardingRepo: getIt<OnboardingRepo>()));
+  getIt.registerFactory(() => LocalizationCubit());
+
 
 }
