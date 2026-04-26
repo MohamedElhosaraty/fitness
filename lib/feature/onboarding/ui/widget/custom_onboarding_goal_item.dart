@@ -1,7 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
 import '../../data/model/onboarding_goal_model.dart';
@@ -10,17 +8,18 @@ class CustomOnboardingGoalItem extends StatelessWidget {
   final OnboardingGoalModel goal;
   final bool isSelected;
   final VoidCallback onTap;
+  final String locale;
 
   const CustomOnboardingGoalItem({
     super.key,
     required this.goal,
     required this.isSelected,
     required this.onTap,
+    required this.locale,
   });
 
   @override
   Widget build(BuildContext context) {
-    final locale = context.locale.languageCode;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(

@@ -1,7 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/localization/localization_methods.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
 
@@ -14,14 +14,14 @@ class CustomOnboardingHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'selectGoal'.tr(),
+          tr(context, 'selectGoal'),
           style: AppTextStyles.font34Bold(context).copyWith(
             color: AppColors.black,
           ),
         ),
         6.verticalSpace,
         Text(
-          'customizeJourney'.tr(),
+          tr(context, 'customizeJourney'),
           style: AppTextStyles.font14Regular(context).copyWith(
             color: AppColors.moreGrey,
           ),

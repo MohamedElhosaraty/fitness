@@ -1,6 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/localization/localization_methods.dart';
 import 'custom_day_item.dart';
 
 class CustomSelectDay extends StatefulWidget {
@@ -16,10 +16,10 @@ class _CustomSelectDayState extends State<CustomSelectDay> {
   @override
   Widget build(BuildContext context) {
     final List<String> days = [
-      'days_2'.tr(),
-      'days_3'.tr(),
-      'days_4'.tr(),
-      'days_5'.tr(),
+      tr(context, 'days_2'),
+      tr(context, 'days_3'),
+      tr(context, 'days_4'),
+      tr(context, 'days_5'),
     ];
 
     return Row(

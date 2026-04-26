@@ -1,8 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:fitness/core/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/localization/localization_methods.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
 
@@ -20,7 +20,7 @@ class CustomOnboardingBottom extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'continue'.tr(),
+                tr(context, 'continue'),
                 style: AppTextStyles.font16Bold(
                   context,
                 ).copyWith(color: AppColors.background),
@@ -36,7 +36,7 @@ class CustomOnboardingBottom extends StatelessWidget {
         ),
         10.verticalSpace,
         Text(
-          'changeLater'.tr(),
+          tr(context, "changeLater"),
           style: AppTextStyles.font10Medium(
             context,
           ).copyWith(color: AppColors.grey, letterSpacing: 0.6),

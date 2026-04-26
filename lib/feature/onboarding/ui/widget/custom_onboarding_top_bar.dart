@@ -1,21 +1,25 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/localization/localization_methods.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
+import '../../../../core/localization/cubit/localization_cubit.dart';
 
 class CustomOnboardingTopBar extends StatelessWidget {
   const CustomOnboardingTopBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final isAr = context.locale.languageCode == 'ar';
+    final cubit = context.watch<LocalizationCubit>();
+    final isAr = cubit.currentLocale.languageCode == 'ar';
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'fitFlow'.tr(),
+          tr(context, "fitFlow"),
           style: AppTextStyles.font19Bold(context).copyWith(
             color: AppColors.primaryColor,
           ),
@@ -24,9 +28,8 @@ class CustomOnboardingTopBar extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                context.setLocale(
-                  isAr ? const Locale('en') : const Locale('ar'),
-                );
+                final isAr = cubit.currentLocale.languageCode == 'ar';
+                cubit.changeLanguage(isAr);
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -49,11 +52,13 @@ class CustomOnboardingTopBar extends StatelessWidget {
               height: 36,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(
-                    color: AppColors.border, width: 1.5),
+                border: Border.all(color: AppColors.border, width: 1.5),
               ),
               child: const Icon(
-                  Icons.help_outline, size: 20, color: AppColors.moreGrey),
+                Icons.help_outline,
+                size: 20,
+                color: AppColors.moreGrey,
+              ),
             ),
           ],
         ),

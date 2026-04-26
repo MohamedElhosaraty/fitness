@@ -1,6 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/localization/localization_methods.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
 
@@ -44,7 +44,7 @@ class CustomRecommendedCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
-                    'recommended'.tr(),
+                    tr(context, 'recommended'),
                     style: AppTextStyles.font10Bold(context).copyWith(
                       color: AppColors.background,
                       letterSpacing: 0.8,
@@ -52,7 +52,7 @@ class CustomRecommendedCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'optimalRecovery'.tr(),
+                  tr(context, "optimalRecovery"),
                   style: AppTextStyles.font12Medium(context).copyWith(color: AppColors.background),
                 ),
               ],

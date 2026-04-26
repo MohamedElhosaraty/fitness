@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:fitness/feature/onboarding/ui/widget/custom_onboarding_bottom.dart';
 import 'package:fitness/feature/onboarding/ui/widget/custom_onboarding_goal_bloc_builder.dart';
 import 'package:fitness/feature/onboarding/ui/widget/custom_select_day.dart';
@@ -8,6 +7,7 @@ import 'package:fitness/core/theming/app_colors.dart';
 import 'package:fitness/core/theming/app_text_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/localization/localization_methods.dart';
 import '../widget/custom_onboarding_header.dart';
 import '../widget/custom_onboarding_top_bar.dart';
 import '../widget/custom_recommended_card.dart';
@@ -29,7 +29,7 @@ class OnboardingScreenBody extends StatelessWidget {
             const CustomOnboardingGoalBlocBuilder(),
             28.verticalSpace,
             Text(
-              'weeklyAvailability'.tr(),
+              tr(context, 'weeklyAvailability'),
               style: AppTextStyles.font20Bold(context).copyWith(
                 color: AppColors.black,
               ),

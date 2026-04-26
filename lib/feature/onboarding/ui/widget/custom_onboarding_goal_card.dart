@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/localization/cubit/localization_cubit.dart';
 import '../../data/model/onboarding_goal_model.dart';
 import 'custom_onboarding_goal_item.dart';
 
@@ -31,6 +33,7 @@ class _CustomOnboardingGoalCardState extends State<CustomOnboardingGoalCard> {
         goal: widget.goals[index],
         isSelected: _selectedGoal == index,
         onTap: () => setState(() => _selectedGoal = index),
+        locale: context.watch<LocalizationCubit>().currentLocale.languageCode,
       ),
     );
   }
