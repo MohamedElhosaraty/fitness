@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,6 @@ import 'fitness.dart';
 void runFitness(AppConfig appConfig) {
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
-    await EasyLocalization.ensureInitialized();
     await Firebase.initializeApp(
       options: appConfig.firebaseOptions,
     );
@@ -46,13 +44,6 @@ void runFitness(AppConfig appConfig) {
     await getIt<RemoteConfigService>().init();
     Bloc.observer = MyBlocObserver();
 
-    runApp(
-      EasyLocalization(
-        supportedLocales: const [Locale('en'), Locale('ar')],
-        path: 'assets/lang',
-        fallbackLocale: const Locale('en'),
-        child: const Fitness(),
-      ),
-    );
+    runApp(const Fitness());
   }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack, fatal: true));
 }
