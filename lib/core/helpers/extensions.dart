@@ -1,4 +1,6 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../localization/cubit/localization_cubit.dart';
 
 extension Navigation on BuildContext {
   Future<dynamic> pushNamed(String routeName, {Object? arguments}) {
@@ -17,6 +19,11 @@ extension Navigation on BuildContext {
   }
 
   void pop() => Navigator.of(this).pop();
+}
+
+extension LocalizationExtension on BuildContext {
+  String get currentLang =>
+      watch<LocalizationCubit>().currentLocale.languageCode;
 }
 
 extension StringExtension on String? {

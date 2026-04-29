@@ -1,3 +1,4 @@
+import 'package:fitness/core/localization/localization_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -34,22 +35,17 @@ class MyBottomNavBar extends StatelessWidget {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(Assets.svgsHome),
             activeIcon: SvgPicture.asset(Assets.svgsHome, colorFilter: const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),),
-            label: "Home",
+            label: tr(context, "home"),
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(Assets.svgsWorkouts),
-            activeIcon: SvgPicture.asset(Assets.svgsWorkouts, colorFilter:const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),),
-            label: "Workouts",
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(Assets.svgsProgress),
-            activeIcon: SvgPicture.asset(Assets.svgsProgress, colorFilter: const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),),
-            label: "Progress",
+            icon: SvgPicture.asset(Assets.svgsLearn),
+            activeIcon: SvgPicture.asset(Assets.svgsLearn, colorFilter:const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),),
+            label: tr(context, "learn"),
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(Assets.svgsProfile),
             activeIcon: SvgPicture.asset(Assets.svgsProfile, colorFilter: const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),),
-            label: "Profile",
+            label: tr(context, "profile"),
           ),
         ],
         unselectedItemColor: AppColors.grey,

@@ -1,5 +1,6 @@
 {
   "fitFlow": "فيت فلو",
+  "elevateYourMovement": "ارفع حركتك",
   "selectGoal": "اختر هدفك",
   "customizeJourney": "خصّص رحلتك لأداء دقيق.",
   "weeklyAvailability": "الأيام المتاحة أسبوعياً",
@@ -10,5 +11,25 @@
   "recommended": "موصى به",
   "optimalRecovery": "دورة تعافي مثالية",
   "continue": "متابعة",
-  "changeLater": "يمكنك تغيير هذا لاحقاً في الملف الشخصي"
+  "changeLater": "يمكنك تغيير هذا لاحقاً في الملف الشخصي",
+  "goodMorning": "صباح الخير",
+  "letGetToWork": "بدء العمل.",
+  "weeklyBlueprint": "خطة اسبوعية",
+  "week1": "اسبوع 1",
+  "activePlan": "خطة نشطة",
+  "upperBodyBasics": "الاساسيات لجسم العلاقة",
+  "startWorkout": "بدء العمل",
+  "todayExercises": "التمارين اليومية",
+  "recovery": "تعافي",
+  "optimalStatusForTrainingToday": "حالة مثالية للتدريب اليومي.",
+  "weeklyBurn": "التحرير الاسبوعي",
+  "activeKcalBurnedThisWeek" : "التحرير النشط الاسبوعي",
+  "home": "الرئيسية",
+  "profile": "الملف الشخصي",
+  "learn": "تعلم",
+  "minutes": "دقايق",
+  "exercises": "التمارين",
+  "pleaseSelectYourGoalAndAvailableDays": "يرجى اختيار هدفك واختيار عدد الايام المتاحة",
+  "REPS": "تكرارات",
+  "finishExercise": "إنهاء التمرين"
 }

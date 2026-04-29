@@ -1,5 +1,6 @@
 {
   "fitFlow": "FitFlow",
+  "elevateYourMovement": "Elevate Your Movement",
   "selectGoal": "Select Your Goal",
   "customizeJourney": "Customize your journey for precision performance.",
   "weeklyAvailability": "Weekly Availability",
@@ -10,5 +11,25 @@
   "recommended": "RECOMMENDED",
   "optimalRecovery": "Optimal recovery cycle",
   "continue": "Continue",
-  "changeLater": "YOU CAN CHANGE THIS LATER IN PROFILE"
+  "changeLater": "YOU CAN CHANGE THIS LATER IN PROFILE",
+  "goodMorning": "Good Morning",
+  "letGetToWork": "Let's get to work.",
+  "weeklyBlueprint": "Weekly Blueprint",
+  "week1": "Week 1",
+  "activePlan": "ACTIVE PLAN",
+  "upperBodyBasics": "Upper Body Basics",
+  "startWorkout": "Start Workout",
+  "todayExercises": "Today's Exercises",
+  "recovery": "RECOVERY",
+  "optimalStatusForTrainingToday": "Optimal status for training today.",
+  "weeklyBurn": "WEEKLY BURN",
+  "activeKcalBurnedThisWeek": "Active kcal burned this week.",
+  "home": "Home",
+  "profile": "Profile",
+  "learn": "Learn",
+  "minutes": "Minutes",
+  "exercises": "Exercises",
+  "pleaseSelectYourGoalAndAvailableDays": "Please select your goal and available days",
+  "REPS": "REPS",
+  "finishExercise": "FINISH EXERCISE"
 }

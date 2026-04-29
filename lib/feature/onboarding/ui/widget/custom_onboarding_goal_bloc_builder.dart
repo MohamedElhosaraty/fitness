@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubit/onboarding_cubit.dart';
-import 'custom_onboarding_goal_shimmer.dart';
+import '../../../../core/widgets/custom_onboarding_goal_shimmer.dart';
 
 class CustomOnboardingGoalBlocBuilder extends StatelessWidget {
   const CustomOnboardingGoalBlocBuilder({super.key});
@@ -13,7 +13,7 @@ class CustomOnboardingGoalBlocBuilder extends StatelessWidget {
     return BlocBuilder<OnboardingCubit, OnboardingState>(
       builder: (context, state) {
         if (state is OnboardingLoading) {
-          return CustomOnboardingGoalShimmer();
+          return CustomListViewShimmer();
         }
 
         if (state is OnboardingError) {

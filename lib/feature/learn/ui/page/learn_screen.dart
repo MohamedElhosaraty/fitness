@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theming/app_text_styles.dart';
 
-class WorkoutView extends StatelessWidget {
-  const WorkoutView({super.key});
+class LearnScreen extends StatelessWidget {
+  const LearnScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        "WorkoutView",
+        "Learn Screen",
         style: AppTextStyles.font26Bold(context),
       ),
     )  ;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/localization/cubit/localization_cubit.dart';
+import '../../../../core/helpers/extensions.dart';
+import '../../../../core/helpers/user_preferences.dart';
 import '../../data/model/onboarding_goal_model.dart';
 import 'custom_onboarding_goal_item.dart';
 
@@ -20,7 +20,13 @@ class CustomOnboardingGoalCard extends StatefulWidget {
 }
 
 class _CustomOnboardingGoalCardState extends State<CustomOnboardingGoalCard> {
-  int _selectedGoal = 1;
+  int _selectedGoal = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    UserPreferences.setSelectedGoal = widget.goals[_selectedGoal].id;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +38,11 @@ class _CustomOnboardingGoalCardState extends State<CustomOnboardingGoalCard> {
       itemBuilder: (context, index) => CustomOnboardingGoalItem(
         goal: widget.goals[index],
         isSelected: _selectedGoal == index,
-        onTap: () => setState(() => _selectedGoal = index),
-        locale: context.watch<LocalizationCubit>().currentLocale.languageCode,
+        onTap: () {
+          setState(() => _selectedGoal = index);
+          UserPreferences.setSelectedGoal = widget.goals[index].id;
+        },
+        locale: context.currentLang,
       ),
     );
   }

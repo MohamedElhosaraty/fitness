@@ -4,6 +4,9 @@ import 'dart:async';
 import 'package:fitness/core/helpers/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import '../../core/helpers/shared_pref_helper.dart';
+import '../../core/helpers/shared_prefs_keys.dart';
+import '../../core/localization/localization_methods.dart';
 import '../../core/routing/routes.dart';
 import '../../core/theming/app_colors.dart';
 import '../../core/theming/app_text_styles.dart';
@@ -24,13 +27,16 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(const Duration(seconds: 3), () {
       context.pushReplacementNamed(Routes.onboardingScreen);
-      // var isLoggedIn = FirebaseAuthServices().isLoggedIn();
-      // if(isLoggedIn){
-      //   context.pushReplacementNamed(Routes.mainScreen);
+
+      // final selectedDays = SharedPrefHelper.getInt(SharedPrefsKeys.selectedDays);
+      // final selectedGoal = SharedPrefHelper.getString(SharedPrefsKeys.selectedGoal);
+      // if (selectedDays == 0 || selectedGoal.isEmpty) {
+      //   context.pushReplacementNamed(Routes.onboardingScreen);
       // }else{
-      //   context.pushReplacementNamed(Routes.signUpView);
+      //   context.pushReplacementNamed(Routes.mainScreen);
       // }
-    });
+    },
+    );
   }
 
   @override
@@ -46,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
           Text(
-            "FitFlow",style: AppTextStyles.font48Bold(context).copyWith(
+            tr(context, "fitFlow"),style: AppTextStyles.font48Bold(context).copyWith(
               color: AppColors.background,
             shadows: [
               Shadow(
@@ -58,7 +64,7 @@ class _SplashScreenState extends State<SplashScreen> {
           )
           ),
           Text(
-            "Elevate Your Movement",style: AppTextStyles.font19Bold(context).copyWith(
+            tr(context, "elevateYourMovement"),style: AppTextStyles.font19Bold(context).copyWith(
               color: AppColors.lightGrey,
             shadows: [
               Shadow(

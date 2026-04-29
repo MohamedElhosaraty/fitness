@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/helpers/extensions.dart';
 import '../../../../core/localization/localization_methods.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
@@ -13,7 +14,6 @@ class CustomOnboardingTopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.watch<LocalizationCubit>();
-    final isAr = cubit.currentLocale.languageCode == 'ar';
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -39,7 +39,7 @@ class CustomOnboardingTopBar extends StatelessWidget {
                   border: Border.all(color: AppColors.border),
                 ),
                 child: Text(
-                  isAr ? 'EN' : 'ع',
+                  context.currentLang == 'en' ? 'EN' : 'ع',
                   style: AppTextStyles.font13Bold(context).copyWith(
                     color: AppColors.primaryColor,
                   ),

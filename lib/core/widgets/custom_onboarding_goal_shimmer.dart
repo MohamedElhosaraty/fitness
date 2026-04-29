@@ -1,10 +1,10 @@
-import 'package:fitness/feature/onboarding/ui/widget/custom_shimmer_item.dart';
+import 'package:fitness/core/widgets/custom_shimmer_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 
-class CustomOnboardingGoalShimmer extends StatelessWidget {
-  const CustomOnboardingGoalShimmer({super.key});
+class CustomListViewShimmer extends StatelessWidget {
+  const CustomListViewShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {

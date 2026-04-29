@@ -1,11 +1,10 @@
 import 'package:fitness/core/theming/app_colors.dart';
-import 'package:fitness/feature/home/ui/page/home_view.dart';
+import 'package:fitness/feature/home/ui/page/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/widgets/bottom_nav_bar.dart';
+import '../../learn/ui/page/learn_screen.dart';
 import '../../profile/ui/page/profile_view.dart';
-import '../../progress/ui/page/progress_view.dart';
-import '../../workout/ui/page/workout_view.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -18,9 +17,8 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = const [
-    HomeView(),
-    WorkoutView(),
-    ProgressView(),
+    HomeScreen(),
+    LearnScreen(),
     ProfileView(),
   ];
 

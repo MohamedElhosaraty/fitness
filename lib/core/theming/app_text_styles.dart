@@ -94,5 +94,10 @@ class AppTextStyles {
     fontSize: AppTextSizes.fontSize16,
   );
 
+  static TextStyle font14SemiBold(BuildContext context) => baseStyle(
+    fontWeight: AppFontWeights.fontWeightSemiBold,
+    fontSize: AppTextSizes.fontSize14,
+  );
+
 
 }

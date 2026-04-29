@@ -1,8 +1,10 @@
+import 'package:fitness/core/helpers/extensions.dart';
 import 'package:fitness/core/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/localization/localization_methods.dart';
+import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
 
@@ -15,7 +17,9 @@ class CustomOnboardingBottom extends StatelessWidget {
       children: [
         CustomButton(
           yPadding: 15,
-          onPressed: () {},
+          onPressed: () {
+            context.pushReplacementNamed(Routes.mainScreen,);
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

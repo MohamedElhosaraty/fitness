@@ -11,6 +11,7 @@ class Assets {
   static const String fontsLexendRegular = 'assets/fonts/Lexend-Regular.ttf';
   static const String fontsLexendSemiBold = 'assets/fonts/Lexend-SemiBold.ttf';
   static const String fontsLexendThin = 'assets/fonts/Lexend-Thin.ttf';
+  static const String imagesActivePlanBackGround = 'assets/images/activePlanBackGround.png';
   static const String imagesBodyWorkout = 'assets/images/body_workout.png';
   static const String imagesFitnessDev = 'assets/images/fitnessDev.png';
   static const String imagesFitnessIconLogo = 'assets/images/fitness_icon_logo.png';
@@ -21,9 +22,9 @@ class Assets {
   static const String langAr = 'assets/lang/ar.json';
   static const String langEn = 'assets/lang/en.json';
   static const String svgsHome = 'assets/svgs/home.svg';
+  static const String svgsLearn = 'assets/svgs/learn.svg';
   static const String svgsLogo = 'assets/svgs/logo.svg';
   static const String svgsProfile = 'assets/svgs/profile.svg';
-  static const String svgsProgress = 'assets/svgs/progress.svg';
   static const String svgsWorkouts = 'assets/svgs/workouts.svg';
 
 }

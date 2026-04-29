@@ -15,6 +15,14 @@ class SharedPrefHelper {
     return _instance.getBool(key) ?? false;
   }
 
+  static setInt(String key, int value) {
+    _instance.setInt(key, value);
+  }
+
+  static int getInt(String key) {
+    return _instance.getInt(key) ?? 0;
+  }
+
   static setString(String key, String value) async {
     await _instance.setString(key, value);
   }
