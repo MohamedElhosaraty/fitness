@@ -20,7 +20,7 @@ class CustomOnboardingGoalCard extends StatefulWidget {
 }
 
 class _CustomOnboardingGoalCardState extends State<CustomOnboardingGoalCard> {
-  int _selectedGoal = 0;
+  int _selectedGoal = 1;
 
   @override
   void initState() {

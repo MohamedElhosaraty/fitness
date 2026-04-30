@@ -39,7 +39,7 @@ class CustomOnboardingTopBar extends StatelessWidget {
                   border: Border.all(color: AppColors.border),
                 ),
                 child: Text(
-                  context.currentLang == 'en' ? 'EN' : 'ع',
+                  context.currentLang == 'ar' ? 'EN' : 'ع',
                   style: AppTextStyles.font13Bold(context).copyWith(
                     color: AppColors.primaryColor,
                   ),

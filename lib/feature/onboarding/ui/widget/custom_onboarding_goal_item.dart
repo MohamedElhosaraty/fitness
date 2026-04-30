@@ -64,21 +64,20 @@ class CustomOnboardingGoalItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    goal.title[locale] ?? goal.title['en'] ?? '',
+                    goal.getTitle(locale),
                     style: AppTextStyles.font16Bold(context)
                         .copyWith(color: AppColors.black),
                   ),
                   3.verticalSpace,
                   Text(
-                    goal.subtitle[locale] ?? goal.subtitle['en'] ?? '',
+                    goal.getSubtitle(locale),
                     style: AppTextStyles.font12Medium(context).copyWith(
                       color: AppColors.moreGrey,
                     ),
                   ),
                 ],
               ),
-            ),
-            AnimatedContainer(
+            ),            AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               width: 22.w,
               height: 22.h,

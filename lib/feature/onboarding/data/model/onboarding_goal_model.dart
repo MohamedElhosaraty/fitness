@@ -21,6 +21,9 @@ class OnboardingGoalModel {
 
   IconData get iconData => iconMap[icon] ?? Icons.star;
 
+  String getTitle(String lang) => title[lang] ?? title['en'] ?? '';
+  String getSubtitle(String lang) => subtitle[lang] ?? subtitle['en'] ?? '';
+
   factory OnboardingGoalModel.fromMap(Map<String, dynamic> map, String id) {
     return OnboardingGoalModel(
       id: id,

@@ -50,7 +50,7 @@ class FirestoreService {
     }
   }
 
-
+// using ...  علشان يعمل merge بين الـ id وباقي الداتا.
   Future<Either<Failure, List<Map<String, dynamic>>>> getCollection({
     required String path,
   }) async {
