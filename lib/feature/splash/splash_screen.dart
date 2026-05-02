@@ -4,8 +4,6 @@ import 'dart:async';
 import 'package:fitness/core/helpers/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../core/helpers/shared_pref_helper.dart';
-import '../../core/helpers/shared_prefs_keys.dart';
 import '../../core/localization/localization_methods.dart';
 import '../../core/routing/routes.dart';
 import '../../core/theming/app_colors.dart';

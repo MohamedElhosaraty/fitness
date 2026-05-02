@@ -9,7 +9,7 @@ platform :android do
     Dir.chdir(flutter_root) do
       sh("flutter pub get")
       sh("flutter analyze")
-#       sh("flutter test")
+      sh("flutter test")
       sh("flutter build apk --flavor dev -t lib/main_dev.dart")
     end
   end
@@ -19,6 +19,8 @@ platform :android do
     flutter_root = File.expand_path("../..", __dir__)
     Dir.chdir(flutter_root) do
       sh("flutter pub get")
+      sh("flutter analyze")
+      sh("flutter test")
       sh("flutter build apk --flavor dev -t lib/main_dev.dart")
     end
 
@@ -38,6 +40,8 @@ platform :android do
     flutter_root = File.expand_path("../..", __dir__)
     Dir.chdir(flutter_root) do
       sh("flutter pub get")
+      sh("flutter analyze")
+      sh("flutter test")
       sh("flutter build apk --flavor prod -t lib/main_prod.dart")
     end
 
@@ -57,6 +61,8 @@ platform :android do
       flutter_root = File.expand_path("../..", __dir__)
       Dir.chdir(flutter_root) do
         sh("flutter pub get")
+        sh("flutter analyze")
+        sh("flutter test")
         sh("flutter build apk --flavor stag -t lib/main_stag.dart")
       end
 
