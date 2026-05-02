@@ -21,7 +21,11 @@ platform :android do
       sh("flutter pub get")
       sh("flutter analyze")
       sh("flutter test")
-      sh("flutter build apk --flavor dev -t lib/main_dev.dart")
+      build_cmd = "flutter build apk --flavor dev -t lib/main_dev.dart"
+      if (bn = ENV["WORKFLOW_RUN_NUMBER"])  && !bn.strip.empty?
+        build_cmd += " --build-number=#{bn.strip}"
+      end
+      sh(build_cmd)
     end
 
     apk_path = File.join(flutter_root, "build", "app", "outputs", "flutter-apk", "app-dev-release.apk")
