@@ -9,6 +9,7 @@ class CustomOnboardingGoalItem extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
   final String locale;
+  final int index;
 
   const CustomOnboardingGoalItem({
     super.key,
@@ -16,6 +17,7 @@ class CustomOnboardingGoalItem extends StatelessWidget {
     required this.isSelected,
     required this.onTap,
     required this.locale,
+    required this.index,
   });
 
   @override
@@ -23,6 +25,7 @@ class CustomOnboardingGoalItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
+        key: isSelected ? Key('goalItemSelected_$index') : null,
         duration: const Duration(milliseconds: 220),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         decoration: BoxDecoration(

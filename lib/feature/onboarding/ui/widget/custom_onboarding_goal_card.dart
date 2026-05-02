@@ -36,6 +36,8 @@ class _CustomOnboardingGoalCardState extends State<CustomOnboardingGoalCard> {
       itemCount: widget.goals.length,
       separatorBuilder: (_, __) => 12.verticalSpace,
       itemBuilder: (context, index) => CustomOnboardingGoalItem(
+        key: Key('goalItem_$index'),
+        index: index,
         goal: widget.goals[index],
         isSelected: _selectedGoal == index,
         onTap: () {

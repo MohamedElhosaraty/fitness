@@ -7,10 +7,13 @@ class CustomDayItem extends StatelessWidget {
   final String label;
   final bool isSelected;
   final VoidCallback onTap;
+  final int itemIndex;
+
 
   const CustomDayItem({
     super.key,
     required this.label,
+    required this.itemIndex,
     required this.isSelected,
     required this.onTap,
   });
@@ -21,6 +24,7 @@ class CustomDayItem extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: AnimatedContainer(
+          key: isSelected ? Key('dayItemSelected_$itemIndex') : null,
           duration: const Duration(milliseconds: 200),
           margin: EdgeInsets.symmetric(horizontal: 4 ),
           padding: const EdgeInsets.symmetric(vertical: 11),

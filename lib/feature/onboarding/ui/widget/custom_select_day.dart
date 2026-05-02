@@ -33,8 +33,10 @@ class _CustomSelectDayState extends State<CustomSelectDay> {
       children: List.generate(
         days.length,
             (index) => CustomDayItem(
+          key: Key('dayItem_$index'),
           label: days[index],
-          isSelected: _selectedDays == index,
+              itemIndex: index,
+              isSelected: _selectedDays == index,
           onTap: () {
             setState(() => _selectedDays = index);
             UserPreferences.setNumberDays = index + 2;

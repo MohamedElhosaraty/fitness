@@ -1,7 +1,11 @@
+import 'package:fitness/core/helpers/shared_pref_helper.dart';
+import 'package:fitness/core/localization/cubit/localization_cubit.dart';
 import 'package:fitness/core/routing/app_router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class AuthRobot {
@@ -10,20 +14,30 @@ class AuthRobot {
   AuthRobot({required this.tester});
 
   Future<void> runApp({required Widget widgetScreen}) async {
+    SharedPreferences.setMockInitialValues({});
+    SharedPrefHelper.init();
+
     await tester.pumpWidget(
-      ScreenUtilInit(
-        designSize: const Size(375, 812),
-        minTextAdapt: true,
-        child: MaterialApp(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider<LocalizationCubit>(
+            create: (_) => LocalizationCubit(),
+          ),
+        ],
+        child: ScreenUtilInit(
+          designSize: const Size(375, 812),
+          minTextAdapt: true,
+          child: MaterialApp(
             debugShowCheckedModeBanner: false,
-          onGenerateRoute: AppRouter.generateRoute,
-            home: widgetScreen,  ),
+            onGenerateRoute: AppRouter.generateRoute,
+            home: widgetScreen,
+          ),
+        ),
       ),
     );
 
     await tester.pumpAndSettle();
   }
-
   Future<void> enterText({
     required String text,
     required Key key,
@@ -50,18 +64,24 @@ class AuthRobot {
   }
 
 
-  Future<void> sendButton({
-    required Key key,
-  }) async {
-    final listFinder = find.byType(ListView);
+  Future<void> sendButton({required Key key}) async {
     final buttonFinder = find.byKey(key);
-    await tester.dragUntilVisible(
+
+    await tester.scrollUntilVisible(
       buttonFinder,
-      listFinder,
-      Offset(0, -250),
+      50,
+      scrollable: find.byType(Scrollable).first,
     );
     await tester.pumpAndSettle();
+    await tester.tap(buttonFinder, warnIfMissed: true);
+    await tester.pump();
+  }
 
-    await tester.tap(buttonFinder);
+  Future<void> tapItem({required Key key}) async {
+    final itemFinder = find.byKey(key);
+
+    await tester.pumpAndSettle();
+    await tester.tap(itemFinder);
+    await tester.pumpAndSettle();
   }
 }

@@ -13,6 +13,7 @@ class CustomBottomToFinishExerciseDay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomButton(
+      key: const Key('finishButton'),
       onPressed: () {
         context.read<WorkoutCubit>().completeDay();
       },

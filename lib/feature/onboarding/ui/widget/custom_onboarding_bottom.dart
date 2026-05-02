@@ -16,6 +16,7 @@ class CustomOnboardingBottom extends StatelessWidget {
     return Column(
       children: [
         CustomButton(
+          key: const Key('continueButton'),
           yPadding: 15,
           onPressed: () {
             context.pushReplacementNamed(Routes.mainScreen,);
