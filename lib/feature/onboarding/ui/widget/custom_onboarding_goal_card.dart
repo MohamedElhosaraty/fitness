@@ -20,12 +20,14 @@ class CustomOnboardingGoalCard extends StatefulWidget {
 }
 
 class _CustomOnboardingGoalCardState extends State<CustomOnboardingGoalCard> {
-  int _selectedGoal = 1;
+  int _selectedGoal = 2;
 
   @override
   void initState() {
     super.initState();
-    UserPreferences.setSelectedGoal = widget.goals[_selectedGoal].id;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      UserPreferences.setSelectedGoal = widget.goals[_selectedGoal].id;
+    });
   }
 
   @override

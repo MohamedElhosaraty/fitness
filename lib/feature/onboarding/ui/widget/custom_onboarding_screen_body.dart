@@ -7,6 +7,7 @@ import 'package:fitness/core/theming/app_colors.dart';
 import 'package:fitness/core/theming/app_text_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/helpers/user_preferences.dart';
 import '../../../../core/localization/localization_methods.dart';
 import '../widget/custom_onboarding_header.dart';
 import '../widget/custom_onboarding_top_bar.dart';
@@ -37,7 +38,21 @@ class OnboardingScreenBody extends StatelessWidget {
             14.verticalSpace,
             const CustomSelectDay(),
             20.verticalSpace,
-            const CustomRecommendedCard(),
+            ListenableBuilder(
+              listenable: Listenable.merge([
+                UserPreferences.selectedGoalNotifier,
+                UserPreferences.numberDaysNotifier,
+              ]),
+              builder: (context, _) {
+                final isGetStrong = UserPreferences.selectedGoalNotifier.value == "getStrong";
+                final isThreeDays = UserPreferences.numberDaysNotifier.value == 3;
+
+                if (isGetStrong && isThreeDays) {
+                  return const CustomRecommendedCard();
+                }
+                return const SizedBox.shrink();
+              },
+            ),
             28.verticalSpace,
             const CustomOnboardingBottom(),
           ],

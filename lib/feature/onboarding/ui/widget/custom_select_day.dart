@@ -17,7 +17,9 @@ class _CustomSelectDayState extends State<CustomSelectDay> {
   @override
   void initState() {
     super.initState();
-    UserPreferences.setNumberDays = 3;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      UserPreferences.setNumberDays = 3;
+    });
   }
 
   @override
