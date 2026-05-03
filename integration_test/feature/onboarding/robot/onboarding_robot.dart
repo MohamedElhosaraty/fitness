@@ -8,10 +8,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-class AuthRobot {
+class OnboardingRobot {
   final WidgetTester tester;
 
-  AuthRobot({required this.tester});
+  OnboardingRobot({required this.tester});
 
   Future<void> runApp({required Widget widgetScreen}) async {
     SharedPreferences.setMockInitialValues({});

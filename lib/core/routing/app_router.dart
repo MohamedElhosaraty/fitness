@@ -1,6 +1,4 @@
 import 'package:fitness/core/routing/routes.dart';
-import 'package:fitness/feature/auth/ui/page/signin_view.dart';
-import 'package:fitness/feature/auth/ui/page/signup_view.dart';
 import 'package:flutter/material.dart';
 import '../../feature/main_screen/ui/main_screen.dart';
 import '../../feature/onboarding/ui/page/onboarding_screen.dart';
@@ -14,12 +12,6 @@ class AppRouter {
 
      case Routes.onboardingScreen:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen());
-
-      case Routes.signInView:
-        return MaterialPageRoute(builder: (_) => const SigninView());
-
-      case Routes.signUpView:
-        return MaterialPageRoute(builder: (_) => const SignupView());
 
       case Routes.mainScreen:
         return MaterialPageRoute(builder: (_) => const MainScreen());

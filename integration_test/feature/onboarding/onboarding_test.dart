@@ -8,7 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../auth/robot/auth_robot.dart';
+import 'robot/onboarding_robot.dart';
 import 'helpers/test_setup.dart';
 
 void main() {
@@ -44,7 +44,7 @@ void main() {
 
   group('Integration Test - Onboarding Flow', () {
     testWidgets('select goal', (WidgetTester tester) async {
-      AuthRobot authRobot = AuthRobot(tester: tester);
+      OnboardingRobot authRobot = OnboardingRobot(tester: tester);
 
       when(() => onboardingMockRepo.getOnboardingGoals())
           .thenAnswer((_) async => Right(tGoals));
@@ -58,7 +58,7 @@ void main() {
     });
 
     testWidgets('select number of days ', (WidgetTester tester) async {
-      AuthRobot authRobot = AuthRobot(tester: tester);
+      OnboardingRobot authRobot = OnboardingRobot(tester: tester);
       when(() => onboardingMockRepo.getOnboardingGoals())
           .thenAnswer((_) async => Right(tGoals));
 
@@ -72,7 +72,7 @@ void main() {
     });
 
     testWidgets('go to Main screen', (WidgetTester tester) async {
-      AuthRobot authRobot = AuthRobot(tester: tester);
+      OnboardingRobot authRobot = OnboardingRobot(tester: tester);
 
       when(() => onboardingMockRepo.getOnboardingGoals())
           .thenAnswer((_) async => Right(tGoals));
