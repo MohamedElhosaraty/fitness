@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'config/app_config.dart';
 import 'core/di/dependency_injection.dart';
+import 'core/helpers/hive_helper.dart';
 import 'core/helpers/shared_pref_helper.dart';
 import 'core/observer/bloc_observer.dart';
 import 'core/services/remote_config_service.dart';
@@ -21,6 +22,8 @@ void runFitness(AppConfig appConfig) {
     await Firebase.initializeApp(
       options: appConfig.firebaseOptions,
     );
+    await Firebase.initializeApp();
+    await HiveHelper.init();
 
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
