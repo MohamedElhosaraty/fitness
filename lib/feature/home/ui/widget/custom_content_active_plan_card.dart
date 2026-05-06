@@ -6,6 +6,7 @@ import '../../../../core/localization/localization_methods.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
 import '../../../../core/widgets/custom_button.dart';
+import '../../../../generated/app_strings.dart';
 import '../../data/model/day_exercise_model.dart';
 
 class CustomContentActivePlanCard extends StatelessWidget {
@@ -34,7 +35,7 @@ class CustomContentActivePlanCard extends StatelessWidget {
             ),
             5.horizontalSpace,
             Text(
-              '45 ${tr(context, 'minutes')}',
+              '45 ${tr(context, AppStrings.minutes)}',
               style: AppTextStyles.font14Regular(
                 context,
               ).copyWith(color: AppColors.moreGrey),
@@ -47,7 +48,7 @@ class CustomContentActivePlanCard extends StatelessWidget {
             ),
             5.horizontalSpace,
             Text(
-              '${dayExerciseModel.exerciseRefs.length} ${tr(context, 'exercises')}',
+              '${dayExerciseModel.exerciseRefs.length} ${tr(context, AppStrings.exercises)}',
               style: AppTextStyles.font14Regular(
                 context,
               ).copyWith(color: AppColors.moreGrey),
@@ -63,7 +64,7 @@ class CustomContentActivePlanCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                tr(context, 'startWorkout'),
+                tr(context, AppStrings.startWorkout),
                 style: AppTextStyles.font19Bold(
                   context,
                 ).copyWith(color: AppColors.background),

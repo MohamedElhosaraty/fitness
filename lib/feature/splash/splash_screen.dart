@@ -8,6 +8,7 @@ import '../../core/localization/localization_methods.dart';
 import '../../core/routing/routes.dart';
 import '../../core/theming/app_colors.dart';
 import '../../core/theming/app_text_styles.dart';
+import '../../generated/app_strings.dart';
 import '../../generated/assets.dart';
 
 
@@ -50,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
           Text(
-            tr(context, "fitFlow"),style: AppTextStyles.font48Bold(context).copyWith(
+            tr(context, AppStrings.fitFlow),style: AppTextStyles.font48Bold(context).copyWith(
               color: AppColors.background,
             shadows: [
               Shadow(
@@ -62,7 +63,7 @@ class _SplashScreenState extends State<SplashScreen> {
           )
           ),
           Text(
-            tr(context, "elevateYourMovement"),style: AppTextStyles.font19Bold(context).copyWith(
+            tr(context, AppStrings.elevateYourMovement),style: AppTextStyles.font19Bold(context).copyWith(
               color: AppColors.lightGrey,
             shadows: [
               Shadow(

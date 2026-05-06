@@ -1,3 +1,4 @@
+import 'package:fitness/generated/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,7 +20,7 @@ class CustomOnboardingTopBar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          tr(context, "fitFlow"),
+          tr(context, AppStrings.fitFlow),
           style: AppTextStyles.font19Bold(context).copyWith(
             color: AppColors.primaryColor,
           ),

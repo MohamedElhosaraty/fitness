@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
+import '../../../../generated/app_strings.dart';
 import 'custom_exercise_bloc_builder.dart';
 import 'custom_home_top_bar.dart';
 
@@ -28,7 +29,7 @@ class HomeScreenBody extends StatelessWidget {
           const CustomActivePlanCard(),
           12.verticalSpace,
           Text(
-            tr(context, "todayExercises"),
+            tr(context, AppStrings.todayExercises),
             style: AppTextStyles.font20Bold(context).copyWith(
               color: AppColors.black,
             ),

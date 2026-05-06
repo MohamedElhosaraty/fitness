@@ -80,7 +80,8 @@ class CustomOnboardingGoalItem extends StatelessWidget {
                   ),
                 ],
               ),
-            ),            AnimatedContainer(
+            ),
+            AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               width: 22.w,
               height: 22.h,

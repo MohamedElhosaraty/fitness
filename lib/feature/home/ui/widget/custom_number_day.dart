@@ -6,6 +6,7 @@ import '../../../../core/helpers/user_preferences.dart';
 import '../../../../core/localization/localization_methods.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
+import '../../../../generated/app_strings.dart';
 import '../cubit/workout_cubit/workout_cubit.dart';
 import '../cubit/workout_cubit/workout_state.dart';
 
@@ -20,13 +21,13 @@ class CustomNumberDay extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              tr(context, 'weeklyBlueprint'),
+              tr(context, AppStrings.weeklyBlueprint),
               style: AppTextStyles.font16Bold(
                 context,
               ).copyWith(color: AppColors.black),
             ),
             Text(
-              tr(context, 'week1'),
+              tr(context, AppStrings.week1),
               style: AppTextStyles.font14Medium(context),
             ),
           ],

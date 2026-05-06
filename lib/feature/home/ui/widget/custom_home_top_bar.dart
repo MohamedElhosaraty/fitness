@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/localization/localization_methods.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
+import '../../../../generated/app_strings.dart';
 
 class CustomHomeTopBar extends StatelessWidget {
   const CustomHomeTopBar({super.key});
@@ -17,13 +18,13 @@ class CustomHomeTopBar extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              tr(context, 'goodMorning'),
+              tr(context, AppStrings.goodMorning),
               style: AppTextStyles.font20Bold(context).copyWith(
               ),
             ),
             2.verticalSpace,
             Text(
-              tr(context, 'letGetToWork'),
+              tr(context, AppStrings.letGetToWork),
               style: AppTextStyles.font14Regular(context).copyWith(
                 color: AppColors.grey,
               ),

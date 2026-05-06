@@ -26,8 +26,14 @@ class UserPreferences {
   }
 
   // Completed Days
-  static int get completedDays =>
-      SharedPrefHelper.getInt(SharedPrefsKeys.completedDays);
+  static int get completedDays {
+    final days = SharedPrefHelper.getInt(SharedPrefsKeys.completedDays);
+    if (days == 0) {
+      SharedPrefHelper.setInt(SharedPrefsKeys.completedDays, 1);
+      return 1;
+    }
+    return days;
+  }
 
   static set setCompletedDays(int value) =>
       SharedPrefHelper.setInt(SharedPrefsKeys.completedDays, value);

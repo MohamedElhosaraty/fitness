@@ -72,6 +72,7 @@ class CustomExerciseCard extends StatelessWidget {
             children: [
               Text(
                 repsDisplay,
+                textDirection: TextDirection.ltr,
                 style: AppTextStyles.font13Bold(
                   context,
                 ).copyWith(color: AppColors.primaryColor),

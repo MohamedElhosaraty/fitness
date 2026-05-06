@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fitness/feature/home/ui/widget/home_screen_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,16 +11,13 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log(UserPreferences.completedDays.toString());
     return BlocProvider(
       create:
           (context) =>
               getIt<WorkoutCubit>()..getDayExercises(
                 UserPreferences.selectedGoal,
                 UserPreferences.numberDays,
-                UserPreferences.completedDays == 0
-                    ? UserPreferences.setCompletedDays = 1
-                    : UserPreferences.completedDays,
+                UserPreferences.completedDays,
               ),
 
       child: Scaffold(

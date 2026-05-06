@@ -5,6 +5,7 @@ import '../../../../core/localization/localization_methods.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
 import '../../../../core/widgets/custom_button.dart';
+import '../../../../generated/app_strings.dart';
 import '../cubit/workout_cubit/workout_cubit.dart';
 
 class CustomBottomToFinishExerciseDay extends StatelessWidget {
@@ -21,7 +22,7 @@ class CustomBottomToFinishExerciseDay extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            tr(context, 'finishExercise'),
+            tr(context, AppStrings.finishExercise),
             style: AppTextStyles.font19Bold(
               context,
             ).copyWith(color: AppColors.background),

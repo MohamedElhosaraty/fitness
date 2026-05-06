@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
+import '../../../../generated/app_strings.dart';
 import '../../../../generated/assets.dart';
 
 class CustomActivePlanCard extends StatelessWidget {
@@ -63,7 +64,7 @@ class CustomActivePlanCard extends StatelessWidget {
                     ),
                     12.horizontalSpace,
                     Text(
-                      tr(context, 'activePlan'),
+                      tr(context, AppStrings.activePlan),
                       style: AppTextStyles.font14SemiBold(context),
                     ),
                   ],

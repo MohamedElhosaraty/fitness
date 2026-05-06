@@ -1,0 +1,35 @@
+class AppStrings {
+  static const String fitFlow = 'fitFlow';
+  static const String elevateYourMovement = 'elevateYourMovement';
+  static const String selectGoal = 'selectGoal';
+  static const String customizeJourney = 'customizeJourney';
+  static const String weeklyAvailability = 'weeklyAvailability';
+  static const String days2 = 'days_2';
+  static const String days3 = 'days_3';
+  static const String days4 = 'days_4';
+  static const String days5 = 'days_5';
+  static const String recommended = 'recommended';
+  static const String optimalRecovery = 'optimalRecovery';
+  static const String continueKey = 'continue';
+  static const String changeLater = 'changeLater';
+  static const String goodMorning = 'goodMorning';
+  static const String letGetToWork = 'letGetToWork';
+  static const String weeklyBlueprint = 'weeklyBlueprint';
+  static const String week1 = 'week1';
+  static const String activePlan = 'activePlan';
+  static const String upperBodyBasics = 'upperBodyBasics';
+  static const String startWorkout = 'startWorkout';
+  static const String todayExercises = 'todayExercises';
+  static const String recovery = 'recovery';
+  static const String optimalStatusForTrainingToday = 'optimalStatusForTrainingToday';
+  static const String weeklyBurn = 'weeklyBurn';
+  static const String activeKcalBurnedThisWeek = 'activeKcalBurnedThisWeek';
+  static const String home = 'home';
+  static const String profile = 'profile';
+  static const String learn = 'learn';
+  static const String minutes = 'minutes';
+  static const String exercises = 'exercises';
+  static const String pleaseSelectYourGoalAndAvailableDays = 'pleaseSelectYourGoalAndAvailableDays';
+  static const String reps = 'REPS';
+  static const String finishExercise = 'finishExercise';
+}

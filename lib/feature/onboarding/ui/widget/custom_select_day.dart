@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/helpers/user_preferences.dart';
 import '../../../../core/localization/localization_methods.dart';
+import '../../../../generated/app_strings.dart';
 import 'custom_day_item.dart';
 
 class CustomSelectDay extends StatefulWidget {
@@ -25,10 +26,10 @@ class _CustomSelectDayState extends State<CustomSelectDay> {
   @override
   Widget build(BuildContext context) {
     final List<String> days = [
-      tr(context, 'days_2'),
-      tr(context, 'days_3'),
-      tr(context, 'days_4'),
-      tr(context, 'days_5'),
+      tr(context, AppStrings.days2),
+      tr(context, AppStrings.days3),
+      tr(context, AppStrings.days4),
+      tr(context, AppStrings.days5),
     ];
 
     return Row(

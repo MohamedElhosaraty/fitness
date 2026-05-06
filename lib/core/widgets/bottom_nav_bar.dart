@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../generated/app_strings.dart';
 import '../../generated/assets.dart';
 import '../theming/app_colors.dart';
 import '../theming/app_text_styles.dart';
@@ -35,17 +36,17 @@ class MyBottomNavBar extends StatelessWidget {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(Assets.svgsHome),
             activeIcon: SvgPicture.asset(Assets.svgsHome, colorFilter: const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),),
-            label: tr(context, "home"),
+            label: tr(context, AppStrings.home),
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(Assets.svgsLearn),
             activeIcon: SvgPicture.asset(Assets.svgsLearn, colorFilter:const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),),
-            label: tr(context, "learn"),
+            label: tr(context, AppStrings.learn),
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(Assets.svgsProfile),
             activeIcon: SvgPicture.asset(Assets.svgsProfile, colorFilter: const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),),
-            label: tr(context, "profile"),
+            label: tr(context, AppStrings.profile),
           ),
         ],
         unselectedItemColor: AppColors.grey,
