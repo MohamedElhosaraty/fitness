@@ -1,12 +1,11 @@
 
 
-import '../../../data/model/day_exercise_model.dart';
+
+import '../../../../onboarding/data/model/day_exercise_model.dart';
 
 sealed class WorkoutState {}
 
 final class WorkoutInitial extends WorkoutState {}
-
-final class WorkoutLoading extends WorkoutState {}
 
 final class WorkoutSuccess extends WorkoutState {
   final DayExerciseModel dayExercises;
