@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:fitness/feature/home/data/model/day_exercise_model.dart';
 import 'package:fitness/feature/main_screen/ui/main_screen.dart';
+import 'package:fitness/feature/onboarding/data/model/day_exercise_model.dart';
 import 'package:fitness/feature/onboarding/data/model/onboarding_goal_model.dart';
 import 'package:fitness/feature/onboarding/ui/page/onboarding_screen.dart';
 import 'package:flutter/material.dart';
@@ -37,11 +37,6 @@ void main() {
 
   ];
 
-  final tDayExercise = DayExerciseModel(
-    category: {'en': 'Chest', 'ar': 'صدر'},
-    exerciseRefs: [],
-  );
-
   group('Integration Test - Onboarding Flow', () {
     testWidgets('select goal', (WidgetTester tester) async {
       OnboardingRobot authRobot = OnboardingRobot(tester: tester);
@@ -77,18 +72,24 @@ void main() {
       when(() => onboardingMockRepo.getOnboardingGoals())
           .thenAnswer((_) async => Right(tGoals));
 
-      when(() => workoutMockRepo.getExercisesForDay(any(), any(), any()))
-          .thenAnswer((_) async => Right(tDayExercise));
+      when(() => onboardingMockRepo.getAllDaysExercises(any(), any()))
+          .thenAnswer((_) async => Right({
+        'day1': DayExerciseModel(categoryEn: 'Chest', categoryAr: 'صدر', exerciseRefs: []),
+        'day2': DayExerciseModel(categoryEn: 'Back', categoryAr: 'ظهر', exerciseRefs: []),
+        'day3': DayExerciseModel(categoryEn: 'Legs', categoryAr: 'أرجل', exerciseRefs: []),
+      }));
+
 
       await authRobot.runApp(widgetScreen: const OnboardingScreen());
       await tester.pumpAndSettle();
+
       await authRobot.tapItem(key: const Key('goalItem_1'));
-      await authRobot.tapItem(key: const Key('dayItem_3'),);
+      await authRobot.tapItem(key: const Key('dayItem_3'));
       await tester.pump();
+
       await authRobot.sendButton(key: const Key('continueButton'));
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(const Duration(seconds: 3));
 
       expect(find.byType(MainScreen), findsOneWidget);
-    });
-  });
+    });  });
 }

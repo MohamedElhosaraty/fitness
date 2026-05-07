@@ -1,5 +1,5 @@
 import 'package:fitness/core/errors/failures.dart';
-import 'package:fitness/feature/home/data/model/exercise_model.dart';
+import 'package:fitness/feature/onboarding/data/model/exercise_model.dart';
 
 const String tGoal     = 'buildMuscle';
 const int    tDays     = 2;

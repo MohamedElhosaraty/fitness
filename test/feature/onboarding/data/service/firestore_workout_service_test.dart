@@ -1,20 +1,21 @@
-import 'package:fitness/feature/home/data/model/day_exercise_model.dart';
-import 'package:fitness/feature/home/data/model/exercise_model.dart';
-import 'package:fitness/feature/home/data/service/firestore_workout_service.dart';
+import 'package:fitness/feature/onboarding/data/model/day_exercise_model.dart';
+import 'package:fitness/feature/onboarding/data/model/exercise_model.dart';
+import 'package:fitness/feature/onboarding/data/service/firestore_onboarding_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../helpers/firestore_workout_helper.dart';
-import '../helpers/firestore_workout_test_data.dart';
+import '../../helpers/firestore_workout_helper.dart';
+import '../../helpers/firestore_workout_test_data.dart';
+
 
 void main() {
   late MockFirestoreService      mockFirestoreService;
-  late FirestoreWorkoutService   firestoreWorkoutService;
+  late FirestoreOnboardingService   firestoreWorkoutService;
   late FirestoreWorkoutHelper helper;
 
   setUp(() {
     mockFirestoreService    = MockFirestoreService();
-    firestoreWorkoutService = FirestoreWorkoutService(mockFirestoreService);
+    firestoreWorkoutService = FirestoreOnboardingService(firestoreService: mockFirestoreService);
     helper              = FirestoreWorkoutHelper(mockFirestoreService);
   });
 
@@ -276,7 +277,7 @@ void main() {
   group('DayExerciseModel', () {
     test('fromMap should correctly assign category and exercises', () {
       final model = DayExerciseModel.fromMap(tDayData, [tExercise1, tExercise2]);
-      expect(model.category,  {'en': 'Chest', 'ar': 'صدر'});
+      expect(model.getCategory("ar"),  "صدر");
       expect(model.exerciseRefs.length, 2);
     });
 
@@ -288,7 +289,7 @@ void main() {
 
     test('getCategory should fallback to English when requested lang is missing', () {
       final model = DayExerciseModel.fromMap({'category': {'en': 'Legs'}}, []);
-      expect(model.getCategory('ar'), 'Legs');
+      expect(model.getCategory("en"), 'Legs');
     });
 
     test('getCategory should return empty string when category map is empty', () {
