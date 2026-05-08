@@ -22,7 +22,7 @@ class OnboardingScreenBody extends StatelessWidget {
     return SafeArea(
         child: ListView(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 20, ),
           children: [
             const CustomOnboardingTopBar(),
             40.verticalSpace,
@@ -56,6 +56,7 @@ class OnboardingScreenBody extends StatelessWidget {
             ),
             28.verticalSpace,
             const CustomOnboardingBottom(),
+            15.verticalSpace,
           ],
         ),
       );
