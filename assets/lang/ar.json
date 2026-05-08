@@ -31,5 +31,9 @@
   "exercises": "التمارين",
   "pleaseSelectYourGoalAndAvailableDays": "يرجى اختيار هدفك واختيار عدد الايام المتاحة",
   "REPS": "تكرارات",
-  "finishExercise": "إنهاء التمرين"
+  "finishExercise": "إنهاء التمرين",
+  "userName": "اسم المستخدم",
+  "enterUserName": "ادخل اسم المستخدم الخاص بك",
+  "pleaseEnterName": "يرجى ادخال الاسم",
+  "save": "حفظ"
 }

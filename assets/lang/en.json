@@ -31,5 +31,9 @@
   "exercises": "Exercises",
   "pleaseSelectYourGoalAndAvailableDays": "Please select your goal and available days",
   "REPS": "REPS",
-  "finishExercise": "FINISH EXERCISE"
+  "finishExercise": "FINISH EXERCISE",
+  "userName" : "User Name",
+  "enterUserName" : "Enter User Name...",
+  "pleaseEnterName" : "Please enter a name",
+  "save" : "Save"
 }

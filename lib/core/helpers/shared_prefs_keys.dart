@@ -3,5 +3,6 @@ class SharedPrefsKeys {
   static const String numberDays = "selectedDays";
   static const String selectedGoal = "selectedGoal";
   static const String completedDays = "completedDays";
+  static const String name = "name";
 
 }

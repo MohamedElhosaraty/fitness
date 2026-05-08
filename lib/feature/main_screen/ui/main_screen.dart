@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/widgets/bottom_nav_bar.dart';
 import '../../learn/ui/page/learn_screen.dart';
+import 'widget/custom_show_bottom_sheet.dart';
 import '../../profile/ui/page/profile_view.dart';
 
 class MainScreen extends StatefulWidget {
@@ -21,6 +22,30 @@ class _MainScreenState extends State<MainScreen> {
     LearnScreen(),
     ProfileView(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showBottomSheetIfNeeded();
+    });
+  }
+
+  Future<void> _showBottomSheetIfNeeded() async {
+    // final name = SharedPrefHelper.getString(SharedPrefsKeys.name);
+
+   // if (name.isEmpty) {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        isDismissible: false,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        builder: (_) => CustomShowBottomSheet(),
+      );
+   // }
+  }
 
   void _onTabTapped(int index) {
     setState(() {

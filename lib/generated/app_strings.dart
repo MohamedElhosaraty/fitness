@@ -32,4 +32,8 @@ class AppStrings {
   static const String pleaseSelectYourGoalAndAvailableDays = 'pleaseSelectYourGoalAndAvailableDays';
   static const String reps = 'REPS';
   static const String finishExercise = 'finishExercise';
+  static const String userName = 'userName';
+  static const String enterUserName = 'enterUserName';
+  static const String pleaseEnterName = 'pleaseEnterName';
+  static const String save = 'save';
 }
