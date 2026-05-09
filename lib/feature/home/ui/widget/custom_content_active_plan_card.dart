@@ -1,3 +1,4 @@
+import 'package:fitness/feature/onboarding/data/model/day_exercise_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -7,7 +8,6 @@ import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../generated/app_strings.dart';
-import '../../data/model/day_exercise_model.dart';
 
 class CustomContentActivePlanCard extends StatelessWidget {
   const CustomContentActivePlanCard({super.key, required this.dayExerciseModel});

@@ -1,5 +1,5 @@
 import 'package:fitness/core/localization/localization_methods.dart';
-import 'package:fitness/feature/home/ui/widget/custom_content_bloc_builder_active_plan.dart';
+import 'package:fitness/feature/home/ui/widget/custom_content_active_bloc_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -70,7 +70,7 @@ class CustomActivePlanCard extends StatelessWidget {
                   ],
                 ),
                 16.verticalSpace,
-                const CustomContentBlocBuilderActivePlan(),
+                const CustomContentActiveBlocBuilder(),
               ],
             ),
           ),

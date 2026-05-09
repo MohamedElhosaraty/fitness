@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/constants/exercise_icons.dart';
 import '../../../../core/helpers/extensions.dart';
-import '../../data/model/day_exercise_model.dart';
+import '../../../onboarding/data/model/day_exercise_model.dart';
 import 'custom_exercise_card.dart';
 
 class CustomExerciseListSection extends StatelessWidget {
