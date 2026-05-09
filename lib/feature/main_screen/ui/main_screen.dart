@@ -2,6 +2,8 @@ import 'package:fitness/core/theming/app_colors.dart';
 import 'package:fitness/feature/home/ui/page/home_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/helpers/shared_pref_helper.dart';
+import '../../../core/helpers/shared_prefs_keys.dart';
 import '../../../core/widgets/bottom_nav_bar.dart';
 import '../../learn/ui/page/learn_screen.dart';
 import 'widget/custom_show_bottom_sheet.dart';
@@ -32,9 +34,9 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Future<void> _showBottomSheetIfNeeded() async {
-    // final name = SharedPrefHelper.getString(SharedPrefsKeys.name);
+    final name = SharedPrefHelper.getString(SharedPrefsKeys.name);
 
-   // if (name.isEmpty) {
+    if (name.isEmpty) {
       showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -44,7 +46,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
         builder: (_) => CustomShowBottomSheet(),
       );
-   // }
+    }
   }
 
   void _onTabTapped(int index) {

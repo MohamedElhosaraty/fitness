@@ -1,16 +1,15 @@
-
 import 'dart:async';
 
 import 'package:fitness/core/helpers/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import '../../core/helpers/hive_helper.dart';
 import '../../core/localization/localization_methods.dart';
 import '../../core/routing/routes.dart';
 import '../../core/theming/app_colors.dart';
 import '../../core/theming/app_text_styles.dart';
 import '../../generated/app_strings.dart';
 import '../../generated/assets.dart';
-
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,22 +19,18 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () {
-      context.pushReplacementNamed(Routes.onboardingScreen);
+      final allDays = HiveHelper.getAllDays();
 
-      // final selectedDays = SharedPrefHelper.getInt(SharedPrefsKeys.selectedDays);
-      // final selectedGoal = SharedPrefHelper.getString(SharedPrefsKeys.selectedGoal);
-      // if (selectedDays == 0 || selectedGoal.isEmpty) {
-      //   context.pushReplacementNamed(Routes.onboardingScreen);
-      // }else{
-      //   context.pushReplacementNamed(Routes.mainScreen);
-      // }
-    },
-    );
+      if (allDays.isEmpty) {
+        context.pushReplacementNamed(Routes.onboardingScreen);
+      } else {
+        context.pushReplacementNamed(Routes.mainScreen);
+      }
+    });
   }
 
   @override
@@ -45,34 +40,32 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(
-            child: SvgPicture.asset(
-              Assets.svgsLogo,
+          Center(child: SvgPicture.asset(Assets.svgsLogo)),
+          Text(
+            tr(context, AppStrings.fitFlow),
+            style: AppTextStyles.font48Bold(context).copyWith(
+              color: AppColors.background,
+              shadows: [
+                Shadow(
+                  color: Colors.black.withValues(alpha: 0.4),
+                  offset: Offset(0, 4),
+                  blurRadius: 8,
+                ),
+              ],
             ),
           ),
           Text(
-            tr(context, AppStrings.fitFlow),style: AppTextStyles.font48Bold(context).copyWith(
-              color: AppColors.background,
-            shadows: [
-              Shadow(
-                color: Colors.black.withValues(alpha: 0.4),
-                offset: Offset(0, 4),
-                blurRadius: 8,
-              ),
-            ],
-          )
-          ),
-          Text(
-            tr(context, AppStrings.elevateYourMovement),style: AppTextStyles.font19Bold(context).copyWith(
+            tr(context, AppStrings.elevateYourMovement),
+            style: AppTextStyles.font19Bold(context).copyWith(
               color: AppColors.lightGrey,
-            shadows: [
-              Shadow(
-                color: Colors.black.withValues(alpha: 0.4),
-                offset: Offset(0, 4),
-                blurRadius: 8,
-              ),
-            ],
-          )
+              shadows: [
+                Shadow(
+                  color: Colors.black.withValues(alpha: 0.4),
+                  offset: Offset(0, 4),
+                  blurRadius: 8,
+                ),
+              ],
+            ),
           ),
         ],
       ),

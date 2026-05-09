@@ -8,7 +8,9 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     this.textController,
+    this.hintText,
     this.labelText,
+    this.textInputAction,
     this.style,
     this.onSaved,
     this.validator,
@@ -21,7 +23,9 @@ class CustomTextField extends StatelessWidget {
   });
 
   final TextEditingController? textController;
+  final String? hintText;
   final String? labelText;
+  final TextInputAction? textInputAction;
   final TextStyle? style;
   final bool? isObscure;
   final int? maxLines;
@@ -42,12 +46,16 @@ class CustomTextField extends StatelessWidget {
       obscureText: isObscure ?? false,
       controller: textController,
       style: style,
+      autofocus: true,
+      textInputAction: textInputAction,
       minLines: 1,
+
       decoration: InputDecoration(
         counterText: '',
         fillColor: AppColors.background,
         filled: true,
-        hintText: labelText,
+        labelText: labelText,
+        hintText: hintText,
         hintStyle: AppTextStyles.font16Bold(
           context,
         ).copyWith(color: AppColors.moreGrey),

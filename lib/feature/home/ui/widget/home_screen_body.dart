@@ -1,15 +1,14 @@
 import 'package:fitness/core/localization/localization_methods.dart';
 import 'package:fitness/feature/home/ui/widget/custom_active_plan_card.dart';
-import 'package:fitness/feature/home/ui/widget/custom_bottom_to_finish_exercise_day.dart';
-import 'package:fitness/feature/home/ui/widget/custom_home_info.dart';
+import 'package:fitness/feature/home/ui/widget/custom_exercise_list_section_bloc_builder.dart';
 import 'package:fitness/feature/home/ui/widget/custom_number_day.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
 import '../../../../generated/app_strings.dart';
-import 'custom_exercise_bloc_builder.dart';
+import 'custom_bottom_to_finish_exercise_day.dart';
+import 'custom_home_info.dart';
 import 'custom_home_top_bar.dart';
 
 class HomeScreenBody extends StatelessWidget {
@@ -35,7 +34,7 @@ class HomeScreenBody extends StatelessWidget {
             ),
           ),
           16.verticalSpace,
-          const CustomExerciseBlocBuilder(),
+          const CustomExerciseListSectionBlocBuilder(),
           12.verticalSpace,
           const CustomHomeInfo(),
           12.verticalSpace,
