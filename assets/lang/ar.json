@@ -35,5 +35,17 @@
   "userName": "اسم المستخدم",
   "enterUserName": "ادخل اسم المستخدم الخاص بك",
   "pleaseEnterName": "يرجى ادخال الاسم",
-  "save": "حفظ"
+  "save": "حفظ",
+  "workoutSessions": "جلسات العمل",
+  "finish": "إنهاء",
+  "dumbbellGobletSquat": "سقوط الدمبل",
+  "keepShouldersBackThroughoutMovement": "ابقِ صدرك مرتفعًا وكتفيك إلى الوراء طوال الحركة.",
+  "driveThroughHeels": "ادفع عبر الكعبين للوقوف، مع شد عضلات الأرداف في الأعلى.",
+  "elbowsShouldTrackInsideYourKnees": "يجب أن تتبع مرفقاك خط الركبتين من الداخل عند أسفل القرفصاء.",
+  "formCues": "ملاحظات النمط",
+  "set": "مجموعة",
+  "weight": "وزن",
+  "reps": "تكرارات",
+  "done": "تم",
+  "addSet": "اضافة مجموعة"
 }

@@ -35,5 +35,17 @@
   "userName" : "User Name",
   "enterUserName" : "Enter User Name...",
   "pleaseEnterName" : "Please enter a name",
-  "save" : "Save"
+  "save" : "Save",
+  "workoutSession" : "Workout Session",
+  "finish" : "Finish",
+  "dumbbellGobletSquat" : "Dumbbell Goblet Squat",
+  "keepShouldersBackThroughoutMovement": "Keep chest up and shoulders back throughout the movement.",
+  "driveThroughHeels": "Drive through heels to stand up, engaging glutes at the top.",
+  "elbowsShouldTrackInsideYourKnees": "Elbows should track inside your knees at the bottom of the squat.",
+  "formCues": "FORM CUES",
+  "set": "SET",
+  "weight": "WEIGHT",
+  "reps": "REPS",
+  "done": "DONE",
+  "addSet": "Add Set"
 }

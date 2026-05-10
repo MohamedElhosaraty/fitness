@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/helpers/extensions.dart';
 import '../../../../core/localization/localization_methods.dart';
+import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
 import '../../../../core/widgets/custom_button.dart';
@@ -59,7 +60,9 @@ class CustomContentActivePlanCard extends StatelessWidget {
         CustomButton(
           yPadding: 20.h,
           borderRadius: 35.r,
-          onPressed: () {},
+          onPressed: () {
+            context.pushNamed(Routes.activeExerciseScreen);
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

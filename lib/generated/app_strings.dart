@@ -36,4 +36,15 @@ class AppStrings {
   static const String enterUserName = 'enterUserName';
   static const String pleaseEnterName = 'pleaseEnterName';
   static const String save = 'save';
+  static const String workoutSession = 'workoutSession';
+  static const String finish = 'finish';
+  static const String dumbbellGobletSquat = 'dumbbellGobletSquat';
+  static const String keepShouldersBackThroughoutMovement = 'keepShouldersBackThroughoutMovement';
+  static const String driveThroughHeels = 'driveThroughHeels';
+  static const String elbowsShouldTrackInsideYourKnees = 'elbowsShouldTrackInsideYourKnees';
+  static const String formCues = 'formCues';
+  static const String set = 'set';
+  static const String weight = 'weight';
+  static const String done = 'done';
+  static const String addSet = 'addSet';
 }
