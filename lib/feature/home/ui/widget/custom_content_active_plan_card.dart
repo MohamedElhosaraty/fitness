@@ -61,7 +61,7 @@ class CustomContentActivePlanCard extends StatelessWidget {
           yPadding: 20.h,
           borderRadius: 35.r,
           onPressed: () {
-            context.pushNamed(Routes.activeExerciseScreen);
+            context.pushNamed(Routes.activeExerciseScreen, arguments: dayExerciseModel.exerciseRefs);
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

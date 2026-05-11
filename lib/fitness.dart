@@ -8,6 +8,7 @@ import 'core/localization/cubit/localization_cubit.dart';
 import 'core/localization/set_localization.dart';
 import 'core/routing/app_router.dart';
 import 'core/routing/routes.dart';
+import 'feature/home/ui/cubit/workout_cubit/workout_cubit.dart';
 
 class Fitness extends StatelessWidget {
   const Fitness({super.key});
@@ -19,8 +20,15 @@ class Fitness extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) =>
-          BlocProvider(
-            create: (context) => getIt<LocalizationCubit>(),
+          MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => getIt<LocalizationCubit>(),
+              ),
+              BlocProvider(
+                create: (context) => getIt<WorkoutCubit>()..loadCurrentDay(),
+              ),
+            ],
             child: BlocBuilder<LocalizationCubit, LocalizationState>(
               builder: (context, state) {
                 final locale = (state as ChangeLanguageSuccess).language;

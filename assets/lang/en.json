@@ -47,5 +47,6 @@
   "weight": "WEIGHT",
   "reps": "REPS",
   "done": "DONE",
-  "addSet": "Add Set"
+  "addSet": "Add Set",
+  "nextExercise": "Next Exercise"
 }

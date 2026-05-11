@@ -1,4 +1,5 @@
 import 'package:fitness/core/routing/routes.dart';
+import 'package:fitness/feature/onboarding/data/model/exercise_model.dart';
 import 'package:flutter/material.dart';
 import '../../feature/home/ui/page/active_exercise_screen.dart';
 import '../../feature/main_screen/ui/main_screen.dart';
@@ -18,7 +19,12 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const MainScreen());
 
       case Routes.activeExerciseScreen:
-        return MaterialPageRoute(builder: (_) => const ActiveExerciseScreen());
+        return MaterialPageRoute(
+          builder:
+              (_) => ActiveExerciseScreen(
+                dayExerciseModel: settings.arguments as List<ExerciseModel>,
+              ),
+        );
     }
     return null;
   }

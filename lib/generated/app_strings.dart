@@ -47,4 +47,5 @@ class AppStrings {
   static const String weight = 'weight';
   static const String done = 'done';
   static const String addSet = 'addSet';
+  static const String nextExercise = 'nextExercise';
 }
