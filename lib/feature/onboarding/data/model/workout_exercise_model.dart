@@ -36,8 +36,8 @@ class WorkoutExerciseModel extends HiveObject {
   });
 
   factory WorkoutExerciseModel.fromMerged({
-    required Map<String, dynamic> planExercise,      // ← الاسم ده
-    required Map<String, dynamic> exerciseData,       // ← والاسم ده
+    required Map<String, dynamic> planExercise,
+    required Map<String, dynamic> exerciseData,
   }) {
     final title = Map<String, dynamic>.from(exerciseData['title'] ?? {});
     final formCues = Map<String, dynamic>.from(exerciseData['form_cues'] ?? {});

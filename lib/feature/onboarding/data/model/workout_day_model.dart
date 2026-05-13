@@ -24,8 +24,7 @@ class WorkoutDayModel extends HiveObject {
     required this.workoutExercises,
   });
 
-  // fromMap ده بس للـ structure بدون تفاصيل التمارين
-  // التفاصيل بتتجيب من getDayExercises عن طريق fromMerged
+
   factory WorkoutDayModel.fromMap(Map<String, dynamic> map) {
     final title = Map<String, dynamic>.from(map['workout_title'] ?? {});
 
@@ -33,11 +32,10 @@ class WorkoutDayModel extends HiveObject {
       dayNumber: map['day_number'] ?? 0,
       workoutTitleEn: title['en'] ?? '',
       workoutTitleAr: title['ar'] ?? '',
-      workoutExercises: const [], // بتتملى بعدين في الـ repository
+      workoutExercises: const [],
     );
   }
 
-  // Factory لما بيكون عندنا التمارين كاملة
   factory WorkoutDayModel.withExercises({
     required Map<String, dynamic> map,
     required List<WorkoutExerciseModel> exercises,

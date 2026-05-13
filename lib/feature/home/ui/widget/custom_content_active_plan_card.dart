@@ -1,4 +1,3 @@
-import 'package:fitness/feature/onboarding/data/model/day_exercise_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,11 +8,12 @@ import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../generated/app_strings.dart';
+import '../../../onboarding/data/model/workout_day_model.dart';
 
 class CustomContentActivePlanCard extends StatelessWidget {
   const CustomContentActivePlanCard({super.key, required this.dayExerciseModel});
 
-  final DayExerciseModel dayExerciseModel;
+  final WorkoutDayModel dayExerciseModel;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class CustomContentActivePlanCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          dayExerciseModel.getCategory(context.currentLang),
+          dayExerciseModel.getTitle(context.currentLang),
           style: AppTextStyles.font26Bold(
             context,
           ).copyWith(color: AppColors.black),
@@ -49,7 +49,7 @@ class CustomContentActivePlanCard extends StatelessWidget {
             ),
             5.horizontalSpace,
             Text(
-              '${dayExerciseModel.exerciseRefs.length} ${tr(context, AppStrings.exercises)}',
+              '${dayExerciseModel.workoutExercises.length} ${tr(context, AppStrings.exercises)}',
               style: AppTextStyles.font14Regular(
                 context,
               ).copyWith(color: AppColors.moreGrey),
@@ -61,7 +61,7 @@ class CustomContentActivePlanCard extends StatelessWidget {
           yPadding: 20.h,
           borderRadius: 35.r,
           onPressed: () {
-            context.pushNamed(Routes.activeExerciseScreen, arguments: dayExerciseModel.exerciseRefs);
+            context.pushNamed(Routes.activeExerciseScreen, arguments: dayExerciseModel.workoutExercises);
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -7,15 +7,13 @@ import '../../../../core/theming/app_text_styles.dart';
 
 class CustomExerciseCard extends StatelessWidget {
   final String name;
-  final String muscle;
-  final String repsDisplay;
+  final String setAndReps;
   final IconData icon;
 
   const CustomExerciseCard({
     super.key,
     required this.name,
-    required this.muscle,
-    required this.repsDisplay,
+    required this.setAndReps,
     required this.icon,
   });
 
@@ -48,30 +46,18 @@ class CustomExerciseCard extends StatelessWidget {
           ),
           14.horizontalSpace,
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: AppTextStyles.font14Medium(
-                    context,
-                  ).copyWith(color: AppColors.black),
-                ),
-                3.verticalSpace,
-                Text(
-                  muscle,
-                  style: AppTextStyles.font12Medium(
-                    context,
-                  ).copyWith(color: AppColors.grey),
-                ),
-              ],
+            child: Text(
+              name,
+              style: AppTextStyles.font14Medium(
+                context,
+              ).copyWith(color: AppColors.black),
             ),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                repsDisplay,
+                setAndReps,
                 textDirection: TextDirection.ltr,
                 style: AppTextStyles.font13Bold(
                   context,
