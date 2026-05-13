@@ -8,7 +8,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
   WorkoutCubit() : super(WorkoutInitial());
 
   void loadCurrentDay() {
-    final day = HiveHelper.getDay('day${UserPreferences.completedDays}');
+    final day = HiveHelper.getDay(UserPreferences.currentPlanId,UserPreferences.completedDays);
 
     if (day == null) {
       emit(WorkoutError('No workout found'));
@@ -28,7 +28,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
 
     UserPreferences.setCompletedDays = nextDay;
 
-    final day = HiveHelper.getDay('day$nextDay');
+    final day = HiveHelper.getDay(UserPreferences.currentPlanId,UserPreferences.completedDays);
 
     if (day == null) {
       emit(WorkoutError('No workout found'));

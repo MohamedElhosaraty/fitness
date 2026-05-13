@@ -48,4 +48,6 @@ class AppStrings {
   static const String done = 'done';
   static const String addSet = 'addSet';
   static const String nextExercise = 'nextExercise';
+  static const String breakTimeOverStartNextSet = 'breakTimeOverStartNextSet';
+  static const String finishRestTime = 'finishRestTime';
 }

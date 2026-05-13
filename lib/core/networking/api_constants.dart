@@ -5,4 +5,5 @@ class Constants {
   static const String users = "users";
   static const String schedule = "schedule";
   static const String workoutBox = 'workoutBox';
+  static const String planBox = 'planBox';
 }

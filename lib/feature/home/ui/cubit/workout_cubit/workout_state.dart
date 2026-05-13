@@ -1,14 +1,16 @@
 
 
 
-import '../../../../onboarding/data/model/day_exercise_model.dart';
+
+import '../../../../onboarding/data/model/workout_day_model.dart';
+
 
 sealed class WorkoutState {}
 
 final class WorkoutInitial extends WorkoutState {}
 
 final class WorkoutSuccess extends WorkoutState {
-  final DayExerciseModel dayExercises;
+  final WorkoutDayModel dayExercises;
   final int completedDays;
 
   WorkoutSuccess({required this.dayExercises, required this.completedDays});
