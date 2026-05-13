@@ -1,5 +1,5 @@
-import 'package:fitness/feature/onboarding/data/model/day_exercise_model.dart';
-import 'package:fitness/feature/onboarding/data/model/exercise_model.dart';
+import 'package:fitness/feature/onboarding/data/model/plan_model.dart';
+import 'package:fitness/feature/onboarding/data/model/workout_exercise_model.dart';
 import 'package:fitness/feature/onboarding/data/service/firestore_onboarding_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -7,299 +7,217 @@ import 'package:mocktail/mocktail.dart';
 import '../../helpers/firestore_workout_helper.dart';
 import '../../helpers/firestore_workout_test_data.dart';
 
-
 void main() {
-  late MockFirestoreService      mockFirestoreService;
-  late FirestoreOnboardingService   firestoreWorkoutService;
-  late FirestoreWorkoutHelper helper;
+  late MockFirestoreService       mockFirestoreService;
+  late FirestoreOnboardingService firestoreOnboardingService;
+  late FirestoreWorkoutHelper     helper;
 
   setUp(() {
-    mockFirestoreService    = MockFirestoreService();
-    firestoreWorkoutService = FirestoreOnboardingService(firestoreService: mockFirestoreService);
-    helper              = FirestoreWorkoutHelper(mockFirestoreService);
+    mockFirestoreService       = MockFirestoreService();
+    firestoreOnboardingService = FirestoreOnboardingService(firestoreService: mockFirestoreService);
+    helper                     = FirestoreWorkoutHelper(mockFirestoreService);
   });
 
-  group('getDayExercises – success scenarios', () {
-    test(
-      'should return Right(DayExerciseModel) when day and all exercises are fetched successfully',
-          () async {
-        helper.stubDaySuccess();
-        helper.stubExercisesSuccess();
+  group('getPlanWithExercises – success scenarios', () {
 
-        final result = await firestoreWorkoutService.getDayExercises(tGoal, tDays, tIndexDay);
+    test('should return Right(PlanModel) with all days and exercises', () async {
+      helper.stubPlanSuccess();
+      helper.stubExercisesSuccess();
 
-        expect(result.isRight(), isTrue);
+      final result = await firestoreOnboardingService.getPlanWithExercises(planId: tPlanId);
 
-        result.fold(
-              (_) => fail('No Documents'),
-              (model) {
-            expect(model, isA<DayExerciseModel>());
-
-            expect(model.exerciseRefs.length, 2);
-            expect(model.exerciseRefs[0].id, tExercise1.id);
-            expect(model.exerciseRefs[1].id, tExercise2.id);
-            expect(model.getCategory('en'), 'Chest');
-            expect(model.getCategory('ar'), 'صدر');
-          },
-        );
-      },
-    );
-
-    test(
-      'should call once getData with correct planId and dayId',
-          () async {
-        helper.stubDaySuccess();
-        helper.stubExercisesSuccess();
-
-        await firestoreWorkoutService.getDayExercises(tGoal, tDays, tIndexDay);
-
-        verify(
-              () => mockFirestoreService.getData(
-            path      : 'workoutPlans/$tPlanId/schedule',
-            documentId: tDayId,
-          ),
-        ).called(1);
-      },
-    );
-
-    test(
-      'should call getData for each exerciseRef exactly once',
-          () async {
-        helper.stubDaySuccess();
-        helper.stubExercisesSuccess();
-
-        await firestoreWorkoutService.getDayExercises(tGoal, tDays, tIndexDay);
-
-        verify(
-              () => mockFirestoreService.getData(
-            path      : 'allExercises',
-            documentId: 'push_up',
-          ),
-        ).called(1);
-
-        verify(
-              () => mockFirestoreService.getData(
-            path      : 'allExercises',
-            documentId: 'bench_press',
-          ),
-        ).called(1);
-      },
-    );
-
-    test(
-      'should map exercise data correctly to ExerciseModel fields',
-          () async {
-        helper.stubDaySuccess();
-        helper.stubExercisesSuccess();
-
-        final result = await firestoreWorkoutService.getDayExercises(tGoal, tDays, tIndexDay);
-        final model  = result.getOrElse(() => throw Exception());
-
-        final ex1 = model.exerciseRefs[0];
-        expect(ex1.titleEn,    'Push Up');
-        expect(ex1.titleAr,    'ضغط');
-        expect(ex1.subtitleEn, 'Chest focus');
-        expect(ex1.subtitleAr, 'تركيز صدر');
-        expect(ex1.sets,       '3');
-        expect(ex1.repsMin,    '10');
-        expect(ex1.repsMax,    '15');
-        expect(ex1.repsDisplay, '3 x 10-15');
-
-        final ex2 = model.exerciseRefs[1];
-        expect(ex2.titleEn,    'Bench Press');
-        expect(ex2.sets,       '4');
-        expect(ex2.repsDisplay, '4 x 8-12');
-      },
-    );
-  });
-
-  group('getDayExercises – failure scenarios', () {
-    test(
-      'should return Left(ServerFailure) when day document fetch fails',
-          () async {
-        helper.stubDayFailure(tServerFailure);
-
-        final result = await firestoreWorkoutService.getDayExercises(tGoal, tDays, tIndexDay);
-
-        expect(result.isLeft(), isTrue);
-        result.fold(
-              (failure) => expect(failure, tServerFailure),
-              (_)       => fail('No Failure'),
-        );
-
-        verifyNever(
-              () => mockFirestoreService.getData(
-            path      : 'allExercises',
-            documentId: any(named: 'documentId'),
-          ),
-        );
-      },
-    );
-
-    test(
-      'should skip failed exercises and return only the successful ones',
-          () async {
-        helper.stubDaySuccess();
-        helper.stubExercise1Failure(tServerFailure);
-
-        final result = await firestoreWorkoutService.getDayExercises(tGoal, tDays, tIndexDay);
-
-        expect(result.isRight(), isTrue);
-        final model = result.getOrElse(() => throw Exception());
-        expect(model.exerciseRefs.length, 1);
-        expect(model.exerciseRefs[0].id, 'bench_press');
-      },
-    );
-
-    test(
-      'should return Right with empty exerciseRefs when all exercise fetches fail',
-          () async {
-        helper.stubDaySuccess();
-        helper.stubAllExercisesFailure(tServerFailure);
-
-        final result = await firestoreWorkoutService.getDayExercises(tGoal, tDays, tIndexDay);
-
-        expect(result.isRight(), isTrue);
-        final model = result.getOrElse(() => throw Exception());
-        expect(model.exerciseRefs, isEmpty);
-      },
-    );
-  });
-
-  group('getDayExercises ', () {
-    test(
-      'should handle empty exerciseRefs list without calling allExercises',
-          () async {
-        helper.stubDaySuccessWithCustomData(tDayDataEmptyRefs);
-
-        final result = await firestoreWorkoutService.getDayExercises(tGoal, tDays, tIndexDay);
-
-        expect(result.isRight(), isTrue);
-        expect(result.getOrElse(() => throw Exception()).exerciseRefs, isEmpty);
-
-        verifyNever(
-              () => mockFirestoreService.getData(
-            path      : 'allExercises',
-            documentId: any(named: 'documentId'),
-          ),
-        );
-      },
-    );
-
-    test(
-      'should handle missing exerciseRefs key in day data',
-          () async {
-        helper.stubDaySuccessWithCustomData(tDayDataNoRefsKey);
-
-        final result = await firestoreWorkoutService.getDayExercises(tGoal, tDays, tIndexDay);
-
-        expect(result.isRight(), isTrue);
-        expect(result.getOrElse(() => throw Exception()).exerciseRefs, isEmpty);
-      },
-    );
-
-    test(
-      'should handle missing category key in day data',
-          () async {
-        helper.stubDaySuccessWithCustomData(tDayDataNoCategoryKey);
-
-        final result = await firestoreWorkoutService.getDayExercises(tGoal, tDays, tIndexDay);
-
-        final model = result.getOrElse(() => throw Exception());
-        expect(model.getCategory('en'), '');
-        expect(model.getCategory('ar'), '');
-      },
-    );
-
-    test(
-      'should build correct planId and dayId for different parameter combinations',
-          () async {
-        helper.stubDaySuccessForCustomPlan(
-          goal    : 'getStrong',
-          days    : 3,
-          indexDay: 2,
-          data    : {'category': {'en': 'Back'}, 'exerciseRefs': <String>[]},
-        );
-
-        final result = await firestoreWorkoutService.getDayExercises('getStrong', 3, 2);
-
-        expect(result.isRight(), isTrue);
-        verify(
-              () => mockFirestoreService.getData(
-            path      : 'workoutPlans/getStrong3Days/schedule',
-            documentId: 'day2',
-          ),
-        ).called(1);
-      },
-    );
-  });
-
-  group('ExerciseModel', () {
-    test('fromMap should correctly parse all fields', () {
-      final model = ExerciseModel.fromMap(tExerciseData1);
-      expect(model.id,         'push_up');
-      expect(model.titleEn,    'Push Up');
-      expect(model.titleAr,    'ضغط');
-      expect(model.subtitleEn, 'Chest focus');
-      expect(model.subtitleAr, 'تركيز صدر');
-      expect(model.sets,       '3');
-      expect(model.repsMin,    '10');
-      expect(model.repsMax,    '15');
+      expect(result.isRight(), isTrue);
+      result.fold(
+            (_) => fail('Expected Right but got Left'),
+            (model) {
+          expect(model, isA<PlanModel>());
+          expect(model.planId,           'buildMuscle_2day');
+          expect(model.goalId,           'buildMuscle');
+          expect(model.availabilityDays, 2);
+          expect(model.workoutDays.length, 2);
+        },
+      );
     });
 
-    test('fromMap should use default values when fields are missing', () {
-      final model = ExerciseModel.fromMap({});
-      expect(model.id,      '');
-      expect(model.titleEn, '');
-      expect(model.sets,    '0');
-      expect(model.repsMin, '0');
-      expect(model.repsMax, '0');
+    test('should map workout days correctly', () async {
+      helper.stubPlanSuccess();
+      helper.stubExercisesSuccess();
+
+      final result = await firestoreOnboardingService.getPlanWithExercises(planId: tPlanId);
+      final model  = result.getOrElse(() => throw Exception());
+
+      expect(model.workoutDays[0].dayNumber,      1);
+      expect(model.workoutDays[0].getTitle('en'), 'Chest');
+      expect(model.workoutDays[0].getTitle('ar'), 'صدر');
+
+      expect(model.workoutDays[1].dayNumber,      2);
+      expect(model.workoutDays[1].getTitle('en'), 'Back');
+      expect(model.workoutDays[1].getTitle('ar'), 'ظهر');
     });
 
-    test('getTitle should return Arabic title when lang is "ar"', () {
-      expect(tExercise1.getTitle('ar'), 'ضغط');
+    test('should map exercise details correctly', () async {
+      helper.stubPlanSuccess();
+      helper.stubExercisesSuccess();
+
+      final result = await firestoreOnboardingService.getPlanWithExercises(planId: tPlanId);
+      final model  = result.getOrElse(() => throw Exception());
+
+      final ex1 = model.workoutDays[0].workoutExercises[0];
+      expect(ex1.exerciseId,          'pushUps');
+      expect(ex1.reps,                '10');
+      expect(ex1.sets,                '4');
+      expect(ex1.restSeconds,         90);
+      expect(ex1.getTitle('en'),      'Push Ups');
+      expect(ex1.getTitle('ar'),      'ضغط');
+      expect(ex1.getFormCues('en'),   ['Keep back straight']);
+      expect(ex1.videoUrl, 'https://storage.googleapis.com/fitflow-vids/pushups.mp4');
+
+      final ex2 = model.workoutDays[0].workoutExercises[1];
+      expect(ex2.exerciseId,     'barbellBenchPress');
+      expect(ex2.getTitle('en'), 'Barbell Bench Press');
     });
 
-    test('getTitle should return English title for any non-"ar" lang', () {
-      expect(tExercise1.getTitle('en'), 'Push Up');
-      expect(tExercise1.getTitle('fr'), 'Push Up');
-    });
+    test('should call getData once for plan and once per unique exercise', () async {
+      helper.stubPlanSuccess();
+      helper.stubExercisesSuccess();
 
-    test('getSubtitle should return Arabic subtitle when lang is "ar"', () {
-      expect(tExercise1.getSubtitle('ar'), 'تركيز صدر');
-    });
+      await firestoreOnboardingService.getPlanWithExercises(planId: tPlanId);
 
-    test('repsDisplay should format as "sets x repsMin-repsMax"', () {
-      expect(tExercise1.repsDisplay, '3 x 10-15');
+      verify(() => mockFirestoreService.getData(
+        path: 'plans', documentId: tPlanId,
+      )).called(1);
+
+      verify(() => mockFirestoreService.getData(
+        path: 'exercises', documentId: 'pushUps',
+      )).called(1);
+
+      verify(() => mockFirestoreService.getData(
+        path: 'exercises', documentId: 'barbellBenchPress',
+      )).called(1);
+
+      verify(() => mockFirestoreService.getData(
+        path: 'exercises', documentId: 'barbellRow',
+      )).called(1);
     });
   });
 
-  group('DayExerciseModel', () {
-    test('fromMap should correctly assign category and exercises', () {
-      final model = DayExerciseModel.fromMap(tDayData, [tExercise1, tExercise2]);
-      expect(model.getCategory("ar"),  "صدر");
-      expect(model.exerciseRefs.length, 2);
+  group('getPlanWithExercises – failure scenarios', () {
+
+    test('should return Left(ServerFailure) when plan fetch fails', () async {
+      helper.stubPlanFailure(tServerFailure);
+
+      final result = await firestoreOnboardingService.getPlanWithExercises(planId: tPlanId);
+
+      expect(result.isLeft(), isTrue);
+      result.fold(
+            (failure) => expect(failure, tServerFailure),
+            (_)       => fail('Expected Left but got Right'),
+      );
+
+      verifyNever(() => mockFirestoreService.getData(
+        path      : 'exercises',
+        documentId: any(named: 'documentId'),
+      ));
     });
 
-    test('getCategory should return correct ', () {
-      final model = DayExerciseModel.fromMap(tDayData, []);
-      expect(model.getCategory('en'), 'Chest');
-      expect(model.getCategory('ar'), 'صدر');
+    test('should skip failed exercise and return rest of exercises', () async {
+      helper.stubPlanSuccess();
+      helper.stubExercise1Failure(tServerFailure);
+
+      final result = await firestoreOnboardingService.getPlanWithExercises(planId: tPlanId);
+
+      expect(result.isRight(), isTrue);
+      final model = result.getOrElse(() => throw Exception());
+
+      // pushUps failed → exerciseId موجود بس بدون تفاصيل (fromMerged مع empty map)
+      final ex1 = model.workoutDays[0].workoutExercises[0];
+      expect(ex1.exerciseId,     'pushUps');
+      expect(ex1.getTitle('en'), ''); // مفيش تفاصيل
+
+      // barbellBenchPress نجح
+      final ex2 = model.workoutDays[0].workoutExercises[1];
+      expect(ex2.exerciseId,     'barbellBenchPress');
+      expect(ex2.getTitle('en'), 'Barbell Bench Press');
     });
 
-    test('getCategory should fallback to English when requested lang is missing', () {
-      final model = DayExerciseModel.fromMap({'category': {'en': 'Legs'}}, []);
-      expect(model.getCategory("en"), 'Legs');
+    test('should return Right with exercises having empty details when all exercise fetches fail', () async {
+      helper.stubPlanSuccess();
+      helper.stubAllExercisesFailure(tServerFailure);
+
+      final result = await firestoreOnboardingService.getPlanWithExercises(planId: tPlanId);
+
+      expect(result.isRight(), isTrue);
+      final model = result.getOrElse(() => throw Exception());
+
+      // الـ exercises موجودة بس بدون تفاصيل
+      expect(model.workoutDays[0].workoutExercises.length, 2);
+      expect(model.workoutDays[0].workoutExercises[0].getTitle('en'), '');
+    });
+  });
+
+  group('getPlanWithExercises – edge cases', () {
+
+    test('should return Right with empty workoutDays when plan has no days', () async {
+      helper.stubPlanSuccessWithCustomData(tPlanDataEmptyDays);
+
+      final result = await firestoreOnboardingService.getPlanWithExercises(planId: tPlanId);
+
+      expect(result.isRight(), isTrue);
+      expect(result.getOrElse(() => throw Exception()).workoutDays, isEmpty);
+
+      verifyNever(() => mockFirestoreService.getData(
+        path      : 'exercises',
+        documentId: any(named: 'documentId'),
+      ));
     });
 
-    test('getCategory should return empty string when category map is empty', () {
-      final model = DayExerciseModel.fromMap({}, []);
-      expect(model.getCategory('en'), '');
+    test('should return Right with empty workoutExercises when day has no exercises', () async {
+      helper.stubPlanSuccessWithCustomData(tPlanDataEmptyExercises);
+
+      final result = await firestoreOnboardingService.getPlanWithExercises(planId: tPlanId);
+
+      expect(result.isRight(), isTrue);
+      final model = result.getOrElse(() => throw Exception());
+      expect(model.workoutDays[0].workoutExercises, isEmpty);
+
+      verifyNever(() => mockFirestoreService.getData(
+        path      : 'exercises',
+        documentId: any(named: 'documentId'),
+      ));
+    });
+  });
+
+  group('WorkoutExerciseModel', () {
+
+    test('fromMerged should correctly parse all fields', () {
+      expect(tWorkoutExercise1.exerciseId,     'pushUps');
+      expect(tWorkoutExercise1.reps,           '10');
+      expect(tWorkoutExercise1.sets,           '4');
+      expect(tWorkoutExercise1.restSeconds,    90);
+      expect(tWorkoutExercise1.getTitle('en'), 'Push Ups');
+      expect(tWorkoutExercise1.getTitle('ar'), 'ضغط');
+      expect(tWorkoutExercise1.getFormCues('en'), ['Keep back straight']);
     });
 
-    test('fromMap should assign empty list when no exercises passed', () {
-      final model = DayExerciseModel.fromMap(tDayData, []);
-      expect(model.exerciseRefs, isEmpty);
+    test('fromMerged should use default values when fields are missing', () {
+      final model = WorkoutExerciseModel.fromMerged(
+        planExercise : {},
+        exerciseData : {},
+      );
+      expect(model.exerciseId,  '');
+      expect(model.reps,        '');
+      expect(model.sets,        '');
+      expect(model.restSeconds, 0);
+      expect(model.getTitle('en'), '');
+    });
+
+    test('getTitle should return Arabic when lang is ar', () {
+      expect(tWorkoutExercise1.getTitle('ar'), 'ضغط');
+    });
+
+    test('getTitle should return English for any non-ar lang', () {
+      expect(tWorkoutExercise1.getTitle('en'), 'Push Ups');
+      expect(tWorkoutExercise1.getTitle('fr'), 'Push Ups');
     });
   });
 }

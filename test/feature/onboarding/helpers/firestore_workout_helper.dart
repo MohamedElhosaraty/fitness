@@ -2,98 +2,64 @@ import 'package:dartz/dartz.dart';
 import 'package:fitness/core/errors/failures.dart';
 import 'package:fitness/core/helpers/firestore_service.dart';
 import 'package:mocktail/mocktail.dart';
-
 import 'firestore_workout_test_data.dart';
 
 class MockFirestoreService extends Mock implements FirestoreService {}
 
 class FirestoreWorkoutHelper {
   final MockFirestoreService mock;
-
   const FirestoreWorkoutHelper(this.mock);
 
-
-  void stubDaySuccess() {
+  void stubPlanSuccess() {
     when(
-          () => mock.getData(
-        path      : 'workoutPlans/$tPlanId/schedule',
-        documentId: tDayId,
-      ),
-    ).thenAnswer((_) async => Right(tDayData));
+          () => mock.getData(path: 'plans', documentId: tPlanId),
+    ).thenAnswer((_) async => Right(tPlanData));
   }
 
-  void stubDayFailure(Failure failure) {
+  void stubPlanFailure(Failure failure) {
     when(
-          () => mock.getData(
-        path      : 'workoutPlans/$tPlanId/schedule',
-        documentId: tDayId,
-      ),
+          () => mock.getData(path: 'plans', documentId: tPlanId),
     ).thenAnswer((_) async => Left(failure));
   }
 
-  void stubDaySuccessWithCustomData(Map<String, dynamic> data) {
+  void stubPlanSuccessWithCustomData(Map<String, dynamic> data) {
     when(
-          () => mock.getData(
-        path      : 'workoutPlans/$tPlanId/schedule',
-        documentId: tDayId,
-      ),
+          () => mock.getData(path: 'plans', documentId: tPlanId),
     ).thenAnswer((_) async => Right(data));
   }
-
-  void stubDaySuccessForCustomPlan({
-    required String goal,
-    required int days,
-    required int indexDay,
-    required Map<String, dynamic> data,
-  }) {
-    final planId = '$goal${days}Days';
-    final dayId  = 'day$indexDay';
-
-    when(
-          () => mock.getData(
-        path      : 'workoutPlans/$planId/schedule',
-        documentId: dayId,
-      ),
-    ).thenAnswer((_) async => Right(data));
-  }
-
 
   void stubExercisesSuccess() {
     when(
-          () => mock.getData(
-        path      : 'allExercises',
-        documentId: 'push_up',
-      ),
+          () => mock.getData(path: 'exercises', documentId: 'pushUps'),
     ).thenAnswer((_) async => Right(tExerciseData1));
 
     when(
-          () => mock.getData(
-        path      : 'allExercises',
-        documentId: 'bench_press',
-      ),
+          () => mock.getData(path: 'exercises', documentId: 'barbellBenchPress'),
     ).thenAnswer((_) async => Right(tExerciseData2));
+
+    when(
+          () => mock.getData(path: 'exercises', documentId: 'barbellRow'),
+    ).thenAnswer((_) async => Right(tExerciseData3));
   }
 
   void stubExercise1Failure(Failure failure) {
     when(
-          () => mock.getData(
-        path      : 'allExercises',
-        documentId: 'push_up',
-      ),
+          () => mock.getData(path: 'exercises', documentId: 'pushUps'),
     ).thenAnswer((_) async => Left(failure));
 
     when(
-          () => mock.getData(
-        path      : 'allExercises',
-        documentId: 'bench_press',
-      ),
+          () => mock.getData(path: 'exercises', documentId: 'barbellBenchPress'),
     ).thenAnswer((_) async => Right(tExerciseData2));
+
+    when(
+          () => mock.getData(path: 'exercises', documentId: 'barbellRow'),
+    ).thenAnswer((_) async => Right(tExerciseData3));
   }
 
   void stubAllExercisesFailure(Failure failure) {
     when(
           () => mock.getData(
-        path      : 'allExercises',
+        path      : 'exercises',
         documentId: any(named: 'documentId'),
       ),
     ).thenAnswer((_) async => Left(failure));

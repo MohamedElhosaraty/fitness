@@ -1,49 +1,75 @@
 import 'package:fitness/core/errors/failures.dart';
-import 'package:fitness/feature/onboarding/data/model/exercise_model.dart';
+import 'package:fitness/feature/onboarding/data/model/workout_exercise_model.dart';
 
-const String tGoal     = 'buildMuscle';
-const int    tDays     = 2;
-const int    tIndexDay = 1;
-const String tPlanId   = 'buildMuscle2Days';
-const String tDayId    = 'day1';
+const String tPlanId = 'buildMuscle_2day';
 
-final Map<String, dynamic> tDayData = {
-  'category'    : {'en': 'Chest', 'ar': 'صدر'},
-  'exerciseRefs': ['push_up', 'bench_press'],
-};
-
-final Map<String, dynamic> tDayDataEmptyRefs = {
-  'category'    : {'en': 'Rest', 'ar': 'راحة'},
-  'exerciseRefs': <String>[],
-};
-
-final Map<String, dynamic> tDayDataNoRefsKey = {
-  'category': {'en': 'Rest', 'ar': 'راحة'},
-};
-
-final Map<String, dynamic> tDayDataNoCategoryKey = {
-  'exerciseRefs': <String>[],
+final Map<String, dynamic> tPlanData = {
+  'plan_id'          : 'buildMuscle_2day',
+  'goal_id'          : 'buildMuscle',
+  'availability_days': 2,
+  'workout_days'     : [
+    {
+      'day_number'   : 1,
+      'workout_title': {'en': 'Chest', 'ar': 'صدر'},
+      'workout_exercises': [
+        {'exercise_id': 'pushUps',          'reps': '10', 'sets': '4', 'rest_seconds': 90},
+        {'exercise_id': 'barbellBenchPress', 'reps': '8',  'sets': '3', 'rest_seconds': 60},
+      ],
+    },
+    {
+      'day_number'   : 2,
+      'workout_title': {'en': 'Back', 'ar': 'ظهر'},
+      'workout_exercises': [
+        {'exercise_id': 'barbellRow', 'reps': '10', 'sets': '4', 'rest_seconds': 90},
+      ],
+    },
+  ],
 };
 
 final Map<String, dynamic> tExerciseData1 = {
-  'id'      : 'push_up',
-  'name'    : {'en': 'Push Up',     'ar': 'ضغط'},
-  'subtitle': {'en': 'Chest focus', 'ar': 'تركيز صدر'},
-  'sets'    : '3',
-  'repsMin' : '10',
-  'repsMax' : '15',
+  'id'        : 'pushUps',
+  'title'     : {'en': 'Push Ups',  'ar': 'ضغط'},
+  'form_cues' : {'en': ['Keep back straight'], 'ar': ['حافظ على استقامة ظهرك']},
+  'video_url' : 'https://storage.googleapis.com/fitflow-vids/pushups.mp4',
 };
 
 final Map<String, dynamic> tExerciseData2 = {
-  'id'      : 'bench_press',
-  'name'    : {'en': 'Bench Press', 'ar': 'بنش برس'},
-  'subtitle': {'en': 'Strength',    'ar': 'قوة'},
-  'sets'    : '4',
-  'repsMin' : '8',
-  'repsMax' : '12',
+  'id'        : 'barbellBenchPress',
+  'title'     : {'en': 'Barbell Bench Press', 'ar': 'بنش برس'},
+  'form_cues' : {'en': ['Arch your back'],     'ar': ['قوّس ظهرك']},
+  'video_url' : 'https://storage.googleapis.com/fitflow-vids/benchpress.mp4',
 };
 
-final ExerciseModel tExercise1 = ExerciseModel.fromMap(tExerciseData1);
-final ExerciseModel tExercise2 = ExerciseModel.fromMap(tExerciseData2);
+final Map<String, dynamic> tExerciseData3 = {
+  'id'        : 'barbellRow',
+  'title'     : {'en': 'Barbell Row', 'ar': 'تجديف بالبار'},
+  'form_cues' : {'en': ['Keep core tight'], 'ar': ['شد البطن']},
+  'video_url' : 'https://storage.googleapis.com/fitflow-vids/row.mp4',
+};
+
+final Map<String, dynamic> tPlanDataEmptyDays = {
+  'plan_id'          : 'buildMuscle_2day',
+  'goal_id'          : 'buildMuscle',
+  'availability_days': 2,
+  'workout_days'     : <Map>[],
+};
+
+final Map<String, dynamic> tPlanDataEmptyExercises = {
+  'plan_id'          : 'buildMuscle_2day',
+  'goal_id'          : 'buildMuscle',
+  'availability_days': 2,
+  'workout_days'     : [
+    {
+      'day_number'        : 1,
+      'workout_title'     : {'en': 'Rest', 'ar': 'راحة'},
+      'workout_exercises' : <Map>[],
+    },
+  ],
+};
+
+final WorkoutExerciseModel tWorkoutExercise1 = WorkoutExerciseModel.fromMerged(
+  planExercise : {'exercise_id': 'pushUps', 'reps': '10', 'sets': '4', 'rest_seconds': 90},
+  exerciseData : tExerciseData1,
+);
 
 final ServerFailure tServerFailure = ServerFailure('Server error');
