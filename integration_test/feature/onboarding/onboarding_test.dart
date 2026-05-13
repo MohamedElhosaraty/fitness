@@ -103,7 +103,7 @@ void main() {
       when(() => onboardingMockRepo.getOnboardingGoals())
           .thenAnswer((_) async => Right(tGoals));
 
-      when(() => onboardingMockRepo.getAllDaysExercises(any()))
+      when(() => onboardingMockRepo.getPlanWithExercises(any()))
           .thenAnswer((_) async => Right(tPlanModel));
 
       await robot.runApp(widgetScreen: const OnboardingScreen());

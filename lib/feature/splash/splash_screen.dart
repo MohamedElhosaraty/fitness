@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:fitness/core/helpers/extensions.dart';
+import 'package:fitness/core/helpers/user_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../core/helpers/hive_helper.dart';
@@ -23,9 +24,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () {
-      final allDays = HiveHelper.getAllDays();
+      final plan = HiveHelper.getPlan(UserPreferences.currentPlanId);
 
-      if (allDays.isEmpty) {
+      if (plan == null || plan.workoutDays.isEmpty) {
         context.pushReplacementNamed(Routes.onboardingScreen);
       } else {
         context.pushReplacementNamed(Routes.mainScreen);

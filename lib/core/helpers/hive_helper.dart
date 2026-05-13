@@ -1,30 +1,40 @@
-import 'package:fitness/feature/onboarding/data/model/day_exercise_model.dart';
-import 'package:fitness/feature/onboarding/data/model/exercise_model.dart';
-import 'package:hive_flutter/adapters.dart';
-
+import 'package:fitness/feature/onboarding/data/model/plan_model.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import '../../feature/onboarding/data/model/workout_day_model.dart';
+import '../../feature/onboarding/data/model/workout_exercise_model.dart';
 import '../networking/api_constants.dart';
-
-
 
 class HiveHelper {
 
   static Future<void> init() async {
     await Hive.initFlutter();
-    Hive.registerAdapter(ExerciseModelAdapter());
-    Hive.registerAdapter(DayExerciseModelAdapter());
-    await Hive.openBox<DayExerciseModel>(Constants.workoutBox);
+    Hive.registerAdapter(WorkoutExerciseModelAdapter());
+    Hive.registerAdapter(WorkoutDayModelAdapter());
+    Hive.registerAdapter(PlanModelAdapter());
+    await Hive.openBox<PlanModel>(Constants.planBox);
   }
 
-  static Future<void> saveAllDays(Map<String, DayExerciseModel> days) async {
-    final box = Hive.box<DayExerciseModel>(Constants.workoutBox);
+  static Future<void> savePlan(PlanModel plan) async {
+    final box = Hive.box<PlanModel>(Constants.planBox);
     await box.clear();
-    await box.putAll(days);
+    await box.put(plan.planId, plan);
   }
 
-  static DayExerciseModel? getDay(String dayId) =>
-      Hive.box<DayExerciseModel>(Constants.workoutBox).get(dayId);
+  static PlanModel? getPlan(String planId) =>
+      Hive.box<PlanModel>(Constants.planBox).get(planId);
 
-  static Map<String, DayExerciseModel> getAllDays() =>
-      Map<String, DayExerciseModel>.from(
-          Hive.box<DayExerciseModel>(Constants.workoutBox).toMap());
+  static WorkoutDayModel? getDay(String planId, int dayNumber) =>
+      getPlan(planId)?.workoutDays
+          .cast<WorkoutDayModel?>()
+          .firstWhere(
+            (day) => day?.dayNumber == dayNumber,
+        orElse: () => null,
+      );
+
+
+  static bool hasPlan(String planId) =>
+      Hive.box<PlanModel>(Constants.planBox).containsKey(planId);
+
+  static Future<void> clearPlans() async =>
+      await Hive.box<PlanModel>(Constants.planBox).clear();
 }

@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:fitness/feature/onboarding/data/model/day_exercise_model.dart';
+import 'package:fitness/feature/onboarding/data/model/plan_model.dart';
 import '../../../../core/errors/failures.dart';
 import '../../domain/repo/onboarding_repo.dart';
 import '../model/onboarding_goal_model.dart';
@@ -16,9 +16,8 @@ class OnboardingRepoImpl implements OnboardingRepo {
   }
 
   @override
-  Future<Either<Failure, Map<String, DayExerciseModel>>> getAllDaysExercises(
-      String goal,
-      int days,
+  Future<Either<Failure, PlanModel>> getPlanWithExercises(
+      String planId,
       ) =>
-      onboardingService.getAllDaysExercises(goal, days);
+      onboardingService.getPlanWithExercises(planId: planId);
 }

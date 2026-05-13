@@ -13,17 +13,14 @@ class SaveWorkoutPlanCubit extends Cubit<SaveWorkoutPlanState> {
   final OnboardingRepo onboardingRepo;
 
   Future<void> saveWorkoutPlan() async {
-    final goalId = UserPreferences.selectedGoal;
-    final days   = UserPreferences.numberDays;
-
     emit(SaveWorkoutPlanLoading());
 
-    final result = await onboardingRepo.getAllDaysExercises(goalId, days);
+    final result = await onboardingRepo.getPlanWithExercises(UserPreferences.currentPlanId);
 
     result.fold(
           (failure) => emit(SaveWorkoutPlanFailure(failure.message)),
-          (allDays) async {
-        await HiveHelper.saveAllDays(allDays);
+          (plan) async {
+        await HiveHelper.savePlan(plan);
         emit(SaveWorkoutPlanSuccess());
       },
     );

@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:fitness/core/services/rest_timer_notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,11 +20,13 @@ import 'fitness.dart';
 void runFitness(AppConfig appConfig) {
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
-      options: appConfig.firebaseOptions,
-    );
-    await Firebase.initializeApp();
-    await HiveHelper.init();
+     await  Firebase.initializeApp(options: appConfig.firebaseOptions);
+
+    await Future.wait([
+      HiveHelper.init(),
+      AlarmScheduler.init(),
+    ]);
+
 
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 

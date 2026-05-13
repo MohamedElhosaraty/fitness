@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:fitness/feature/onboarding/data/model/day_exercise_model.dart';
-import 'package:fitness/feature/onboarding/data/model/exercise_model.dart';
+import 'package:fitness/feature/onboarding/data/model/onboarding_goal_model.dart';
+import 'package:fitness/feature/onboarding/data/model/plan_model.dart';
+import 'package:fitness/feature/onboarding/data/model/workout_exercise_model.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/helpers/firestore_service.dart';
-import '../model/onboarding_goal_model.dart';
+import '../model/workout_day_model.dart';
 
 class FirestoreOnboardingService {
   final FirestoreService firestoreService;
@@ -26,65 +27,68 @@ class FirestoreOnboardingService {
     );
   }
 
-  Future<Either<Failure, DayExerciseModel>> getDayExercises(
-      String goal,
-      int days,
-      int indexDay,
-      ) async {
-    final planId = '$goal${days}Days';
-    final dayId  = 'day$indexDay';
-
-    final dayResult = await firestoreService.getData(
-      path: 'workoutPlans/$planId/schedule',
-      documentId: dayId,
+  Future<Either<Failure, PlanModel>> getPlanWithExercises({
+    required String planId,
+  }) async {
+    final planResult = await firestoreService.getData(
+      path: 'plans',
+      documentId: planId,
     );
 
-    return dayResult.fold(
-          (failure) => Left(failure),
-          (data) async {
-        final refs = List<String>.from(data['exerciseRefs'] ?? []);
-
-        final snapshots = await Future.wait(
-          refs.map((ref) => firestoreService.getData(
-            path: 'allExercises',
-            documentId: ref,
-          )),
-        );
-
-        final exercises = snapshots
-            .where((e) => e.isRight())
-            .map((e) => e.getOrElse(() => {}))
-            .map((exerciseData) => ExerciseModel.fromMap(exerciseData))
-            .toList();
-
-        return Right(DayExerciseModel.fromMap(data, exercises));
-      },
-    );
-  }
-
-  Future<Either<Failure, Map<String, DayExerciseModel>>> getAllDaysExercises(
-      String goal,
-      int days,
-      ) async {
-    try {
-      final results = await Future.wait(
-        List.generate(
-          days,
-              (index) => getDayExercises(goal, days, index + 1),
-        ),
-      );
-
-      final allDays = <String, DayExerciseModel>{};
-      for (int i = 0; i < results.length; i++) {
-        results[i].fold(
-              (failure) => throw Exception(failure.message),
-              (day) => allDays['day${i + 1}'] = day,
-        );
-      }
-
-      return Right(allDays);
-    } catch (e) {
-      return Left(ServerFailure(e.toString()));
+    if (planResult.isLeft()) {
+      return Left(planResult.fold((f) => f, (_) => throw Exception()));
     }
+
+    final planData = planResult.getOrElse(() => {});
+
+    final parsedDays = List<Map<String, dynamic>>.from(
+      (planData['workout_days'] as List? ?? [])
+          .map((d) => Map<String, dynamic>.from(d)),
+    ).map((day) {
+      final exercises = List<Map<String, dynamic>>.from(
+        (day['workout_exercises'] as List? ?? [])
+            .map((e) => Map<String, dynamic>.from(e)),
+      );
+      return (day: day, exercises: exercises);
+    }).toList();
+
+    final exerciseIds = <String>{
+      for (final d in parsedDays)
+        for (final ex in d.exercises)
+          if ((ex['exercise_id'] as String?)?.isNotEmpty == true)
+            ex['exercise_id'] as String,
+    };
+
+    final responses = await Future.wait(
+      exerciseIds.map((id) => firestoreService.getData(
+        path: 'exercises',
+        documentId: id,
+      )),
+    );
+
+    final exercisesMap = <String, Map<String, dynamic>>{
+      for (int i = 0; i < exerciseIds.length; i++)
+        if (responses[i].isRight())
+          exerciseIds.elementAt(i): responses[i].getOrElse(() => {}),
+    };
+
+    final workoutDays = parsedDays.map((d) {
+      final exercises = d.exercises.map((exMap) {
+        final id = exMap['exercise_id'] as String? ?? '';
+        return WorkoutExerciseModel.fromMerged(
+          planExercise: exMap,
+          exerciseData: exercisesMap[id] ?? const {},
+        );
+      }).toList();
+
+      return WorkoutDayModel.withExercises(map: d.day, exercises: exercises);
+    }).toList();
+
+    return Right(PlanModel(
+      planId: planData['plan_id'] ?? planId,
+      goalId: planData['goal_id'] ?? '',
+      availabilityDays: planData['availability_days'] ?? 0,
+      workoutDays: workoutDays,
+    ));
   }
 }

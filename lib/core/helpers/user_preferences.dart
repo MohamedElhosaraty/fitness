@@ -35,6 +35,10 @@ class UserPreferences {
     return days;
   }
 
+  static String get currentPlanId =>
+      "${UserPreferences.selectedGoal}_${UserPreferences.numberDays}day";
+
+
   static set setCompletedDays(int value) =>
       SharedPrefHelper.setInt(SharedPrefsKeys.completedDays, value);
 }
