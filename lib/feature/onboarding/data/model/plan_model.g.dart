@@ -1,38 +1,41 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'day_exercise_model.dart';
+part of 'plan_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class DayExerciseModelAdapter extends TypeAdapter<DayExerciseModel> {
+class PlanModelAdapter extends TypeAdapter<PlanModel> {
   @override
-  final int typeId = 1;
+  final int typeId = 3;
 
   @override
-  DayExerciseModel read(BinaryReader reader) {
+  PlanModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return DayExerciseModel(
-      categoryEn: fields[0] as String,
-      categoryAr: fields[1] as String,
-      exerciseRefs: (fields[2] as List).cast<ExerciseModel>(),
+    return PlanModel(
+      planId: fields[0] as String,
+      goalId: fields[1] as String,
+      availabilityDays: fields[2] as int,
+      workoutDays: (fields[3] as List).cast<WorkoutDayModel>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, DayExerciseModel obj) {
+  void write(BinaryWriter writer, PlanModel obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.categoryEn)
+      ..write(obj.planId)
       ..writeByte(1)
-      ..write(obj.categoryAr)
+      ..write(obj.goalId)
       ..writeByte(2)
-      ..write(obj.exerciseRefs);
+      ..write(obj.availabilityDays)
+      ..writeByte(3)
+      ..write(obj.workoutDays);
   }
 
   @override
@@ -41,7 +44,7 @@ class DayExerciseModelAdapter extends TypeAdapter<DayExerciseModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is DayExerciseModelAdapter &&
+      other is PlanModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
