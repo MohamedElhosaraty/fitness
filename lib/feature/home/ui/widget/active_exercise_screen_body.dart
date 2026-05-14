@@ -5,17 +5,17 @@ import 'package:fitness/feature/home/ui/widget/custom_form_cues.dart';
 import 'package:fitness/feature/home/ui/widget/custom_sets_section.dart';
 import 'package:fitness/feature/home/ui/widget/custom_timer_bar.dart';
 import 'package:fitness/feature/home/ui/widget/custom_video_player.dart';
-import 'package:fitness/feature/onboarding/data/model/exercise_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
+import '../../../onboarding/data/model/workout_exercise_model.dart';
 
 class ActiveExerciseScreenBody extends StatefulWidget {
   const ActiveExerciseScreenBody({super.key, required this.dayExercise});
 
-  final List<ExerciseModel> dayExercise;
+  final List<WorkoutExerciseModel> dayExercise;
 
   @override
   State<ActiveExerciseScreenBody> createState() => _ActiveExerciseScreenBodyState();
@@ -47,7 +47,9 @@ class _ActiveExerciseScreenBodyState extends State<ActiveExerciseScreenBody> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CustomVideoPlayer(),
+                CustomVideoPlayer(
+                  videoId: widget.dayExercise[_currentIndex].videoUrl,
+                ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(20, 14, 20, 0),
                   child: Text(
@@ -57,7 +59,9 @@ class _ActiveExerciseScreenBodyState extends State<ActiveExerciseScreenBody> {
                     ),
                   ),
                 ),
-                const CustomFormCues(),
+                CustomFormCues(
+                  cues: widget.dayExercise[_currentIndex].getFormCues(context.currentLang),
+                ),
                 CustomSetsSection(
                   key: ValueKey(_currentIndex),
                   exercise: widget.dayExercise[_currentIndex],
@@ -67,7 +71,9 @@ class _ActiveExerciseScreenBodyState extends State<ActiveExerciseScreenBody> {
             ),
           ),
         ),
-        const CustomTimerBar(),
+        CustomTimerBar(
+          timerSeconds: widget.dayExercise[_currentIndex].restSeconds,
+        ),
       ],
     );
   }

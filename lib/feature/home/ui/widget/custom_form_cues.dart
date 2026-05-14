@@ -7,17 +7,13 @@ import '../../../../core/theming/app_text_styles.dart';
 import '../../../../generated/app_strings.dart';
 
 class CustomFormCues extends StatelessWidget {
-  const CustomFormCues({super.key});
+  const CustomFormCues({super.key, required this.cues});
+
+  final List<String> cues ;
 
 
   @override
   Widget build(BuildContext context) {
-     List<String> cues = [
-      tr(context, AppStrings.keepShouldersBackThroughoutMovement),
-      tr(context, AppStrings.driveThroughHeels),
-      tr(context, AppStrings.elbowsShouldTrackInsideYourKnees),
-    ];
-
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
       padding: const EdgeInsets.all(14),
