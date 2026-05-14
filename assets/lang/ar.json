@@ -50,5 +50,11 @@
   "addSet": "اضافة مجموعة",
   "nextExercise": "التمرين التالي",
   "finishRestTime": "إنهاء وقت الراحة ",
-  "breakTimeOverStartNextSet": "انهاء وقت الراحة وبدء المجموعة التالية "
+  "breakTimeOverStartNextSet": "انهاء وقت الراحة وبدء المجموعة التالية ",
+  "enterStartingWeight": "ادخل الوزن الافتتاحي للمجموعة",
+  "dontWorry": "لا تقلق، يمكنك تحديث هذا لاحقًا متى شئت.",
+  "saveAndStart": "حفظ وبدء",
+  "useDefault": "لست متأكدًا؟ استخدم الافتراضي",
+  "rest": "راحة",
+  "startRestTimer": "بدء وقت الراحة"
 }

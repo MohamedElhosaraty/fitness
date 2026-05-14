@@ -50,5 +50,11 @@
   "addSet": "Add Set",
   "nextExercise": "Next Exercise",
   "finishRestTime": "Finish Rest Time",
-  "breakTimeOverStartNextSet": "Break time is over, start the next set."
+  "breakTimeOverStartNextSet": "Break time is over, start the next set.",
+  "enterStartingWeight": "Enter Starting Weight",
+  "dontWorry": "Don't worry, you can update this later whenever you want.",
+  "saveAndStart": "Save & Start",
+  "useDefault": "Not sure? Use default",
+  "rest": "Rest",
+  "startRestTimer": "Start Rest Timer"
 }

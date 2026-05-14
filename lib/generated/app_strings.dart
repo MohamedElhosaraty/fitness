@@ -50,4 +50,10 @@ class AppStrings {
   static const String nextExercise = 'nextExercise';
   static const String breakTimeOverStartNextSet = 'breakTimeOverStartNextSet';
   static const String finishRestTime = 'finishRestTime';
+  static const String enterStartingWeight = 'enterStartingWeight';
+  static const String dontWorry = 'dontWorry';
+  static const String saveAndStart = 'saveAndStart';
+  static const String useDefault = 'useDefault';
+  static const String rest = 'rest';
+  static const String startRestTimer = 'startRestTimer';
 }

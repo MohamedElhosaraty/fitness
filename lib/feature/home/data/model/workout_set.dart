@@ -1,5 +1,5 @@
 class WorkoutSet {
-  final int weight;
+  final double weight;
   final int reps;
   final bool isDone;
   final bool isActive;
@@ -12,7 +12,7 @@ class WorkoutSet {
   });
 
   WorkoutSet copyWith({
-    int? weight,
+    double? weight,
     int? reps,
     bool? isDone,
     bool? isActive,
