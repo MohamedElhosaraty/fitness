@@ -19,17 +19,27 @@ class AlarmScheduler {
     );
 
     await _notificationsPlugin.initialize(
-        settings: initializationSettings);
+      settings: initializationSettings,
+    );
 
-    await _notificationsPlugin
+    final androidPlugin =
+    _notificationsPlugin
         .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()
-        ?.requestNotificationsPermission();
+        AndroidFlutterLocalNotificationsPlugin>();
+
+    await androidPlugin?.requestNotificationsPermission();
+
+    final bool exactAlarmGranted =
+        await androidPlugin?.canScheduleExactNotifications() ?? false;
+
+    if (!exactAlarmGranted) {
+      await androidPlugin?.requestExactAlarmsPermission();
+    }
 
     tz.initializeTimeZones();
 
     final String currentTimeZone =
-    (await FlutterTimezone.getLocalTimezone()).identifier;
+        (await FlutterTimezone.getLocalTimezone()).identifier;
 
     tz.setLocalLocation(tz.getLocation(currentTimeZone));
   }
@@ -39,7 +49,6 @@ class AlarmScheduler {
     required String title,
     String body = '',
   }) async {
-
     const androidDetails = AndroidNotificationDetails(
       'alarm_channel_id',
       'Alarms',
@@ -63,7 +72,7 @@ class AlarmScheduler {
       scheduledDate: scheduledDate,
       notificationDetails: notificationDetails,
       androidScheduleMode:
-      AndroidScheduleMode.inexactAllowWhileIdle,
+      AndroidScheduleMode.exactAllowWhileIdle,
     );
   }
 
