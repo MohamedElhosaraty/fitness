@@ -19,20 +19,19 @@ class WorkoutExerciseModelAdapter extends TypeAdapter<WorkoutExerciseModel> {
     return WorkoutExerciseModel(
       exerciseId: fields[0] as String,
       restSeconds: fields[1] as int,
-      sets: fields[2] as String,
-      reps: fields[3] as String,
-      titleEn: fields[4] as String,
-      titleAr: fields[5] as String,
-      formCuesEn: (fields[6] as List).cast<String>(),
-      formCuesAr: (fields[7] as List).cast<String>(),
-      videoUrl: fields[8] as String,
+      sets: (fields[2] as List).cast<WorkoutSetModel>(),
+      titleEn: fields[3] as String,
+      titleAr: fields[4] as String,
+      formCuesEn: (fields[5] as List).cast<String>(),
+      formCuesAr: (fields[6] as List).cast<String>(),
+      videoUrl: fields[7] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, WorkoutExerciseModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.exerciseId)
       ..writeByte(1)
@@ -40,16 +39,14 @@ class WorkoutExerciseModelAdapter extends TypeAdapter<WorkoutExerciseModel> {
       ..writeByte(2)
       ..write(obj.sets)
       ..writeByte(3)
-      ..write(obj.reps)
-      ..writeByte(4)
       ..write(obj.titleEn)
-      ..writeByte(5)
+      ..writeByte(4)
       ..write(obj.titleAr)
-      ..writeByte(6)
+      ..writeByte(5)
       ..write(obj.formCuesEn)
-      ..writeByte(7)
+      ..writeByte(6)
       ..write(obj.formCuesAr)
-      ..writeByte(8)
+      ..writeByte(7)
       ..write(obj.videoUrl);
   }
 

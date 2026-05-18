@@ -7,15 +7,12 @@ part 'workout_day_model.g.dart';
 class WorkoutDayModel extends HiveObject {
   @HiveField(0)
   final int dayNumber;
-
   @HiveField(1)
   final String workoutTitleEn;
-
   @HiveField(2)
   final String workoutTitleAr;
-
   @HiveField(3)
-  final List<WorkoutExerciseModel> workoutExercises;
+  List<WorkoutExerciseModel> workoutExercises;
 
   WorkoutDayModel({
     required this.dayNumber,
@@ -24,15 +21,13 @@ class WorkoutDayModel extends HiveObject {
     required this.workoutExercises,
   });
 
-
   factory WorkoutDayModel.fromMap(Map<String, dynamic> map) {
     final title = Map<String, dynamic>.from(map['workout_title'] ?? {});
-
     return WorkoutDayModel(
       dayNumber: map['day_number'] ?? 0,
       workoutTitleEn: title['en'] ?? '',
       workoutTitleAr: title['ar'] ?? '',
-      workoutExercises: const [],
+      workoutExercises: [],
     );
   }
 
@@ -41,7 +36,6 @@ class WorkoutDayModel extends HiveObject {
     required List<WorkoutExerciseModel> exercises,
   }) {
     final title = Map<String, dynamic>.from(map['workout_title'] ?? {});
-
     return WorkoutDayModel(
       dayNumber: map['day_number'] ?? 0,
       workoutTitleEn: title['en'] ?? '',
@@ -52,5 +46,4 @@ class WorkoutDayModel extends HiveObject {
 
   String getTitle(String lang) =>
       lang == 'ar' ? workoutTitleAr : workoutTitleEn;
-
 }
