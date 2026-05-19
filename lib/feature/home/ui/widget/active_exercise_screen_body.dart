@@ -24,6 +24,7 @@ class ActiveExerciseScreenBody extends StatefulWidget {
 class _ActiveExerciseScreenBodyState extends State<ActiveExerciseScreenBody> {
 
   int _currentIndex = 0;
+  Future<void> Function()? _startTimer;
 
   void _next() {
     if (_currentIndex < widget.dayExercise.length - 1) {
@@ -65,6 +66,7 @@ class _ActiveExerciseScreenBodyState extends State<ActiveExerciseScreenBody> {
                 CustomSetsSection(
                   key: ValueKey(_currentIndex),
                   exercise: widget.dayExercise[_currentIndex],
+                  onSetDone: () => _startTimer?.call(),
                 ),
                 20.verticalSpace,
               ],
@@ -73,6 +75,7 @@ class _ActiveExerciseScreenBodyState extends State<ActiveExerciseScreenBody> {
         ),
         CustomTimerBar(
           timerSeconds: widget.dayExercise[_currentIndex].restSeconds,
+          onStartTimer: (fn) => _startTimer = fn,
         ),
       ],
     );
