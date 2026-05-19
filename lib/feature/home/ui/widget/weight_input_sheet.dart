@@ -7,21 +7,38 @@ import '../../../../core/theming/app_text_styles.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../generated/app_strings.dart';
 
-
 class WeightInputDialog extends StatefulWidget {
-  const WeightInputDialog({super.key});
+  const WeightInputDialog({super.key, required this.initialWeight });
+
+  final double initialWeight;
 
   @override
   State<WeightInputDialog> createState() => _WeightInputDialogState();
 }
 
 class _WeightInputDialogState extends State<WeightInputDialog> {
-  final TextEditingController _controller = TextEditingController(text: '25');
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(
+      text: widget.initialWeight % 1 == 0
+          ? widget.initialWeight.toInt().toString()
+          : widget.initialWeight.toString(),
+    );
+  }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  void _submit() {
+    final parsed = double.tryParse(_controller.text) ?? 0;
+    final weight = parsed > 0 ? parsed : widget.initialWeight;
+    Navigator.pop(context, weight);
   }
 
   @override
@@ -37,13 +54,15 @@ class _WeightInputDialogState extends State<WeightInputDialog> {
           children: [
             Text(
               tr(context, AppStrings.enterStartingWeight),
-              style: AppTextStyles.font20Bold(context)
+              textAlign: TextAlign.center,
+              style: AppTextStyles.font20Bold(context),
             ),
             8.verticalSpace,
             Text(
               tr(context, AppStrings.dontWorry),
               textAlign: TextAlign.center,
-              style: AppTextStyles.font14Regular(context).copyWith(color: AppColors.greySecondary),
+              style: AppTextStyles.font14Regular(context)
+                  .copyWith(color: AppColors.greySecondary),
             ),
             24.verticalSpace,
             Container(
@@ -73,28 +92,28 @@ class _WeightInputDialogState extends State<WeightInputDialog> {
                   ),
                   Text(
                     'kg',
-                    style: AppTextStyles.font17Medium(context).copyWith(color: AppColors.greySecondary),
+                    style: AppTextStyles.font17Medium(context)
+                        .copyWith(color: AppColors.greySecondary),
                   ),
                 ],
               ),
             ),
             24.verticalSpace,
             CustomButton(
-              onPressed: () {
-                final weight = double.tryParse(_controller.text) ?? 25.0;
-                Navigator.pop(context, weight);
-              },
+              onPressed: _submit,
               child: Text(
                 tr(context, AppStrings.saveAndStart),
-                style: AppTextStyles.font17Medium(context).copyWith(color: AppColors.background),
+                style: AppTextStyles.font17Medium(context)
+                    .copyWith(color: AppColors.background),
               ),
             ),
             4.verticalSpace,
             TextButton(
-              onPressed: () => Navigator.pop(context, 25.0),
+              onPressed: () => Navigator.pop(context, widget.initialWeight),
               child: Text(
                 tr(context, AppStrings.useDefault),
-                style: AppTextStyles.font17Medium(context).copyWith(color: AppColors.greySecondary),
+                style: AppTextStyles.font17Medium(context)
+                    .copyWith(color: AppColors.greySecondary),
               ),
             ),
           ],

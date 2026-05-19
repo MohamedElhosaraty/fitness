@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/helpers/hive_helper.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
 
@@ -9,27 +10,32 @@ class CustomAddSet extends StatefulWidget {
     super.key,
     required this.value,
     required this.isActive,
+    required this.exerciseId,
+    required this.setIndex,
     this.onWeightChanged,
-    this.isEditable = true,
+    this.onRepsChanged,
   });
 
   final String value;
   final bool isActive;
-  final bool isEditable;
+  final String exerciseId;
+  final int setIndex;
   final ValueChanged<double>? onWeightChanged;
+  final ValueChanged<int>? onRepsChanged;
 
   @override
   State<CustomAddSet> createState() => _CustomAddSetState();
 }
 
 class _CustomAddSetState extends State<CustomAddSet> {
-  bool _isEditing = false;
   late TextEditingController _controller;
+
+  String get _cleanValue => widget.value.replaceAll('kg', '').trim();
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.value);
+    _controller = TextEditingController(text: _cleanValue);
   }
 
   @override
@@ -38,66 +44,84 @@ class _CustomAddSetState extends State<CustomAddSet> {
     super.dispose();
   }
 
-  void _onTap() {
-    if (!widget.isActive) return;
-    if (!widget.isEditable) return;
-    setState(() => _isEditing = true);
+  @override
+  void didUpdateWidget(CustomAddSet oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.value != widget.value) {
+      _controller.text = _cleanValue;
+    }
   }
 
-  void _onSubmit() {
-    final newWeight = double.tryParse(_controller.text);
-    if (newWeight != null) {
+  void _onSubmit() async {
+    final text = _controller.text.replaceAll('kg', '').trim();
+    double? newWeight;
+    int? newReps;
+
+    if (widget.onWeightChanged != null) {
+      newWeight = double.tryParse(text);
+      if (newWeight == null) {
+        _controller.text = _cleanValue;
+        return;
+      }
       widget.onWeightChanged?.call(newWeight);
-    } else {
-      _controller.text = widget.value;
+    } else if (widget.onRepsChanged != null) {
+      newReps = int.tryParse(text);
+      if (newReps == null) {
+        _controller.text = _cleanValue;
+        return;
+      }
+      widget.onRepsChanged?.call(newReps);
     }
-    setState(() => _isEditing = false);
+
+    await HiveHelper.updateSet(
+      exerciseId: widget.exerciseId,
+      setIndex: widget.setIndex,
+      newWeight: newWeight,
+      newReps: newReps,
+    );
+
+    if (!mounted) return;
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _onTap,
-      child: Center(
-        child: Container(
-          width: 80.w,
-          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-          decoration: BoxDecoration(
-            color: widget.isActive ? AppColors.background : AppColors.white4,
-            border: Border.all(
-              color: widget.isActive ? AppColors.primaryColor : AppColors.white4,
-              width: 1.5,
-            ),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: _isEditing
-              ? TextField(
-            controller: _controller,
-            autofocus: true,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            textAlign: TextAlign.center,
-            style: AppTextStyles.font14Regular(context).copyWith(
-              color: AppColors.primaryColor,
-            ),
-            decoration: const InputDecoration(
-              isDense: true,
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.zero,
-            ),
-            onSubmitted: (_) => _onSubmit(),
-            onTapOutside: (_) => _onSubmit(),
-          )
-              : Text(
-            widget.value,
-            textAlign: TextAlign.center,
-            style: AppTextStyles.font14Regular(context).copyWith(
-              color: widget.isActive
-                  ? AppColors.primaryColor
-                  : AppColors.greySecondary,
-            ),
-          ),
+    return Container(
+      width: 80.w,
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+      decoration: BoxDecoration(
+        color: widget.isActive ? AppColors.background : AppColors.white4,
+        border: Border.all(
+          color: widget.isActive ? AppColors.primaryColor : AppColors.white4,
+          width: 1.5,
         ),
+        borderRadius: BorderRadius.circular(20),
       ),
+      child:
+          widget.isActive
+              ? TextField(
+                controller: _controller,
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
+                textAlign: TextAlign.center,
+                style: AppTextStyles.font14Regular(
+                  context,
+                ).copyWith(color: AppColors.primaryColor),
+                decoration: const InputDecoration(
+                  isDense: true,
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.zero,
+                ),
+                onSubmitted: (_) => _onSubmit(),
+                onTapOutside: (_) => _onSubmit(),
+              )
+              : Text(
+                widget.value,
+                textAlign: TextAlign.center,
+                style: AppTextStyles.font14Regular(
+                  context,
+                ).copyWith(color: AppColors.greySecondary),
+              ),
     );
   }
 }
