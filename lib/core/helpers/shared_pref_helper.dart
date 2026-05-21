@@ -7,16 +7,16 @@ class SharedPrefHelper {
     _instance = await SharedPreferences.getInstance();
   }
 
-  static setBool(String key, bool value) {
-    _instance.setBool(key, value);
+  static setBool(String key, bool value) async{
+   await _instance.setBool(key, value);
   }
 
   static bool getBool(String key) {
     return _instance.getBool(key) ?? false;
   }
 
-  static setInt(String key, int value) {
-    _instance.setInt(key, value);
+  static setInt(String key, int value) async {
+   await _instance.setInt(key, value);
   }
 
   static int getInt(String key) {
@@ -28,6 +28,10 @@ class SharedPrefHelper {
   }
   static String getString(String key) {
     return _instance.getString(key) ?? '';
+  }
+
+  static clear() async {
+    await _instance.clear();
   }
 
 }

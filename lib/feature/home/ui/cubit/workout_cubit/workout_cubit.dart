@@ -7,6 +7,8 @@ import '../../../../../core/helpers/user_preferences.dart';
 class WorkoutCubit extends Cubit<WorkoutState> {
   WorkoutCubit() : super(WorkoutInitial());
 
+  void reset() => emit(WorkoutInitial());
+
   void loadCurrentDay() {
     final day = HiveHelper.getDay(UserPreferences.currentPlanId,UserPreferences.completedDays);
 

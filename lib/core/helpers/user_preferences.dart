@@ -41,4 +41,8 @@ class UserPreferences {
 
   static set setCompletedDays(int value) =>
       SharedPrefHelper.setInt(SharedPrefsKeys.completedDays, value);
+
+  static void resetWorkoutProgress() {
+    setCompletedDays = 1;
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:fitness/core/helpers/extensions.dart';
 import 'package:fitness/core/localization/localization_methods.dart';
 import 'package:fitness/core/widgets/custom_button.dart';
+import 'package:fitness/feature/home/ui/cubit/workout_cubit/workout_cubit.dart';
 import 'package:fitness/feature/onboarding/ui/cubit/save_workout_plan/save_workout_plan_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +20,7 @@ class CustomOnboardingBottom extends StatelessWidget {
     return BlocListener<SaveWorkoutPlanCubit, SaveWorkoutPlanState>(
       listener: (context, state) {
         if (state is SaveWorkoutPlanSuccess) {
+          context.read<WorkoutCubit>().loadCurrentDay();
           context.pushReplacementNamed(Routes.mainScreen);
         }
       },
