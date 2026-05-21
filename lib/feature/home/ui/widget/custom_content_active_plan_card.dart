@@ -11,7 +11,10 @@ import '../../../../generated/app_strings.dart';
 import '../../../onboarding/data/model/workout_day_model.dart';
 
 class CustomContentActivePlanCard extends StatelessWidget {
-  const CustomContentActivePlanCard({super.key, required this.dayExerciseModel});
+  const CustomContentActivePlanCard({
+    super.key,
+    required this.dayExerciseModel,
+  });
 
   final WorkoutDayModel dayExerciseModel;
 
@@ -61,7 +64,10 @@ class CustomContentActivePlanCard extends StatelessWidget {
           yPadding: 20.h,
           borderRadius: 35.r,
           onPressed: () {
-            context.pushNamed(Routes.activeExerciseScreen, arguments: dayExerciseModel.workoutExercises);
+            context.pushNamed(
+              Routes.activeExerciseScreen,
+              arguments: dayExerciseModel.workoutExercises,
+            );
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -83,6 +89,5 @@ class CustomContentActivePlanCard extends StatelessWidget {
         ),
       ],
     );
-
   }
 }

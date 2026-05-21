@@ -34,8 +34,14 @@ class HiveHelper {
   static bool hasPlan(String planId) =>
       Hive.box<PlanModel>(Constants.planBox).containsKey(planId);
 
-  static Future<void> clearPlans() async =>
-      await Hive.box<PlanModel>(Constants.planBox).clear();
+  static Future<void> clearPlans() async {
+    await Hive.box<PlanModel>(Constants.planBox).clear();
+  }
+
+  static Future<void> resetWorkoutData() async {
+    await clearPlans();
+    UserPreferences.resetWorkoutProgress();
+  }
 
   static Future<void> addSet({
     required String exerciseId,
