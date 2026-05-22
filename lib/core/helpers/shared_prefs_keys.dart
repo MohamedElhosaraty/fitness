@@ -10,4 +10,5 @@ class SharedPrefsKeys {
   static const String daysPlayedKey = 'days_played';
   static const String lastDayPlayedKey = 'last_day_played';
   static const String currentDaySlotKey = 'current_day_slot';
+  static const String savedKey = 'saved_tips';
 }

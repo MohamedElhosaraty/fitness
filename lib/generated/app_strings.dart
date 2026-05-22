@@ -88,4 +88,110 @@ class AppStrings {
   static const String chooseFromGallery = 'chooseFromGallery';
   static const String takePhoto = 'takePhoto';
   static const String profileImagePickFailed = 'profileImagePickFailed';
+
+
+  static const String expertKnowledge = 'expertKnowledge';
+  static const String tipsAndEssentials = 'tipsAndEssentials';
+  static const String tipsAndEssentialsSubtitle = 'tipsAndEssentialsSubtitle';
+  static const String totalTips = 'totalTips';
+  static const String saved = 'saved';
+  static const String categories = 'categories';
+  static const String level = 'level';
+  static const String expert = 'expert';
+  static const String all = 'all';
+  static const String training = 'training';
+  static const String nutrition = 'nutrition';
+  static const String mindset = 'mindset';
+  static const String lifestyle = 'lifestyle';
+  static const String tips = 'tips';
+
+  // Tip titles & descriptions — Training
+  static const String tipTraining1Title = 'tip_training_1_title';
+  static const String tipTraining1Desc = 'tip_training_1_desc';
+  static const String tipTraining2Title = 'tip_training_2_title';
+  static const String tipTraining2Desc = 'tip_training_2_desc';
+  static const String tipTraining3Title = 'tip_training_3_title';
+  static const String tipTraining3Desc = 'tip_training_3_desc';
+  static const String tipTraining4Title = 'tip_training_4_title';
+  static const String tipTraining4Desc = 'tip_training_4_desc';
+  static const String tipTraining5Title = 'tip_training_5_title';
+  static const String tipTraining5Desc = 'tip_training_5_desc';
+  static const String tipTraining6Title = 'tip_training_6_title';
+  static const String tipTraining6Desc = 'tip_training_6_desc';
+  static const String tipTraining7Title = 'tip_training_7_title';
+  static const String tipTraining7Desc = 'tip_training_7_desc';
+  static const String tipTraining8Title = 'tip_training_8_title';
+  static const String tipTraining8Desc = 'tip_training_8_desc';
+  static const String tipTraining9Title = 'tip_training_9_title';
+  static const String tipTraining9Desc = 'tip_training_9_desc';
+  static const String tipTraining10Title = 'tip_training_10_title';
+  static const String tipTraining10Desc = 'tip_training_10_desc';
+
+  // Tip titles & descriptions — Nutrition
+  static const String tipNutrition1Title = 'tip_nutrition_1_title';
+  static const String tipNutrition1Desc = 'tip_nutrition_1_desc';
+  static const String tipNutrition2Title = 'tip_nutrition_2_title';
+  static const String tipNutrition2Desc = 'tip_nutrition_2_desc';
+  static const String tipNutrition3Title = 'tip_nutrition_3_title';
+  static const String tipNutrition3Desc = 'tip_nutrition_3_desc';
+  static const String tipNutrition4Title = 'tip_nutrition_4_title';
+  static const String tipNutrition4Desc = 'tip_nutrition_4_desc';
+  static const String tipNutrition5Title = 'tip_nutrition_5_title';
+  static const String tipNutrition5Desc = 'tip_nutrition_5_desc';
+  static const String tipNutrition6Title = 'tip_nutrition_6_title';
+  static const String tipNutrition6Desc = 'tip_nutrition_6_desc';
+  static const String tipNutrition7Title = 'tip_nutrition_7_title';
+  static const String tipNutrition7Desc = 'tip_nutrition_7_desc';
+  static const String tipNutrition8Title = 'tip_nutrition_8_title';
+  static const String tipNutrition8Desc = 'tip_nutrition_8_desc';
+  static const String tipNutrition9Title = 'tip_nutrition_9_title';
+  static const String tipNutrition9Desc = 'tip_nutrition_9_desc';
+
+  // Tip titles & descriptions — Recovery
+  static const String tipRecovery1Title = 'tip_recovery_1_title';
+  static const String tipRecovery1Desc = 'tip_recovery_1_desc';
+  static const String tipRecovery2Title = 'tip_recovery_2_title';
+  static const String tipRecovery2Desc = 'tip_recovery_2_desc';
+  static const String tipRecovery3Title = 'tip_recovery_3_title';
+  static const String tipRecovery3Desc = 'tip_recovery_3_desc';
+  static const String tipRecovery4Title = 'tip_recovery_4_title';
+  static const String tipRecovery4Desc = 'tip_recovery_4_desc';
+  static const String tipRecovery5Title = 'tip_recovery_5_title';
+  static const String tipRecovery5Desc = 'tip_recovery_5_desc';
+  static const String tipRecovery6Title = 'tip_recovery_6_title';
+  static const String tipRecovery6Desc = 'tip_recovery_6_desc';
+  static const String tipRecovery7Title = 'tip_recovery_7_title';
+  static const String tipRecovery7Desc = 'tip_recovery_7_desc';
+  static const String tipRecovery8Title = 'tip_recovery_8_title';
+  static const String tipRecovery8Desc = 'tip_recovery_8_desc';
+
+  // Tip titles & descriptions — Mindset
+  static const String tipMindset1Title = 'tip_mindset_1_title';
+  static const String tipMindset1Desc = 'tip_mindset_1_desc';
+  static const String tipMindset2Title = 'tip_mindset_2_title';
+  static const String tipMindset2Desc = 'tip_mindset_2_desc';
+  static const String tipMindset3Title = 'tip_mindset_3_title';
+  static const String tipMindset3Desc = 'tip_mindset_3_desc';
+  static const String tipMindset4Title = 'tip_mindset_4_title';
+  static const String tipMindset4Desc = 'tip_mindset_4_desc';
+  static const String tipMindset5Title = 'tip_mindset_5_title';
+  static const String tipMindset5Desc = 'tip_mindset_5_desc';
+  static const String tipMindset6Title = 'tip_mindset_6_title';
+  static const String tipMindset6Desc = 'tip_mindset_6_desc';
+  static const String tipMindset7Title = 'tip_mindset_7_title';
+  static const String tipMindset7Desc = 'tip_mindset_7_desc';
+
+  // Tip titles & descriptions — Lifestyle
+  static const String tipLifestyle1Title = 'tip_lifestyle_1_title';
+  static const String tipLifestyle1Desc = 'tip_lifestyle_1_desc';
+  static const String tipLifestyle2Title = 'tip_lifestyle_2_title';
+  static const String tipLifestyle2Desc = 'tip_lifestyle_2_desc';
+  static const String tipLifestyle3Title = 'tip_lifestyle_3_title';
+  static const String tipLifestyle3Desc = 'tip_lifestyle_3_desc';
+  static const String tipLifestyle4Title = 'tip_lifestyle_4_title';
+  static const String tipLifestyle4Desc = 'tip_lifestyle_4_desc';
+  static const String tipLifestyle5Title = 'tip_lifestyle_5_title';
+  static const String tipLifestyle5Desc = 'tip_lifestyle_5_desc';
+  static const String tipLifestyle6Title = 'tip_lifestyle_6_title';
+  static const String tipLifestyle6Desc = 'tip_lifestyle_6_desc';
 }
