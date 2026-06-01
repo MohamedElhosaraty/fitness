@@ -12,7 +12,7 @@ class SharedPrefHelper {
   }
 
   static bool getBool(String key) {
-    return _instance.getBool(key) ?? false;
+    return _instance.getBool(key) ?? true;
   }
 
   static setInt(String key, int value) async {

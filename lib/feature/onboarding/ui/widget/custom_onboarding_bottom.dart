@@ -36,12 +36,7 @@ class CustomOnboardingBottom extends StatelessWidget {
                     ? null
                     : () => context.read<SaveWorkoutPlanCubit>().saveWorkoutPlan(),
 
-                child: isLoading
-                    ? const CircularProgressIndicator(
-                  color: AppColors.background,
-                  strokeWidth: 2,
-                )
-                    : Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(

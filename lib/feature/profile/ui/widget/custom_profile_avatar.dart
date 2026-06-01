@@ -27,86 +27,79 @@ class CustomProfileAvatar extends StatelessWidget {
     final name = profileUserName(context);
     final initials = profileInitials(name);
 
-    return ValueListenableBuilder<String?>(
-      valueListenable: ProfileImageStorage.imagePathNotifier,
-      builder: (context, imagePath, _) {
-        return ValueListenableBuilder<int>(
-          valueListenable: ProfileImageStorage.imageGeneration,
-          builder: (context, generation, _) {
-            final hasImage =
-                imagePath != null && File(imagePath).existsSync();
+    return ValueListenableBuilder<({String? path, int version})>(
+      valueListenable: ProfileImageStorage.imageNotifier,
+      builder: (context, data, _) {
+        final hasImage = data.path != null && File(data.path!).existsSync();
 
-            return Stack(
-              clipBehavior: Clip.none,
-              children: [
-                GestureDetector(
-                  onTap: showEditButton ? onEditTap : null,
-                  child: Container(
+        return Stack(
+          clipBehavior: Clip.none,
+          children: [
+            GestureDetector(
+              onTap: showEditButton ? onEditTap : null,
+              child: Container(
+                width: size.w,
+                height: size.h,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: hasImage
+                      ? null
+                      : LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      AppColors.primaryColor.withValues(alpha: 0.85),
+                      AppColors.primaryColor,
+                    ],
+                  ),
+                  border: Border.all(
+                    color: AppColors.white4,
+                    width: borderWidth,
+                  ),
+                ),
+                child: ClipOval(
+                  child: hasImage
+                      ? Image.file(
+                    File(data.path!),
+                    key: ValueKey(data.version),
                     width: size.w,
-                    height: size.w,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: hasImage
-                          ? null
-                          : LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                AppColors.primaryColor.withValues(alpha: 0.85),
-                                AppColors.primaryColor,
-                              ],
-                            ),
-                      border: Border.all(
-                        color: AppColors.white4,
-                        width: borderWidth,
-                      ),
-                    ),
-                    child: ClipOval(
-                      child: hasImage
-                          ? Image.file(
-                              File(imagePath),
-                              key: ValueKey('avatar-$generation'),
-                              width: size.w,
-                              height: size.w,
-                              fit: BoxFit.cover,
-                              gaplessPlayback: false,
-                            )
-                          : Center(
-                              child: Text(
-                                initials,
-                                style: (size >= 80
-                                        ? AppTextStyles.font34Bold(context)
-                                        : AppTextStyles.font16Bold(context))
-                                    .copyWith(color: AppColors.background),
-                              ),
-                            ),
+                    height: size.h,
+                    fit: BoxFit.cover,
+                  )
+                      : Center(
+                    child: Text(
+                      initials,
+                      style: (size >= 80
+                          ? AppTextStyles.font34Bold(context)
+                          : AppTextStyles.font16Bold(context))
+                          .copyWith(color: AppColors.background),
                     ),
                   ),
                 ),
-                if (showEditButton)
-                  Positioned(
-                    right: 4,
-                    bottom: 4,
-                    child: GestureDetector(
-                      onTap: onEditTap,
-                      child: Container(
-                        width: 34.w,
-                        height: 34.w,
-                        decoration: const BoxDecoration(
-                          color: AppColors.primaryColor,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.edit_outlined,
-                          color: AppColors.background,
-                          size: 18,
-                        ),
-                      ),
+              ),
+            ),
+            if (showEditButton)
+              Positioned(
+                right: 4,
+                bottom: 4,
+                child: GestureDetector(
+                  onTap: onEditTap,
+                  child: Container(
+                    width: 34.w,
+                    height: 34.w,
+                    decoration: const BoxDecoration(
+                      color: AppColors.primaryColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.camera_alt,
+                      color: AppColors.background,
+                      size: 18,
                     ),
                   ),
-              ],
-            );
-          },
+                ),
+              ),
+          ],
         );
       },
     );

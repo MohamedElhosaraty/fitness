@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fitness/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,7 +18,6 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   @override
   void initState() {
     super.initState();
-    log(widget.videoId);
     _youtubeController = YoutubePlayerController(
       initialVideoId: widget.videoId,
       flags: const YoutubePlayerFlags(autoPlay: false, mute: false),

@@ -11,9 +11,10 @@ import 'shared_prefs_keys.dart';
 class ProfileImageStorage {
   ProfileImageStorage._();
 
-  static final ValueNotifier<String?> imagePathNotifier = ValueNotifier(null);
-  static final ValueNotifier<int> imageGeneration = ValueNotifier(0);
   static const String _fileName = 'profile_avatar.jpg';
+
+  static final ValueNotifier<({String? path, int version})> imageNotifier =
+  ValueNotifier((path: null, version: 0));
 
   static Future<File> _localAvatarFile() async {
     final directory = await getApplicationDocumentsDirectory();
@@ -21,48 +22,58 @@ class ProfileImageStorage {
   }
 
   static Future<void> init() async {
-    final savedPath = SharedPrefHelper.getString(SharedPrefsKeys.profileImagePath);
+    final savedPath =
+    SharedPrefHelper.getString(SharedPrefsKeys.profileImagePath);
+
     if (savedPath.isNotEmpty && File(savedPath).existsSync()) {
-      imagePathNotifier.value = savedPath;
+      imageNotifier.value = (path: savedPath, version: 0);
       return;
     }
 
     final localFile = await _localAvatarFile();
     if (localFile.existsSync()) {
-      imagePathNotifier.value = localFile.path;
       await SharedPrefHelper.setString(
         SharedPrefsKeys.profileImagePath,
         localFile.path,
       );
+      imageNotifier.value = (path: localFile.path, version: 0);
     }
   }
 
   static Future<bool> savePickedImage(XFile picked) async {
-    final destination = await _localAvatarFile();
-    final bytes = await picked.readAsBytes();
-    await destination.writeAsBytes(bytes, flush: true);
+    try {
+      final destination = await _localAvatarFile();
+      final bytes = await picked.readAsBytes();
+      await destination.writeAsBytes(bytes, flush: true);
 
-    await SharedPrefHelper.setString(
-      SharedPrefsKeys.profileImagePath,
-      destination.path,
-    );
+      await SharedPrefHelper.setString(
+        SharedPrefsKeys.profileImagePath,
+        destination.path,
+      );
+      // remove old image from cache
+      PaintingBinding.instance.imageCache.evict(FileImage(destination));
+      // update image notifier
+      imageNotifier.value = (
+      path: destination.path,
+      version: imageNotifier.value.version + 1,
+      );
 
-    PaintingBinding.instance.imageCache.evict(FileImage(destination));
-    imagePathNotifier.value = null;
-    imagePathNotifier.value = destination.path;
-    imageGeneration.value++;
-
-    return true;
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
-  // static Future<void> clear() async {
-  //   final path = imagePathNotifier.value ??
-  //       SharedPrefHelper.getString(SharedPrefsKeys.profileImagePath);
-  //   if (path.isNotEmpty) {
-  //     final file = File(path);
-  //     if (file.existsSync()) await file.delete();
-  //   }
-  //   await SharedPrefHelper.setString(SharedPrefsKeys.profileImagePath, '');
-  //   imagePathNotifier.value = null;
-  // }
+  static Future<void> clear() async {
+    final path = imageNotifier.value.path ??
+        SharedPrefHelper.getString(SharedPrefsKeys.profileImagePath);
+
+    if (path.isNotEmpty) {
+      final file = File(path);
+      if (file.existsSync()) await file.delete();
+    }
+
+    await SharedPrefHelper.setString(SharedPrefsKeys.profileImagePath, '');
+    imageNotifier.value = (path: null, version: 0);
+  }
 }

@@ -18,17 +18,33 @@ class ActiveExerciseScreenBody extends StatefulWidget {
   final List<WorkoutExerciseModel> dayExercise;
 
   @override
-  State<ActiveExerciseScreenBody> createState() => _ActiveExerciseScreenBodyState();
+  State<ActiveExerciseScreenBody> createState() =>
+      _ActiveExerciseScreenBodyState();
 }
 
 class _ActiveExerciseScreenBodyState extends State<ActiveExerciseScreenBody> {
-
+  late final PageController _pageController;
   int _currentIndex = 0;
   Future<void> Function()? _startTimer;
 
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
   void _next() {
     if (_currentIndex < widget.dayExercise.length - 1) {
-      setState(() => _currentIndex++);
+      _pageController.nextPage(
+        duration: const Duration(milliseconds: 350),
+        curve: Curves.easeInOut,
+      );
     } else {
       context.read<WorkoutCubit>().completeDay();
       context.pop();
@@ -41,36 +57,44 @@ class _ActiveExerciseScreenBodyState extends State<ActiveExerciseScreenBody> {
       children: [
         CustomActiveExerciseHeader(
           onNext: _next,
-          isLast:  _currentIndex == widget.dayExercise.length - 1,
+          isLast: _currentIndex == widget.dayExercise.length - 1,
         ),
         Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomVideoPlayer(
-                  videoId: widget.dayExercise[_currentIndex].videoUrl,
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 14, 20, 0),
-                  child: Text(
-                    widget.dayExercise[_currentIndex].getTitle(context.currentLang),
-                    style: AppTextStyles.font17Medium(context).copyWith(
-                      color: AppColors.black,
+          child: PageView.builder(
+            controller: _pageController,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: widget.dayExercise.length,
+            onPageChanged: (index) => setState(() => _currentIndex = index),
+            itemBuilder: (context, index) {
+              final exercise = widget.dayExercise[index];
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomVideoPlayer(
+                      videoId: exercise.videoUrl,
                     ),
-                  ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 14, 20, 0),
+                      child: Text(
+                        exercise.getTitle(context.currentLang),
+                        style: AppTextStyles.font17Medium(context).copyWith(
+                          color: AppColors.black,
+                        ),
+                      ),
+                    ),
+                    CustomFormCues(
+                      cues: exercise.getFormCues(context.currentLang),
+                    ),
+                    CustomSetsSection(
+                      exercise: exercise,
+                      onSetDone: () => _startTimer?.call(),
+                    ),
+                    20.verticalSpace,
+                  ],
                 ),
-                CustomFormCues(
-                  cues: widget.dayExercise[_currentIndex].getFormCues(context.currentLang),
-                ),
-                CustomSetsSection(
-                  key: ValueKey(_currentIndex),
-                  exercise: widget.dayExercise[_currentIndex],
-                  onSetDone: () => _startTimer?.call(),
-                ),
-                20.verticalSpace,
-              ],
-            ),
+              );
+            },
           ),
         ),
         CustomTimerBar(
