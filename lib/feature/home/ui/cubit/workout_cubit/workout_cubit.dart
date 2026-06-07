@@ -22,24 +22,4 @@ class WorkoutCubit extends Cubit<WorkoutState> {
       completedDays: UserPreferences.completedDays,
     ));
   }
-
-  void completeDay() {
-    final int nextDay = UserPreferences.completedDays >= UserPreferences.numberDays
-        ? 1
-        : UserPreferences.completedDays + 1;
-
-    UserPreferences.setCompletedDays = nextDay;
-
-    final day = HiveHelper.getDay(UserPreferences.currentPlanId,UserPreferences.completedDays);
-
-    if (day == null) {
-      emit(WorkoutError('No workout found'));
-      return;
-    }
-
-    emit(WorkoutSuccess(
-      dayExercises: day,
-      completedDays: nextDay,
-    ));
-  }
 }

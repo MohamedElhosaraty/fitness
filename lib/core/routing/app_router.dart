@@ -19,11 +19,12 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const MainScreen());
 
       case Routes.activeExerciseScreen:
+        final args = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-          builder:
-              (_) => ActiveExerciseScreen(
-                dayExerciseModel: settings.arguments as List<WorkoutExerciseModel>,
-              ),
+          builder: (_) => ActiveExerciseScreen(
+            dayExerciseModel: args['exercises'] as List<WorkoutExerciseModel>,
+            currentSlot: args['currentSlot'] as int?,
+          ),
         );
     }
     return null;
