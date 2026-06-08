@@ -5,10 +5,9 @@ class SharedPrefsKeys {
   static const String completedDays = "completedDays";
   static const String name = "name";
   static const String profileImagePath = "profileImagePath";
-
-  static const String weekAnchorKey = 'week_anchor';
-  static const String daysPlayedKey = 'days_played';
-  static const String lastDayPlayedKey = 'last_day_played';
-  static const String currentDaySlotKey = 'current_day_slot';
   static const String savedKey = 'saved_tips';
+  static const String weekAnchorKey = 'week_anchor';
+  static const String finishedSlotsKey = 'finished_slots';
+  static const String r1RestDayKey = 'r1_rest_day';
+
 }
