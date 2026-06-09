@@ -1,15 +1,24 @@
 import 'package:fitness/core/localization/localization_methods.dart';
-import 'package:fitness/feature/home/ui/widget/custom_content_active_bloc_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
 import '../../../../generated/app_strings.dart';
 import '../../../../generated/assets.dart';
+import '../../../onboarding/data/model/workout_day_model.dart';
+import 'custom_content_active_plan_card.dart';
 
 class CustomActivePlanCard extends StatelessWidget {
-  const CustomActivePlanCard({super.key});
+  const CustomActivePlanCard({
+    super.key,
+    required this.dayExerciseModel,
+    required this.currentSlot,
+    required this.onWorkoutFinished,
+  });
+
+  final WorkoutDayModel dayExerciseModel;
+  final int? currentSlot;
+  final VoidCallback onWorkoutFinished;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +79,11 @@ class CustomActivePlanCard extends StatelessWidget {
                   ],
                 ),
                 16.verticalSpace,
-                const CustomContentActiveBlocBuilder(),
+                CustomContentActivePlanCard(
+                  dayExerciseModel: dayExerciseModel,
+                  currentSlot: currentSlot,
+                  onWorkoutFinished: onWorkoutFinished,
+                ),
               ],
             ),
           ),

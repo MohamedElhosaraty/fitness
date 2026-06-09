@@ -1,21 +1,25 @@
 import 'package:fitness/core/helpers/extensions.dart';
-import 'package:fitness/feature/home/ui/cubit/workout_cubit/workout_cubit.dart';
 import 'package:fitness/feature/home/ui/widget/custom_active_exercise_header.dart';
 import 'package:fitness/feature/home/ui/widget/custom_form_cues.dart';
 import 'package:fitness/feature/home/ui/widget/custom_sets_section.dart';
 import 'package:fitness/feature/home/ui/widget/custom_timer_bar.dart';
 import 'package:fitness/feature/home/ui/widget/custom_video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/helpers/app_boxes.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
 import '../../../onboarding/data/model/workout_exercise_model.dart';
 
 class ActiveExerciseScreenBody extends StatefulWidget {
-  const ActiveExerciseScreenBody({super.key, required this.dayExercise});
+  const ActiveExerciseScreenBody({
+    super.key,
+    required this.dayExercise,
+    required this.currentSlot,
+  });
 
   final List<WorkoutExerciseModel> dayExercise;
+  final int? currentSlot;
 
   @override
   State<ActiveExerciseScreenBody> createState() =>
@@ -39,15 +43,22 @@ class _ActiveExerciseScreenBodyState extends State<ActiveExerciseScreenBody> {
     super.dispose();
   }
 
-  void _next() {
+  void _next() async {
     if (_currentIndex < widget.dayExercise.length - 1) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 350),
         curve: Curves.easeInOut,
       );
     } else {
-      context.read<WorkoutCubit>().completeDay();
-      context.pop();
+      final slot = widget.currentSlot;
+      if (slot != null) {
+        final finished = AppBoxes.finishedSlots;
+        if (!finished.contains(slot)) {
+          await AppBoxes.setFinishedSlots([...finished, slot]);
+        }
+      }
+      if (!mounted) return;
+      Navigator.of(context).maybePop();
     }
   }
 
@@ -71,16 +82,14 @@ class _ActiveExerciseScreenBodyState extends State<ActiveExerciseScreenBody> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomVideoPlayer(
-                      videoId: exercise.videoUrl,
-                    ),
+                    CustomVideoPlayer(videoId: exercise.videoUrl),
                     Padding(
                       padding: EdgeInsets.fromLTRB(20, 14, 20, 0),
                       child: Text(
                         exercise.getTitle(context.currentLang),
-                        style: AppTextStyles.font17Medium(context).copyWith(
-                          color: AppColors.black,
-                        ),
+                        style: AppTextStyles.font17Medium(
+                          context,
+                        ).copyWith(color: AppColors.black),
                       ),
                     ),
                     CustomFormCues(

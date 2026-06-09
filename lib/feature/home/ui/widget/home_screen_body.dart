@@ -6,16 +6,43 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
+import '../../../../core/utils/home_day_utils.dart';
 import '../../../../generated/app_strings.dart';
-import 'custom_bottom_to_finish_exercise_day.dart';
 import 'custom_home_info.dart';
 import 'custom_home_top_bar.dart';
 
-class HomeScreenBody extends StatelessWidget {
+class HomeScreenBody extends StatefulWidget {
   const HomeScreenBody({super.key});
 
   @override
+  State<HomeScreenBody> createState() => _HomeScreenBodyState();
+}
+
+class _HomeScreenBodyState extends State<HomeScreenBody> {
+  HomeDaySlotUtility? _homeDaySlot;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSlot();
+  }
+
+  Future<void> _loadSlot() async {
+    final slot = await HomeDaySlotUtility.get();
+    if (!mounted) return;
+    setState(() => _homeDaySlot = slot);
+  }
+
+  @override
   Widget build(BuildContext context) {
+
+    if (_homeDaySlot == null) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    final homeDaySlot = _homeDaySlot!;
     return SafeArea(
       child: ListView(
         physics: const BouncingScrollPhysics(),
@@ -23,9 +50,17 @@ class HomeScreenBody extends StatelessWidget {
         children: [
           const CustomHomeTopBar(),
           20.verticalSpace,
-          const CustomNumberDay(),
+          CustomNumberDay(
+            activeSlots: homeDaySlot.activeSlots,
+            currentSlot: homeDaySlot.currentSlot,
+            finishedSlots: homeDaySlot.finishedSlots,
+          ),
           20.verticalSpace,
-          const CustomActivePlanCard(),
+          CustomActivePlanCard(
+            dayExerciseModel: homeDaySlot.currentWorkoutDay,
+            currentSlot: homeDaySlot.currentSlot,
+            onWorkoutFinished: _loadSlot,
+          ),
           12.verticalSpace,
           Text(
             tr(context, AppStrings.todayExercises),
@@ -37,8 +72,6 @@ class HomeScreenBody extends StatelessWidget {
           const CustomExerciseListSectionBlocBuilder(),
           12.verticalSpace,
           const CustomHomeInfo(),
-          12.verticalSpace,
-          const CustomBottomToFinishExerciseDay(),
           20.verticalSpace,
         ],
       ),

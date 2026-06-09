@@ -4,15 +4,17 @@ import '../../../onboarding/data/model/workout_exercise_model.dart';
 
 
 class ActiveExerciseScreen extends StatelessWidget {
-  const ActiveExerciseScreen({super.key, required this.dayExerciseModel});
+  const ActiveExerciseScreen({super.key, required this.dayExerciseModel,required this.currentSlot});
 
   final List<WorkoutExerciseModel> dayExerciseModel;
+  final int? currentSlot;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       body: ActiveExerciseScreenBody(
+        currentSlot: currentSlot,
         dayExercise: dayExerciseModel,
       ),
     );
