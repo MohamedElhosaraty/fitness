@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/helpers/user_preferences.dart';
 import '../../../../core/localization/localization_methods.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
@@ -31,17 +32,22 @@ class CustomHomeTopBar extends StatelessWidget {
             ),
           ],
         ),
-        Container(
-          width: 42.w,
-          height: 42.h,
-          decoration: BoxDecoration(
-            color: AppColors.white2,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: const Icon(
-            Icons.settings_outlined,
-            color: AppColors.black,
-            size: 22,
+        InkWell(
+          onTap: () {
+            UserPreferences.bottomNavIndexNotifier.value = 2;
+          },
+          child: Container(
+            width: 42.w,
+            height: 42.h,
+            decoration: BoxDecoration(
+              color: AppColors.white2,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Icon(
+              Icons.settings_outlined,
+              color: AppColors.black,
+              size: 22,
+            ),
           ),
         ),
       ],

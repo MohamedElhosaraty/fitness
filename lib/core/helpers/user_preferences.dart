@@ -4,6 +4,7 @@ import 'shared_prefs_keys.dart';
 
 class UserPreferences {
   //  ValueNotifiers
+  static final bottomNavIndexNotifier = ValueNotifier<int>(0);
   static final ValueNotifier<String> selectedGoalNotifier = ValueNotifier('getStrong');
   static final ValueNotifier<int> numberDaysNotifier = ValueNotifier(3);
 

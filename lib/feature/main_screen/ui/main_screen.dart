@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/helpers/shared_pref_helper.dart';
 import '../../../core/helpers/shared_prefs_keys.dart';
+import '../../../core/helpers/user_preferences.dart';
 import '../../../core/widgets/bottom_nav_bar.dart';
 import '../../learn/ui/page/learn_screen.dart';
 import 'widget/custom_show_bottom_sheet.dart';
@@ -17,7 +18,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
 
   final List<Widget> _pages = const [
     HomeScreen(),
@@ -49,21 +49,19 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
-  void _onTabTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.white,
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: MyBottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: _onTabTapped,
-      ),
+    return ValueListenableBuilder<int>(
+      valueListenable: UserPreferences.bottomNavIndexNotifier,
+      builder: (context, index, _) {
+        return Scaffold(
+          backgroundColor: AppColors.white,
+          body: _pages[index],
+          bottomNavigationBar: MyBottomNavBar(
+            selectedIndex: index,
+            onItemTapped: (i) => UserPreferences.bottomNavIndexNotifier.value = i,          ),
+        );
+      },
     );
   }
 }
