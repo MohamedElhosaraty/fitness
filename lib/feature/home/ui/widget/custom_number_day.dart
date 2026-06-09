@@ -1,55 +1,48 @@
+import 'package:fitness/feature/home/ui/widget/custom_day_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/localization/localization_methods.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
-import '../../../../core/localization/localization_methods.dart';
 import '../../../../core/utils/home_day_utils.dart';
 import '../../../../generated/app_strings.dart';
 
+class CustomNumberDay extends StatelessWidget {
+  const CustomNumberDay({
+    super.key,
+    required this.activeSlots,
+    required this.currentSlot,
+    required this.finishedSlots,
+  });
 
-class CustomNumberDay extends StatefulWidget {
-  const CustomNumberDay({super.key});
+  final List<int?> activeSlots;
+  final int? currentSlot;
+  final List<int> finishedSlots;
 
-  @override
-  State<CustomNumberDay> createState() => CustomNumberDayState();
-}
-
-class CustomNumberDayState extends State<CustomNumberDay> {
-  static const List<String> _dayLabels = ['S', 'S', 'M', 'T', 'W', 'T', 'F'];
-
-  HomeDayUtils? _homeDayUtils;
-
-  @override
-  void initState() {
-    super.initState();
-    loadHomeDayUtils();
-  }
-
-  Future<void> loadHomeDayUtils() async {
-    final result = await HomeDayUtils.get();
-    if (mounted) {
-      setState(() {
-        _homeDayUtils = result;
-      });
-    }
-  }
+  List<String> _dayLabels (BuildContext context) => [
+    tr(context, AppStrings.daySaturday),
+    tr(context, AppStrings.daySunday),
+    tr(context, AppStrings.dayMonday),
+    tr(context, AppStrings.dayTuesday),
+    tr(context, AppStrings.dayWednesday),
+    tr(context, AppStrings.dayThursday),
+    tr(context, AppStrings.dayFriday),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    final activeSlots = _homeDayUtils?.activeSlots ?? [];
-
-    return _homeDayUtils == null
-        ? const SizedBox()
-        : Column(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               tr(context, AppStrings.weeklyBlueprint),
-              style: AppTextStyles.font16Bold(context)
-                  .copyWith(color: AppColors.black),
+              style: AppTextStyles.font16Bold(context).copyWith(
+                color: AppColors.black,
+              ),
             ),
             Text(
               tr(context, AppStrings.week1),
@@ -62,43 +55,22 @@ class CustomNumberDayState extends State<CustomNumberDay> {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: AppColors.white3,
-            border: Border.all(color: AppColors.border, width: 1),
+            border: Border.all(color: AppColors.border),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: List.generate(7, (dayIndex) {
-              final bool isActiveSlot = activeSlots.contains(dayIndex);
+            children: List.generate(7, (index) {
+              final status = finishedSlots.contains(index)
+                  ? HomeDayStatus.finished
+                  : activeSlots.contains(index) || index == currentSlot
+                  ? HomeDayStatus.active
+                  : HomeDayStatus.reset;
 
-              final Color circleColor = isActiveSlot
-                  ? AppColors.primaryColor
-                  : AppColors.primaryColor.withValues(alpha: 0.30);
-
-              return Column(
-                children: [
-                  Text(
-                    _dayLabels[dayIndex],
-                    style: AppTextStyles.font12Medium(context)
-                        .copyWith(color: AppColors.grey),
-                  ),
-                  6.verticalSpace,
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    width: 38.w,
-                    height: 38.h,
-                    decoration: BoxDecoration(
-                      color: circleColor,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Text(
-                        '${dayIndex + 1}',
-                        style: AppTextStyles.font14Medium(context)
-                            .copyWith(color: AppColors.background),
-                      ),
-                    ),
-                  ),
-                ],
+              return CustomDayItem(
+                label: _dayLabels(context)[index],
+                number: index + 1,
+                status: status,
               );
             }),
           ),

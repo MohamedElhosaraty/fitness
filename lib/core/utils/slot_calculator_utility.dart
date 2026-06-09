@@ -176,6 +176,11 @@ class SlotCalculatorUtility {
     for (int i = currentSlotIndex; i <= 6; i++) {
       if (i != r1 && i != r2) slots.add(i);
     }
+
+    if (lastSlot == currentSlotIndex) {
+      slots.remove(currentSlotIndex);
+    }
+
     return (slots: slots.take(total).toList(), r1ToStore: r1ToStore);
   }
 }

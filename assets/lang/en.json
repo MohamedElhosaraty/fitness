@@ -190,6 +190,13 @@
   "tip_lifestyle_5_title": "Walk 8,000 steps daily",
   "tip_lifestyle_5_desc": "Daily step count is strongly linked to fat loss, independent of gym sessions.",
   "tip_lifestyle_6_title": "Find a training partner or community",
-  "tip_lifestyle_6_desc": "Social accountability doubles workout consistency. Even an online group works."
+  "tip_lifestyle_6_desc": "Social accountability doubles workout consistency. Even an online group works.",
+  "daySaturday": "S",
+  "daySunday": "S",
+  "dayMonday": "M",
+  "dayTuesday": "T",
+  "dayWednesday": "W",
+  "dayThursday": "T",
+  "dayFriday": "F"
 
 }

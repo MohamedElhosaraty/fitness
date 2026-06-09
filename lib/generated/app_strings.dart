@@ -194,4 +194,12 @@ class AppStrings {
   static const String tipLifestyle5Desc = 'tip_lifestyle_5_desc';
   static const String tipLifestyle6Title = 'tip_lifestyle_6_title';
   static const String tipLifestyle6Desc = 'tip_lifestyle_6_desc';
+
+  static const String daySaturday = 'daySaturday';
+  static const String daySunday = 'daySunday';
+  static const String dayMonday = 'dayMonday';
+  static const String dayTuesday = 'dayTuesday';
+  static const String dayWednesday = 'dayWednesday';
+  static const String dayThursday = 'dayThursday';
+  static const String dayFriday = 'dayFriday';
 }
