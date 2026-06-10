@@ -10,16 +10,17 @@ class WorkoutCubit extends Cubit<WorkoutState> {
   void reset() => emit(WorkoutInitial());
 
   void loadCurrentDay() {
-    final day = HiveHelper.getDay(UserPreferences.currentPlanId,UserPreferences.completedDays);
+    final day = HiveHelper.getDay(
+      UserPreferences.currentPlanId,
+      UserPreferences.completedDays,
+    );
 
     if (day == null) {
       emit(WorkoutError('No workout found'));
       return;
     }
 
-    emit(WorkoutSuccess(
-      dayExercises: day,
-      completedDays: UserPreferences.completedDays,
-    ));
+    emit(WorkoutSuccess(dayExercises: day));
   }
+
 }

@@ -28,9 +28,11 @@ class CustomSetsHeader extends StatelessWidget {
             child: Text(
               tr(context, AppStrings.set),
               textAlign: TextAlign.start,
+              overflow: TextOverflow.ellipsis,
               style: AppTextStyles.font13Bold(context).copyWith(
                 color: AppColors.blueTertiary,
                 letterSpacing: 0.7,
+
               ),
             ),
           ),
@@ -39,6 +41,7 @@ class CustomSetsHeader extends StatelessWidget {
             child: Text(
               tr(context, AppStrings.weight),
               textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
               style: AppTextStyles.font13Bold(context).copyWith(
                 color: AppColors.blueTertiary,
                 letterSpacing: 0.7,
@@ -51,6 +54,7 @@ class CustomSetsHeader extends StatelessWidget {
             child: Text(
               tr(context, AppStrings.reps),
               textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
               style: AppTextStyles.font13Bold(context).copyWith(
                 color: AppColors.blueTertiary,
                 letterSpacing: 0.7,
@@ -63,6 +67,7 @@ class CustomSetsHeader extends StatelessWidget {
             child: Text(
               tr(context, AppStrings.done),
               textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
               style: AppTextStyles.font13Bold(context).copyWith(
                 color: AppColors.blueTertiary,
                 letterSpacing: 0.7,

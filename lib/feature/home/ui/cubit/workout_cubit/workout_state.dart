@@ -7,9 +7,8 @@ final class WorkoutInitial extends WorkoutState {}
 
 final class WorkoutSuccess extends WorkoutState {
   final WorkoutDayModel dayExercises;
-  final int completedDays;
 
-  WorkoutSuccess({required this.dayExercises, required this.completedDays});
+  WorkoutSuccess({required this.dayExercises});
 }
 
 final class WorkoutError extends WorkoutState {

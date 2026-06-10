@@ -197,6 +197,7 @@
   "dayTuesday": "T",
   "dayWednesday": "W",
   "dayThursday": "T",
-  "dayFriday": "F"
+  "dayFriday": "F",
+  "pleaseCompleteAllSetsContinue": "Please complete all sets to continue"
 
 }

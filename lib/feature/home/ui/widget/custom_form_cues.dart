@@ -67,6 +67,7 @@ class CustomFormCues extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                 ),
+                6.horizontalSpace,
                 Expanded(
                   child: Text(
                     cue,

@@ -202,4 +202,5 @@ class AppStrings {
   static const String dayWednesday = 'dayWednesday';
   static const String dayThursday = 'dayThursday';
   static const String dayFriday = 'dayFriday';
+  static const String pleaseCompleteAllSetsContinue = 'pleaseCompleteAllSetsContinue';
 }
