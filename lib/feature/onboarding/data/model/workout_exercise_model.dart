@@ -39,7 +39,7 @@ class WorkoutExerciseModel extends HiveObject {
   }) {
     final title = Map<String, dynamic>.from(exerciseData['title'] ?? {});
     final formCues = Map<String, dynamic>.from(exerciseData['form_cues'] ?? {});
-    final rawSets = planExercise['sets'] as List;
+    final rawSets = planExercise['sets'] as List? ?? [];
 
     return WorkoutExerciseModel(
       exerciseId: planExercise['exercise_id'] ?? '',

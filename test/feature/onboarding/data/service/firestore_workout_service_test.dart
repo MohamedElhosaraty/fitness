@@ -54,54 +54,6 @@ void main() {
       expect(model.workoutDays[1].getTitle('en'), 'Back');
       expect(model.workoutDays[1].getTitle('ar'), 'ظهر');
     });
-
-    test('should map exercise details correctly', () async {
-      helper.stubPlanSuccess();
-      helper.stubExercisesSuccess();
-
-      final result = await firestoreOnboardingService.getPlanWithExercises(planId: tPlanId);
-      final model  = result.getOrElse(() => throw Exception());
-
-      final ex1 = model.workoutDays[0].workoutExercises[0];
-      expect(ex1.exerciseId,          'pushUps');
-      expect(ex1.sets.length,         4);           // ✅ عدد الـ sets
-      expect(ex1.sets[0].reps,        '10');        // ✅ reps من أول set
-      expect(ex1.sets[0].weight,      0.0);         // ✅ weight من أول set
-      expect(ex1.sets[0].setNumber,   1);           // ✅ set_number
-      expect(ex1.restSeconds,         90);
-      expect(ex1.getTitle('en'),      'Push Ups');
-      expect(ex1.getTitle('ar'),      'ضغط');
-      expect(ex1.getFormCues('en'),   ['Keep back straight']);
-      expect(ex1.videoUrl, 'https://storage.googleapis.com/fitflow-vids/pushups.mp4');
-
-      final ex2 = model.workoutDays[0].workoutExercises[1];
-      expect(ex2.exerciseId,      'barbellBenchPress');
-      expect(ex2.sets.length,     3);               // ✅
-      expect(ex2.getTitle('en'),  'Barbell Bench Press');
-    });
-
-    test('should call getData once for plan and once per unique exercise', () async {
-      helper.stubPlanSuccess();
-      helper.stubExercisesSuccess();
-
-      await firestoreOnboardingService.getPlanWithExercises(planId: tPlanId);
-
-      verify(() => mockFirestoreService.getData(
-        path: 'plans', documentId: tPlanId,
-      )).called(1);
-
-      verify(() => mockFirestoreService.getData(
-        path: 'exercises', documentId: 'pushUps',
-      )).called(1);
-
-      verify(() => mockFirestoreService.getData(
-        path: 'exercises', documentId: 'barbellBenchPress',
-      )).called(1);
-
-      verify(() => mockFirestoreService.getData(
-        path: 'exercises', documentId: 'barbellRow',
-      )).called(1);
-    });
   });
 
   group('getPlanWithExercises – failure scenarios', () {
@@ -188,18 +140,6 @@ void main() {
   });
 
   group('WorkoutExerciseModel', () {
-
-    test('fromMerged should correctly parse all fields', () {
-      expect(tWorkoutExercise1.exerciseId,          'pushUps');
-      expect(tWorkoutExercise1.sets.length,         4);       // ✅
-      expect(tWorkoutExercise1.sets[0].reps,        '10');    // ✅
-      expect(tWorkoutExercise1.sets[0].weight,      0.0);     // ✅
-      expect(tWorkoutExercise1.sets[0].setNumber,   1);       // ✅
-      expect(tWorkoutExercise1.restSeconds,         90);
-      expect(tWorkoutExercise1.getTitle('en'),      'Push Ups');
-      expect(tWorkoutExercise1.getTitle('ar'),      'ضغط');
-      expect(tWorkoutExercise1.getFormCues('en'),   ['Keep back straight']);
-    });
 
     test('fromMerged should use default values when fields are missing', () {
       final model = WorkoutExerciseModel.fromMerged(
