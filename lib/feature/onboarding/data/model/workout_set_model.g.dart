@@ -20,19 +20,22 @@ class WorkoutSetModelAdapter extends TypeAdapter<WorkoutSetModel> {
       setNumber: fields[0] as int,
       weight: fields[1] as double,
       reps: fields[2] as int,
+      isDone: fields[3] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, WorkoutSetModel obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.setNumber)
       ..writeByte(1)
       ..write(obj.weight)
       ..writeByte(2)
-      ..write(obj.reps);
+      ..write(obj.reps)
+      ..writeByte(3)
+      ..write(obj.isDone);
   }
 
   @override

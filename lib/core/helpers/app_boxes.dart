@@ -1,6 +1,8 @@
 import 'package:fitness/core/helpers/shared_pref_helper.dart';
 import 'package:fitness/core/helpers/shared_prefs_keys.dart';
 
+import 'hive_helper.dart';
+
 class AppBoxes {
 
   static String? get weekAnchor {
@@ -35,6 +37,7 @@ class AppBoxes {
     await setWeekAnchor(anchor);
     await setFinishedSlots(const <int>[]);
     await clearR1RestDay();
+    await HiveHelper.resetAllSetsDone();
   }
 
 }

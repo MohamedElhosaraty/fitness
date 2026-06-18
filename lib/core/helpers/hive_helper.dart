@@ -27,7 +27,7 @@ class HiveHelper {
 
   static WorkoutDayModel? getDay(String planId, int dayNumber) =>
       getPlan(planId)?.workoutDays.cast<WorkoutDayModel?>().firstWhere(
-        (day) => day?.dayNumber == dayNumber,
+            (day) => day?.dayNumber == dayNumber,
         orElse: () => null,
       );
 
@@ -65,19 +65,36 @@ class HiveHelper {
     required int setIndex,
     double? newWeight,
     int? newReps,
+    bool? newDone,
   }) async {
     final plan = getPlan(UserPreferences.currentPlanId);
     if (plan == null) return;
 
     final set =
-        plan.workoutDays
-            .firstWhere((d) => d.dayNumber == UserPreferences.completedDays)
-            .workoutExercises
-            .firstWhere((e) => e.exerciseId == exerciseId)
-            .sets[setIndex];
+    plan.workoutDays
+        .firstWhere((d) => d.dayNumber == UserPreferences.completedDays)
+        .workoutExercises
+        .firstWhere((e) => e.exerciseId == exerciseId)
+        .sets[setIndex];
 
     if (newWeight != null) set.weight = newWeight;
     if (newReps != null) set.reps = newReps;
+    if (newDone != null) set.isDone = newDone;
+
+    await plan.save();
+  }
+
+  static Future<void> resetAllSetsDone() async {
+    final plan = getPlan(UserPreferences.currentPlanId);
+    if (plan == null) return;
+
+    for (final day in plan.workoutDays) {
+      for (final exercise in day.workoutExercises) {
+        for (final set in exercise.sets) {
+          set.isDone = false;
+        }
+      }
+    }
 
     await plan.save();
   }

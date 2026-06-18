@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/helpers/app_boxes.dart';
 import '../../../../core/helpers/toast_helper.dart';
+import '../../../../core/helpers/user_preferences.dart';
 import '../../../../core/localization/localization_methods.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_text_styles.dart';
@@ -72,6 +73,7 @@ class _ActiveExerciseScreenBodyState extends State<ActiveExerciseScreenBody> {
       }
       if (!mounted) return;
       Navigator.of(context).maybePop();
+      UserPreferences.setCompletedDays = UserPreferences.completedDays + 1;
     }
   }
 

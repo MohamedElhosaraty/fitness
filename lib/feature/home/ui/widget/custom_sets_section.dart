@@ -41,20 +41,29 @@ class _CustomSetsSectionState extends State<CustomSetsSection> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       widget.onRegisterToggleDone?.call(_toggleNextActiveDone);
       widget.onRegisterIsAllDone?.call(() => _sets.every((s) => s.isDone));
-      _showWeightDialog();
+      if (_sets.every((s) => !s.isDone)) {
+        _showWeightDialog();
+      }
     });
   }
 
   void _initSets() {
-    _sets = List.generate(
-      widget.exercise.sets.length,
-      (i) => WorkoutSet(
-        weight: widget.exercise.sets[i].weight,
-        reps: widget.exercise.sets[i].reps,
-        isDone: false,
-        isActive: i == 0,
-      ),
-    );
+    _sets = List.generate(widget.exercise.sets.length, (i) {
+      final savedSet = widget.exercise.sets[i];
+      return WorkoutSet(
+        weight: savedSet.weight,
+        reps: savedSet.reps,
+        isDone: savedSet.isDone,
+        isActive: false,
+      );
+    });
+
+    final firstNotDoneIndex = _sets.indexWhere((s) => !s.isDone);
+    if (firstNotDoneIndex != -1) {
+      _sets[firstNotDoneIndex] = _sets[firstNotDoneIndex].copyWith(
+        isActive: true,
+      );
+    }
   }
 
   void _showWeightDialog() async {
@@ -62,8 +71,8 @@ class _CustomSetsSectionState extends State<CustomSetsSection> {
       context: context,
       builder:
           (context) => WeightInputDialog(
-            initialWeight: _sets.isNotEmpty ? _sets[0].weight : 25.0,
-          ),
+        initialWeight: _sets.isNotEmpty ? _sets[0].weight : 25.0,
+      ),
     );
 
     if (result == null) return;
@@ -80,9 +89,9 @@ class _CustomSetsSectionState extends State<CustomSetsSection> {
 
   void _toggleDone(int index) {
     if (widget.isTimerRunning?.call() == true) return;
-    setState(() {
-      if (!_sets[index].isActive) return;
+    if (!_sets[index].isActive) return;
 
+    setState(() {
       _sets[index] = _sets[index].copyWith(isDone: true, isActive: false);
 
       if (index + 1 < _sets.length) {
@@ -91,21 +100,33 @@ class _CustomSetsSectionState extends State<CustomSetsSection> {
 
       widget.onSetDone?.call();
     });
+
+    HiveHelper.updateSet(
+      exerciseId: widget.exercise.exerciseId,
+      setIndex: index,
+      newDone: true,
+    );
   }
 
   void _toggleUndone(int index) {
     if (widget.isTimerRunning?.call() == true) return;
-    setState(() {
-      if (!_sets[index].isDone) return;
-      final isLastDone = _sets.sublist(index + 1).every((s) => !s.isDone);
-      if (!isLastDone) return;
+    if (!_sets[index].isDone) return;
+    final isLastDone = _sets.sublist(index + 1).every((s) => !s.isDone);
+    if (!isLastDone) return;
 
+    setState(() {
       _sets[index] = _sets[index].copyWith(isDone: false, isActive: true);
 
       if (index + 1 < _sets.length && _sets[index + 1].isActive) {
         _sets[index + 1] = _sets[index + 1].copyWith(isActive: false);
       }
     });
+
+    HiveHelper.updateSet(
+      exerciseId: widget.exercise.exerciseId,
+      setIndex: index,
+      newDone: false,
+    );
   }
 
   void _toggleNextActiveDone() {
@@ -131,6 +152,9 @@ class _CustomSetsSectionState extends State<CustomSetsSection> {
     );
 
     setState(() {
+      for (var i = 0; i < _sets.length; i++) {
+        _sets[i] = _sets[i].copyWith(isActive: false);
+      }
       _sets.add(
         WorkoutSet(
           weight: newSet.weight,
@@ -156,7 +180,7 @@ class _CustomSetsSectionState extends State<CustomSetsSection> {
           const CustomSetsHeader(),
           ...List.generate(
             _sets.length,
-            (i) => CustomSetRow(
+                (i) => CustomSetRow(
               index: i,
               sets: _sets,
               toggleDone: _toggleDone,

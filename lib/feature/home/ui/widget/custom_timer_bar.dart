@@ -9,6 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/services/rest_timer_notification_service.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../generated/app_strings.dart';
+import '../../../../core/helpers/shared_pref_helper.dart'; // عدّل المسار حسب مكانه الفعلي
+import '../../../../core/helpers/shared_prefs_keys.dart'; // عدّل المسار حسب مكانه الفعلي
 
 class CustomTimerBar extends StatefulWidget {
   const CustomTimerBar({
@@ -34,13 +36,16 @@ class _CustomTimerBarState extends State<CustomTimerBar>
   bool _isTimerRunning = false;
   late int _remainingSeconds;
   DateTime? _startTime;
+  int _originalDurationSeconds = 0;
 
   @override
   void initState() {
     super.initState();
     _remainingSeconds = widget.timerSeconds;
+    _originalDurationSeconds = widget.timerSeconds;
     widget.onStartTimer?.call(_startTimer);
     WidgetsBinding.instance.addObserver(this);
+    _restoreTimerIfNeeded();
   }
 
   @override
@@ -55,6 +60,8 @@ class _CustomTimerBarState extends State<CustomTimerBar>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _timer?.cancel();
+    _timer = null;
+    _startTime = null;
     super.dispose();
   }
 
@@ -64,7 +71,7 @@ class _CustomTimerBarState extends State<CustomTimerBar>
         _isTimerRunning &&
         _startTime != null) {
       final elapsed = DateTime.now().difference(_startTime!).inSeconds;
-      final remaining = widget.timerSeconds - elapsed;
+      final remaining = _originalDurationSeconds - elapsed;
 
       if (remaining <= 0) {
         _resetTimer(cancelAlarm: false);
@@ -72,6 +79,77 @@ class _CustomTimerBarState extends State<CustomTimerBar>
         setState(() => _remainingSeconds = remaining);
       }
     }
+  }
+
+  void _restoreTimerIfNeeded() {
+    final savedStartMillis = SharedPrefHelper.getInt(
+      SharedPrefsKeys.restTimerStartMillis,
+      defaultValue: 0,
+    );
+    if (savedStartMillis == 0) return;
+
+    final savedDuration = SharedPrefHelper.getInt(
+      SharedPrefsKeys.restTimerDurationSeconds,
+      defaultValue: 0,
+    );
+    if (savedDuration <= 0) {
+      _clearSavedTimer();
+      return;
+    }
+
+    final savedStartTime = DateTime.fromMillisecondsSinceEpoch(
+      savedStartMillis,
+    );
+    final elapsed = DateTime.now().difference(savedStartTime).inSeconds;
+    final remaining = savedDuration - elapsed;
+
+    if (remaining <= 0) {
+      _clearSavedTimer();
+      return;
+    }
+
+    if (!mounted) return;
+    _startTime = savedStartTime;
+    _originalDurationSeconds = savedDuration;
+    setState(() {
+      _isTimerRunning = true;
+      _remainingSeconds = remaining;
+    });
+    widget.onTimerStateChanged?.call(true);
+
+    final myStartTime = _startTime;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted || _startTime == null || _startTime != myStartTime) {
+        timer.cancel();
+        return;
+      }
+
+      final elapsedNow = DateTime.now().difference(_startTime!).inSeconds;
+      final remainingNow = _originalDurationSeconds - elapsedNow;
+
+      if (remainingNow <= 0) {
+        timer.cancel();
+        _resetTimer(cancelAlarm: false);
+      } else {
+        setState(() => _remainingSeconds = remainingNow);
+      }
+    });
+  }
+
+  Future<void> _saveTimerState(DateTime startTime, int durationSeconds) async {
+    await SharedPrefHelper.setInt(
+      SharedPrefsKeys.restTimerStartMillis,
+      startTime.millisecondsSinceEpoch,
+    );
+    await SharedPrefHelper.setInt(
+      SharedPrefsKeys.restTimerDurationSeconds,
+      durationSeconds,
+    );
+  }
+
+  Future<void> _clearSavedTimer() async {
+    await SharedPrefHelper.delete(SharedPrefsKeys.restTimerStartMillis);
+    await SharedPrefHelper.delete(SharedPrefsKeys.restTimerDurationSeconds);
   }
 
   void _toggleTimer() {
@@ -84,9 +162,14 @@ class _CustomTimerBarState extends State<CustomTimerBar>
   }
 
   Future<void> _startTimer() async {
+    final sessionStartedAt = DateTime.now();
+
     if (_isTimerRunning) {
       _timer?.cancel();
+      _timer = null;
       await AlarmScheduler.cancelAllAlarms();
+      await _clearSavedTimer();
+      if (!mounted) return;
       setState(() => _remainingSeconds = widget.timerSeconds);
     }
 
@@ -101,18 +184,25 @@ class _CustomTimerBarState extends State<CustomTimerBar>
     );
 
     if (!mounted) return;
+    if (_startTime != null && _startTime != sessionStartedAt) return;
+
     _startTime = DateTime.now();
+    _originalDurationSeconds = widget.timerSeconds;
+    final myStartTime = _startTime;
+
+    await _saveTimerState(myStartTime!, _originalDurationSeconds);
+
     setState(() => _isTimerRunning = true);
     widget.onTimerStateChanged?.call(true);
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (!mounted) {
+      if (!mounted || _startTime == null || _startTime != myStartTime) {
         timer.cancel();
         return;
       }
 
       final elapsed = DateTime.now().difference(_startTime!).inSeconds;
-      final remaining = widget.timerSeconds - elapsed;
+      final remaining = _originalDurationSeconds - elapsed;
 
       if (remaining <= 0) {
         timer.cancel();
@@ -125,8 +215,10 @@ class _CustomTimerBarState extends State<CustomTimerBar>
 
   void _resetTimer({bool cancelAlarm = true}) {
     _timer?.cancel();
+    _timer = null;
     _startTime = null;
     if (cancelAlarm) AlarmScheduler.cancelAllAlarms();
+    _clearSavedTimer();
     if (!mounted) return;
     setState(() {
       _isTimerRunning = false;
@@ -151,7 +243,7 @@ class _CustomTimerBarState extends State<CustomTimerBar>
   }
 
   double get _timerProgress =>
-      (widget.timerSeconds - _remainingSeconds) / widget.timerSeconds;
+      (_originalDurationSeconds - _remainingSeconds) / _originalDurationSeconds;
 
   @override
   Widget build(BuildContext context) {

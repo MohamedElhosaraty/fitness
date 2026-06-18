@@ -9,5 +9,6 @@ class SharedPrefsKeys {
   static const String weekAnchorKey = 'week_anchor';
   static const String finishedSlotsKey = 'finished_slots';
   static const String r1RestDayKey = 'r1_rest_day';
-
+  static const String restTimerStartMillis = 'rest_timer_start_millis';
+  static const String restTimerDurationSeconds = 'rest_timer_duration_seconds';
 }
