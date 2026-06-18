@@ -11,10 +11,20 @@ import '../../../onboarding/data/model/workout_exercise_model.dart';
 import '../../../onboarding/data/model/workout_set_model.dart';
 
 class CustomSetsSection extends StatefulWidget {
-  const CustomSetsSection({super.key, required this.exercise, this.onSetDone});
+  const CustomSetsSection({
+    super.key,
+    required this.exercise,
+    this.onSetDone,
+    this.onRegisterToggleDone,
+    this.isTimerRunning,
+    this.onRegisterIsAllDone,
+  });
 
   final WorkoutExerciseModel exercise;
   final VoidCallback? onSetDone;
+  final void Function(VoidCallback fn)? onRegisterToggleDone;
+  final bool Function()? isTimerRunning;
+  final void Function(bool Function() fn)? onRegisterIsAllDone;
 
   @override
   State<CustomSetsSection> createState() => _CustomSetsSectionState();
@@ -27,7 +37,10 @@ class _CustomSetsSectionState extends State<CustomSetsSection> {
   void initState() {
     super.initState();
     _initSets();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      widget.onRegisterToggleDone?.call(_toggleNextActiveDone);
+      widget.onRegisterIsAllDone?.call(() => _sets.every((s) => s.isDone));
       _showWeightDialog();
     });
   }
@@ -66,6 +79,7 @@ class _CustomSetsSectionState extends State<CustomSetsSection> {
   }
 
   void _toggleDone(int index) {
+    if (widget.isTimerRunning?.call() == true) return;
     setState(() {
       if (!_sets[index].isActive) return;
 
@@ -77,6 +91,28 @@ class _CustomSetsSectionState extends State<CustomSetsSection> {
 
       widget.onSetDone?.call();
     });
+  }
+
+  void _toggleUndone(int index) {
+    if (widget.isTimerRunning?.call() == true) return;
+    setState(() {
+      if (!_sets[index].isDone) return;
+      final isLastDone = _sets.sublist(index + 1).every((s) => !s.isDone);
+      if (!isLastDone) return;
+
+      _sets[index] = _sets[index].copyWith(isDone: false, isActive: true);
+
+      if (index + 1 < _sets.length && _sets[index + 1].isActive) {
+        _sets[index + 1] = _sets[index + 1].copyWith(isActive: false);
+      }
+    });
+  }
+
+  void _toggleNextActiveDone() {
+    final index = _sets.indexWhere((s) => s.isActive);
+    if (index != -1) {
+      _toggleDone(index);
+    }
   }
 
   void _addSet() async {
@@ -124,6 +160,7 @@ class _CustomSetsSectionState extends State<CustomSetsSection> {
               index: i,
               sets: _sets,
               toggleDone: _toggleDone,
+              toggleUndone: _toggleUndone,
               exerciseId: widget.exercise.exerciseId,
               onWeightChanged: (index, newWeight) {
                 setState(() {

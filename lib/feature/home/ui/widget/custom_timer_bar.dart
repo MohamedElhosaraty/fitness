@@ -11,17 +11,25 @@ import '../../../../core/theming/app_colors.dart';
 import '../../../../generated/app_strings.dart';
 
 class CustomTimerBar extends StatefulWidget {
-  const CustomTimerBar({super.key, required this.timerSeconds, this.onStartTimer});
+  const CustomTimerBar({
+    super.key,
+    required this.timerSeconds,
+    this.onStartTimer,
+    this.onTimerToggled,
+    this.onTimerStateChanged,
+  });
 
   final int timerSeconds;
   final void Function(Future<void> Function() start)? onStartTimer;
+  final void Function()? onTimerToggled;
+  final void Function(bool isRunning)? onTimerStateChanged;
 
   @override
   State<CustomTimerBar> createState() => _CustomTimerBarState();
 }
 
-class _CustomTimerBarState extends State<CustomTimerBar> with WidgetsBindingObserver {
-
+class _CustomTimerBarState extends State<CustomTimerBar>
+    with WidgetsBindingObserver {
   Timer? _timer;
   bool _isTimerRunning = false;
   late int _remainingSeconds;
@@ -52,7 +60,9 @@ class _CustomTimerBarState extends State<CustomTimerBar> with WidgetsBindingObse
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed && _isTimerRunning && _startTime != null) {
+    if (state == AppLifecycleState.resumed &&
+        _isTimerRunning &&
+        _startTime != null) {
       final elapsed = DateTime.now().difference(_startTime!).inSeconds;
       final remaining = widget.timerSeconds - elapsed;
 
@@ -65,7 +75,12 @@ class _CustomTimerBarState extends State<CustomTimerBar> with WidgetsBindingObse
   }
 
   void _toggleTimer() {
-    _isTimerRunning ? _resetTimer() : _startTimer();
+    if (_isTimerRunning) {
+      _resetTimer();
+    } else {
+      _startTimer();
+      widget.onTimerToggled?.call();
+    }
   }
 
   Future<void> _startTimer() async {
@@ -88,9 +103,13 @@ class _CustomTimerBarState extends State<CustomTimerBar> with WidgetsBindingObse
     if (!mounted) return;
     _startTime = DateTime.now();
     setState(() => _isTimerRunning = true);
+    widget.onTimerStateChanged?.call(true);
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (!mounted) { timer.cancel(); return; }
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
 
       final elapsed = DateTime.now().difference(_startTime!).inSeconds;
       final remaining = widget.timerSeconds - elapsed;
@@ -113,6 +132,7 @@ class _CustomTimerBarState extends State<CustomTimerBar> with WidgetsBindingObse
       _isTimerRunning = false;
       _remainingSeconds = widget.timerSeconds;
     });
+    widget.onTimerStateChanged?.call(false);
   }
 
   Color get _timerColor =>

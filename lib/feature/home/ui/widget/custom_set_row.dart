@@ -15,6 +15,7 @@ class CustomSetRow extends StatelessWidget {
     required this.toggleDone,
     required this.onWeightChanged,
     required this.onRepsChanged,
+    required this.toggleUndone,
   });
 
   final int index;
@@ -23,6 +24,7 @@ class CustomSetRow extends StatelessWidget {
   final void Function(int index) toggleDone;
   final void Function(int index, double weight) onWeightChanged;
   final void Function(int index, int reps) onRepsChanged;
+  final void Function(int index) toggleUndone;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +73,9 @@ class CustomSetRow extends StatelessWidget {
           SizedBox(
             width: 50.w,
             child: GestureDetector(
-              onTap: () => toggleDone(index),
+              onTap:  () => set.isDone
+                  ? toggleUndone(index)
+                  : toggleDone(index),
               child: AnimatedContainer(
                 duration  : const Duration(milliseconds: 200),
                 width     : 30.w,
