@@ -5,11 +5,16 @@ import 'package:timezone/timezone.dart' as tz;
 
 class AlarmScheduler {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
+  static bool _initialized = false;
+
+  /// Lightweight startup init — no permission dialogs.
   static Future<void> init() async {
+    if (_initialized) return;
+
     const androidSettings =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@mipmap/launcher_icon');
 
     const iosSettings = DarwinInitializationSettings();
 
@@ -22,26 +27,30 @@ class AlarmScheduler {
       settings: initializationSettings,
     );
 
-    final androidPlugin =
-    _notificationsPlugin
-        .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
-
-    await androidPlugin?.requestNotificationsPermission();
-
-    final bool exactAlarmGranted =
-        await androidPlugin?.canScheduleExactNotifications() ?? false;
-
-    if (!exactAlarmGranted) {
-      await androidPlugin?.requestExactAlarmsPermission();
-    }
-
     tz.initializeTimeZones();
 
-    final String currentTimeZone =
-        (await FlutterTimezone.getLocalTimezone()).identifier;
+    try {
+      final tzName = (await FlutterTimezone.getLocalTimezone()).identifier;
+      tz.setLocalLocation(tz.getLocation(tzName));
+    } catch (_) {
+      tz.setLocalLocation(tz.UTC);
+    }
 
-    tz.setLocalLocation(tz.getLocation(currentTimeZone));
+    _initialized = true;
+  }
+
+  /// Request notification & exact-alarm permissions when the user starts a timer.
+  static Future<void> ensurePermissions() async {
+    final androidPlugin = _notificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>();
+    if (androidPlugin == null) return;
+
+    await androidPlugin.requestNotificationsPermission();
+
+    if (!(await androidPlugin.canScheduleExactNotifications() ?? false)) {
+      await androidPlugin.requestExactAlarmsPermission();
+    }
   }
 
   static Future<void> scheduleAlarm({
@@ -49,6 +58,8 @@ class AlarmScheduler {
     required String title,
     String body = '',
   }) async {
+    await ensurePermissions();
+
     const androidDetails = AndroidNotificationDetails(
       'alarm_channel_id',
       'Alarms',
@@ -62,8 +73,7 @@ class AlarmScheduler {
       android: androidDetails,
     );
 
-    final scheduledDate =
-    tz.TZDateTime.now(tz.local).add(duration);
+    final scheduledDate = tz.TZDateTime.now(tz.local).add(duration);
 
     await _notificationsPlugin.zonedSchedule(
       id: 1,
@@ -71,8 +81,7 @@ class AlarmScheduler {
       body: body,
       scheduledDate: scheduledDate,
       notificationDetails: notificationDetails,
-      androidScheduleMode:
-      AndroidScheduleMode.exactAllowWhileIdle,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
   }
 
