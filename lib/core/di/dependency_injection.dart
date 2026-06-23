@@ -8,15 +8,12 @@ import '../../feature/onboarding/domain/repo/onboarding_repo.dart';
 import '../../feature/onboarding/ui/cubit/onboarding_cubit.dart';
 import '../../feature/onboarding/ui/cubit/save_workout_plan/save_workout_plan_cubit.dart';
 import '../localization/cubit/localization_cubit.dart';
-import '../services/remote_config_service.dart';
-
 
 final getIt = GetIt.instance;
 
 Future<void> setupGetIt() async {
   // 🔧 Core
   getIt.registerSingleton<FirestoreService>(FirestoreService());
-  getIt.registerLazySingleton(() => RemoteConfigService());
 
   // 🎯 Onboarding
   getIt.registerSingleton<FirestoreOnboardingService>(

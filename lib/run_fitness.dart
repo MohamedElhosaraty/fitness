@@ -15,7 +15,6 @@ import 'core/helpers/hive_helper.dart';
 import 'core/helpers/profile_image_storage.dart';
 import 'core/helpers/shared_pref_helper.dart';
 import 'core/observer/bloc_observer.dart';
-import 'core/services/remote_config_service.dart';
 import 'fitness.dart';
 
 void runFitness(AppConfig appConfig) {
@@ -49,7 +48,6 @@ void runFitness(AppConfig appConfig) {
     ]);
     await ProfileImageStorage.init();
 
-    await getIt<RemoteConfigService>().init();
     Bloc.observer = MyBlocObserver();
 
     runApp(const Fitness());
