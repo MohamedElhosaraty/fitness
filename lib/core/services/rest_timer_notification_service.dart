@@ -9,7 +9,6 @@ class AlarmScheduler {
 
   static bool _initialized = false;
 
-  /// Lightweight startup init — no permission dialogs.
   static Future<void> init() async {
     if (_initialized) return;
 
@@ -39,7 +38,6 @@ class AlarmScheduler {
     _initialized = true;
   }
 
-  /// Request notification & exact-alarm permissions when the user starts a timer.
   static Future<void> ensurePermissions() async {
     final androidPlugin = _notificationsPlugin
         .resolvePlatformSpecificImplementation<
